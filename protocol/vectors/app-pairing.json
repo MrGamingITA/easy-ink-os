@@ -1,0 +1,17 @@
+{
+  "note": "Vettori condivisi fra service/internal/phones e ios/CalamaioKit: impronta del certificato e link del QR. Rigenerare con: cd service && go test ./internal/phones -run TestAppPairingVectors -update",
+  "cert": {
+    "der_b64": "MIIBqjCCAVCgAwIBAgIQdKyDq7T0IIwd49LKzlJBPTAKBggqhkjOPQQDAjAuMREwDwYDVQQKEwhDYWxhbWFpbzEZMBcGA1UEAxMQQ2FsYW1haW8gdmV0dG9yaTAeFw0yNjEwMTYxMTAwMDBaFw0zNjEwMTYxMjAwMDBaMC4xETAPBgNVBAoTCENhbGFtYWlvMRkwFwYDVQQDExBDYWxhbWFpbyB2ZXR0b3JpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE0bYh2Ihc8bJxA8gCKBMeZFAnGVh/odu2S4LsxlN7bt7Rd5wUx7GyfveWGJEY5hs53n0Du6HUVPaC3NwsUwZpsqNQME4wDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAwGA1UdEwEB/wQCMAAwGQYDVR0RBBIwEIIOY2FsYW1haW8ubG9jYWwwCgYIKoZIzj0EAwIDSAAwRQIgGDX/KIiDKNplQv09TX68vUPRnNBpCTYyYd917A5MoHICIQDH/UeMVvJUs+ha1Pph0N0zWJtTdD7rceehjQm9DbN/DQ==",
+    "sha256": "89d449ee50fc506410bd41e778269aa3a3bb1d0abd165b4d91c5ff1e7c1e9fb8"
+  },
+  "link": {
+    "hosts": [
+      "192.168.1.20",
+      "10.0.0.7"
+    ],
+    "port": 8767,
+    "code": "00112233445566778899aabbccddeeff",
+    "name": "Mac di Prova & C.",
+    "uri": "calamaio://pair?v=1&h=192.168.1.20,10.0.0.7&p=8767&fp=89d449ee50fc506410bd41e778269aa3a3bb1d0abd165b4d91c5ff1e7c1e9fb8&c=00112233445566778899aabbccddeeff&n=Mac%20di%20Prova%20%26%20C."
+  }
+}

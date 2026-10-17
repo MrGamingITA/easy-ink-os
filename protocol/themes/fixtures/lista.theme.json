@@ -1,0 +1,21 @@
+{
+  "format": "calamaio-theme", "version": 1, "id": "lista", "name": "Righe a pagine", "screen": "250x122",
+  "screens": {
+    "home": { "variants": [ { "when": "always", "ref": "urgent", "elements": [
+      { "type": "text", "x": 4, "y": 2, "w": 242, "text": "{sessione.nome} · {sessione.stato}", "font": { "family": "ui", "size": 12, "weight": 700 } },
+      { "type": "list", "x": 0, "y": 18, "w": 250, "h": 94, "rowH": 20, "gap": 2, "pageSec": 3, "row": [
+        { "type": "stateIcon", "x": 4, "y": 6 },
+        { "type": "text", "x": 16, "y": 4, "w": 120, "text": "{riga.nome}", "font": { "family": "ui", "size": 12, "weight": 600 } },
+        { "type": "text", "x": 140, "y": 5, "w": 106, "text": "{riga.da}", "font": { "family": "ui", "size": 10, "weight": 600 }, "align": "right" },
+        { "type": "rect", "x": 0, "y": 0, "w": 250, "h": 20, "fill": true, "border": 0, "visibleIf": [ { "state": "permission" } ] },
+        { "type": "text", "x": 16, "y": 4, "w": 120, "text": "{riga.nome|maiuscolo}", "font": { "family": "ui", "size": 12, "weight": 700 }, "invert": true, "visibleIf": [ { "state": "permission" } ] },
+        { "type": "line", "x": 0, "y": 21, "w": 250, "h": 1, "style": "dotted" }
+      ] },
+      { "type": "clock", "x": 4, "y": 114, "w": 60, "font": { "family": "pix", "size": 8, "weight": 400 } }
+    ] } ] },
+    "detail": { "variants": [ { "when": "many", "ref": "urgent", "elements": [
+      { "type": "mascot", "x": 4, "y": 4, "scale": 2, "ref": "urgent" },
+      { "type": "text", "x": 64, "y": 4, "w": 182, "text": "{sessione.nome}", "font": { "family": "ui", "size": 16, "weight": 700 } }
+    ] } ] }
+  }
+}

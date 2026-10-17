@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panoramica · Calamaio OS</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/app.css">
+<script type="module" src="assets/js/overview.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+<nav class="topbar" aria-label="Pagine">
+  <a class="brand" href="./">Calamaio OS</a>
+  <a href="./" aria-current="page">Panoramica</a>
+  <a href="avatars.html">Avatar</a>
+  <a href="game.html">Gioco</a>
+  <a href="device.html">Dispositivo</a>
+  <a href="firmware.html">Firmware</a>
+  <a href="editor.html">Editor schermate <span class="badge beta">Beta</span></a>
+  <span class="conn" id="conn" role="status"><span class="conn-text">collegamento…</span></span>
+</nav>
+<main class="home" id="main">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="kicker" id="svc">Servizio Calamaio sul PC</p>
+      <h1>Panoramica</h1>
+      <p class="lead">Display collegati, sessioni di Claude Code e limiti dell’account, aggiornati in diretta dal servizio sul PC.</p>
+    </div>
+    <figure class="goccia" aria-live="polite">
+      <canvas></canvas>
+      <figcaption><span class="goccia-label"></span><span class="goccia-text"></span></figcaption>
+    </figure>
+  </header>
+
+  <p class="alert error" id="stale" role="alert" hidden></p>
+  <p class="alert" id="autostart" role="status" hidden></p>
+
+  <section class="section" aria-labelledby="h-displays">
+    <div class="section-head"><p class="kicker">Rete locale</p><h2 id="h-displays">Display collegati</h2></div>
+    <div id="displays" class="grid"></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-sessions">
+    <div class="section-head"><p class="kicker">Claude Code</p><h2 id="h-sessions">Sessioni</h2></div>
+    <div id="sessions" class="sessions"></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-limits">
+    <div class="section-head"><p class="kicker">Account</p><h2 id="h-limits">Limiti</h2></div>
+    <div id="limits" class="grid"></div>
+  </section>
+</main>
+</body>
+</html>

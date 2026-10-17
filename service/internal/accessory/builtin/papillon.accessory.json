@@ -1,0 +1,25 @@
+{
+  "format": "calamaio-accessory",
+  "version": 1,
+  "id": "papillon",
+  "name": "Papillon",
+  "author": "Calamaio OS",
+  "description": "Un farfallino nero da gran sera, staccato dal corpo da un filo bianco.",
+  "special": false,
+  "w": 7,
+  "h": 4,
+  "frames": 1,
+  "anchor": "neck",
+  "origin": [3, 0],
+  "outline": true,
+  "hidePoses": [],
+  "perAvatar": {},
+  "pixels": [
+    [
+      ".......",
+      "##...##",
+      "###.###",
+      "##...##"
+    ]
+  ]
+}

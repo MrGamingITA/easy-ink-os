@@ -1,0 +1,10 @@
+# Calamaio OS · tabella con i giochi Game Boy (docs/superpowers/plans/2026-10-12-giochi-contratti.md).
+# NVS identica a default_8MB.csv (chiavi, abbinamento, Wi-Fi intatti). spiffs = LittleFS (cache: si riformatta).
+# Name,   Type, SubType,  Offset,   Size,     Flags
+nvs,      data, nvs,      0x9000,   0x5000,
+otadata,  data, ota,      0xe000,   0x2000,
+app0,     app,  ota_0,    0x10000,  0x240000,
+app1,     app,  ota_1,    0x250000, 0x240000,
+gbrom,    data, 0x40,     0x490000, 0x200000,
+spiffs,   data, spiffs,   0x690000, 0x160000,
+coredump, data, coredump, 0x7f0000, 0x10000,

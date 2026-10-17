@@ -1,0 +1,18 @@
+{"t":"state","v":1,"time":1791707400000,
+ "sessions":[
+  {"id":"a1","name":"api-server","state":"working","detail":"Edit src/routes/orders.ts","since":1791706680000,"attnAt":null,"ctx":46,"subs":2,"test":null,"summary":"",
+   "tasks":[["Leggi le route esistenti",2],["Endpoint POST /orders",2],["Validazione input",2],["Test di integrazione",1],["Aggiorna OpenAPI",0],["Errori 4xx coerenti",0],["Review finale",0]]},
+  {"id":"b2","name":"web-app","state":"permission","detail":"Bash: npm run test","since":1791705840000,"attnAt":1791707340000,"ctx":71,"subs":0,"test":"ko","summary":"",
+   "tasks":[["Pagina carrello",2],["Hook useCart",2],["Stato globale",2],["Stili mobile",2],["Fix layout tablet",2],["Esegui i test",1],["Correggi i test rotti",0],["Controllo Lighthouse",0],["Changelog",0]]},
+  {"id":"c3","name":"firmware-esp32","state":"working","detail":"Read lib/epd/driver.cpp","since":1791707160000,"attnAt":null,"ctx":18,"subs":1,"test":"ok","summary":"",
+   "tasks":[["Driver SSD1683",2],["Layout 400×300",1],["Sprite mascotte",0],["Client WebSocket",0]]},
+  {"id":"d4","name":"docs-site","state":"done","detail":"6 task completati","since":1791704940000,"attnAt":null,"ctx":83,"subs":0,"test":"ok","summary":"Guida di installazione aggiornata e 4 link rotti corretti.",
+   "tasks":[["Indice",2],["Guida installazione",2],["Esempi API",2],["Screenshot",2],["Glossario",2],["Link rotti",2]]}
+ ],
+ "limits":{"h5":62,"h5Reset":1791715200000,"d7":41,"d7Reset":1791980040000},
+ "today":{"tasks":14,"permDisplay":2,"permTerminal":3,"waitAvgMs":132000,"linesAdd":1240,"linesDel":380,"cost":18.4},
+ "log":[{"t":1791707340000,"name":"web-app","text":"chiede permesso: npm run test"},{"t":1791707280000,"name":"api-server","text":"task 3/7 completato"}],
+ "services":[{"name":"Sito pubblico","ok":true,"ms":120},{"name":"API","ok":true,"ms":85},{"name":"Backup notturno","ok":false,"ms":0}],
+ "prs":[{"repo":"web-app","n":42,"title":"Carrello su mobile","checks":"ko"},{"repo":"api-server","n":17,"title":"Endpoint ordini","checks":"run"}],
+ "agenda":[{"t":1791710400000,"title":"Riunione di progetto"}]
+}

@@ -1,0 +1,37 @@
+{
+  "format": "calamaio-accessory",
+  "version": 1,
+  "id": "corona",
+  "name": "Corona",
+  "author": "Calamaio OS",
+  "description": "Una corona d'oro con tre punte e le gemme.",
+  "special": false,
+  "w": 9,
+  "h": 5,
+  "frames": 1,
+  "anchor": "head-top",
+  "origin": [4, 4],
+  "outline": false,
+  "hidePoses": [],
+  "perAvatar": {
+    "gatto": {"dy": -2},
+    "demone": {"pixels": [
+      [
+        ".........",
+        ".........",
+        "#.#.#.#.#",
+        "#+#####+#",
+        "xxxxxxxxx"
+      ]
+    ]}
+  },
+  "pixels": [
+    [
+      "#...#...#",
+      "##.#+#.##",
+      "#########",
+      "#+##+##+#",
+      "xxxxxxxxx"
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+CALAMAIO OS · PROGETTO DI DESIGN (SORGENTI)
+===========================================
+
+Questa cartella contiene i file originali della tela di design, versione 0.2.
+
+project/canvas.json               posizione e titolo di ogni tavola sulla tela
+project/Main.dc.html              panoramica: mascotte, classi di schermo, animazioni
+project/Navigazione.dc.html       menu e gesti dei tasti
+project/Funzioni.dc.html          novità 0.2
+project/CalamaioTest.dc.html      motore dei banchi TEST: simulatore e-ink, menu, gesti
+project/Test-*.dc.html            un banco per dispositivo (importano CalamaioTest)
+
+Ogni .dc.html contiene il markup della tavola (dentro <x-dc>) e la sua logica
+(nello <script type="text/x-dc">). Questi file si aprono nella tela di design:
+nel browser, da soli, non funzionano perché manca il loro motore (support.js).
+
+Per guardarli nel browser usa lo zip "calamaio-os-browser": stesse tavole,
+già pronte da aprire con doppio clic.

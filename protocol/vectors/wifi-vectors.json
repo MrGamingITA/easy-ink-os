@@ -1,0 +1,365 @@
+{
+ "$comment": "Vettori di prova delle reti Wi-Fi (firmware 0.8.0: wifi-list, wifi-add, wifi-forget). Generato da protocol/vectors/gen-wifi-vectors.mjs con il crypto di Node (OpenSSL); il firmware (test_wifi) e il servizio Go devono riprodurre ogni byte. Non modificare a mano.",
+ "format": {
+  "hex": "tutte le stringhe binarie sono esadecimali minuscole; un esadecimale maiuscolo o di lunghezza sbagliata vale come cifrato o mac non valido",
+  "SK": "chiave di sessione della connessione autenticata (docs/M5-PERMESSI.md §2): qui flow.auth.SK di crypto-vectors.json",
+  "wifiAdd": "servizio → display, solo su connessione autenticata. key = HKDF-SHA256(ikm = SK, salt = id in UTF-8, info = \"calamaio-wifi\"), 32 byte. iv = 12 byte casuali (nuovi a ogni messaggio). aad = \"wifi-add\" ␟ id ␟ ssid (UTF-8, 0x1F fra i campi, nessun 0x1F finale). ct = AES-256-GCM(key, iv, aad, password UTF-8) seguito dal tag di 16 byte. Password valida: da 8 a 63 byte, senza byte zero",
+  "wifiForget": "servizio → display, solo su connessione autenticata. mac = HMAC-SHA256(SK, \"wifi-forget\" ␟ id ␟ ssid) troncato ai primi 16 byte (32 caratteri)",
+  "ack": "il display risponde ack {id, ok, error?} con lo stesso id. Errori di wifi-add: «lista piena» (5 reti e SSID nuovo), «password non valida», «decifratura fallita», «ssid non valido» (vuoto o oltre 32 byte); senza autenticazione «display non abbinato: cambia le impostazioni dal menu del display». Errori di wifi-forget: «mac non valido», «rete sconosciuta». Un ack ok non ha error",
+  "wifiList": "display → servizio dopo auth-ok e a ogni cambio della lista, della rete in uso o dopo una ricerca: networks nell'ordine di inserimento, ogni voce con ssid, current (rete in uso), rssi (dBm, null se la rete non si è vista nell'ultima ricerca; per la rete in uso la lettura del momento), lastUsed (ms epoch dell'ultimo collegamento, null = mai). Mai password"
+ },
+ "SK": "81a3f3f03e37e33781fda3a8cef3efb6b583a0a59a131ec8620c3b7d9fb194e0",
+ "otherSK": "b9696d6db8fd2584171fcd3d152a70ef0f7f585060b347bd78e0586adef83596",
+ "add": [
+  {
+   "name": "rete di casa",
+   "id": "c7f3a9e2b1d04",
+   "ssid": "CasaWiFi",
+   "password": "password-di-casa",
+   "passwordBytes": 16,
+   "key": "b8f0f6301adead78b6e8a663da9e612fee1b7148c447b39d95fe48f01a6b4c29",
+   "iv": "7b26c73796104c5e1ff636ec",
+   "aad": "776966692d6164641f633766336139653262316430341f4361736157694669",
+   "ct": "1206a22674d9759fa1d3d4434c3088c03640f49467ad9381f71c353568033de4",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d04",
+    "ssid": "CasaWiFi",
+    "iv": "7b26c73796104c5e1ff636ec",
+    "ct": "1206a22674d9759fa1d3d4434c3088c03640f49467ad9381f71c353568033de4"
+   }
+  },
+  {
+   "name": "UTF-8 in SSID e password",
+   "id": "c0a1b2c3d4e5f",
+   "ssid": "Caffè «Àrìa» ☕",
+   "password": "pässwörd-ñ-€",
+   "passwordBytes": 17,
+   "key": "d95aa099e8689a10d34993d14519dd8e1b7eb6a24223deddac2f4ac4aefadb38",
+   "iv": "90b141bb64d800d29de5615c",
+   "aad": "776966692d6164641f633061316232633364346535661f43616666c3a820c2abc38072c3ac61c2bb20e29895",
+   "ct": "fe5e716cad8bf11c69263e1dcb8a0cfc083be65323cbfc6720e0e6002bfb86cfc7",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c0a1b2c3d4e5f",
+    "ssid": "Caffè «Àrìa» ☕",
+    "iv": "90b141bb64d800d29de5615c",
+    "ct": "fe5e716cad8bf11c69263e1dcb8a0cfc083be65323cbfc6720e0e6002bfb86cfc7"
+   }
+  },
+  {
+   "name": "password di 8 byte (minimo)",
+   "id": "c000000000001",
+   "ssid": "Officina",
+   "password": "12345678",
+   "passwordBytes": 8,
+   "key": "531fdf0870ed05bc6d8ac71f29954eb9bf757c27c09b7cf801d921857ebb1650",
+   "iv": "b4199ee175d9ae6adbe6313f",
+   "aad": "776966692d6164641f633030303030303030303030311f4f66666963696e61",
+   "ct": "2704299101e5f079a110f4d44106133ab7baeba74c452d32",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c000000000001",
+    "ssid": "Officina",
+    "iv": "b4199ee175d9ae6adbe6313f",
+    "ct": "2704299101e5f079a110f4d44106133ab7baeba74c452d32"
+   }
+  },
+  {
+   "name": "password di 63 byte (massimo)",
+   "id": "c000000000002",
+   "ssid": "Laboratorio",
+   "password": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
+   "passwordBytes": 63,
+   "key": "0b5951532334a1808cf44087a14f30adb33d67b0dd30c4e48478d182425a9389",
+   "iv": "50c69575ca38b31f6523883d",
+   "aad": "776966692d6164641f633030303030303030303030321f4c61626f7261746f72696f",
+   "ct": "04be881132e05e0f5e19e30eabcd4409879e29b337f6fc901735732c8766561867f45759f1d4c16683eec09ac36f20543421167cece318baccf8177a41feb98a3503df48ea4ffa46f243e1d9a22f9a",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c000000000002",
+    "ssid": "Laboratorio",
+    "iv": "50c69575ca38b31f6523883d",
+    "ct": "04be881132e05e0f5e19e30eabcd4409879e29b337f6fc901735732c8766561867f45759f1d4c16683eec09ac36f20543421167cece318baccf8177a41feb98a3503df48ea4ffa46f243e1d9a22f9a"
+   }
+  },
+  {
+   "name": "SSID di 32 byte (massimo)",
+   "id": "c000000000003",
+   "ssid": "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+   "password": "spazi e simboli !\"#$%&'()*+,-./",
+   "passwordBytes": 31,
+   "key": "123a428a417075f3cd6247c3a517d623f71fbfc18c84c5a5ecb6782983a192ab",
+   "iv": "0b388d5ee6128d7abe520dc3",
+   "aad": "776966692d6164641f633030303030303030303030331f5353535353535353535353535353535353535353535353535353535353535353",
+   "ct": "31164b439682167fda2ce0893c34d484ece0bffaee54c6592db53f8e689d4cf36f79ed55e3d2ae362d3c27493d86a7",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c000000000003",
+    "ssid": "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+    "iv": "0b388d5ee6128d7abe520dc3",
+    "ct": "31164b439682167fda2ce0893c34d484ece0bffaee54c6592db53f8e689d4cf36f79ed55e3d2ae362d3c27493d86a7"
+   }
+  }
+ ],
+ "addNegative": [
+  {
+   "name": "tag alterato",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d04",
+    "ssid": "CasaWiFi",
+    "iv": "7b26c73796104c5e1ff636ec",
+    "ct": "1206a22674d9759fa1d3d4434c3088c03640f49467ad9381f71c353568033de5"
+   },
+   "error": "decifratura fallita"
+  },
+  {
+   "name": "cifrato alterato",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d04",
+    "ssid": "CasaWiFi",
+    "iv": "7b26c73796104c5e1ff636ec",
+    "ct": "1306a22674d9759fa1d3d4434c3088c03640f49467ad9381f71c353568033de4"
+   },
+   "error": "decifratura fallita"
+  },
+  {
+   "name": "SSID cambiato (aad)",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d04",
+    "ssid": "CasaWiFi2",
+    "iv": "7b26c73796104c5e1ff636ec",
+    "ct": "1206a22674d9759fa1d3d4434c3088c03640f49467ad9381f71c353568033de4"
+   },
+   "error": "decifratura fallita"
+  },
+  {
+   "name": "id cambiato (chiave e aad)",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d05",
+    "ssid": "CasaWiFi",
+    "iv": "7b26c73796104c5e1ff636ec",
+    "ct": "1206a22674d9759fa1d3d4434c3088c03640f49467ad9381f71c353568033de4"
+   },
+   "error": "decifratura fallita"
+  },
+  {
+   "name": "iv di 11 byte",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d04",
+    "ssid": "CasaWiFi",
+    "iv": "7b26c73796104c5e1ff636",
+    "ct": "1206a22674d9759fa1d3d4434c3088c03640f49467ad9381f71c353568033de4"
+   },
+   "error": "decifratura fallita"
+  },
+  {
+   "name": "iv diverso",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d04",
+    "ssid": "CasaWiFi",
+    "iv": "7a26c73796104c5e1ff636ec",
+    "ct": "1206a22674d9759fa1d3d4434c3088c03640f49467ad9381f71c353568033de4"
+   },
+   "error": "decifratura fallita"
+  },
+  {
+   "name": "cifrato più corto del tag",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d04",
+    "ssid": "CasaWiFi",
+    "iv": "7b26c73796104c5e1ff636ec",
+    "ct": "1206a22674d9759fa1d3d4434c3088"
+   },
+   "error": "decifratura fallita"
+  },
+  {
+   "name": "esadecimale maiuscolo",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d04",
+    "ssid": "CasaWiFi",
+    "iv": "7b26c73796104c5e1ff636ec",
+    "ct": "1206A22674D9759FA1D3D4434C3088C03640F49467AD9381F71C353568033DE4"
+   },
+   "error": "decifratura fallita"
+  },
+  {
+   "name": "SK di un'altra connessione",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c7f3a9e2b1d04",
+    "ssid": "CasaWiFi",
+    "iv": "7b26c73796104c5e1ff636ec",
+    "ct": "18eac1abe40d47cf908ed6e15cf6701194bdaea115ef759a06459fdc91a4d14c"
+   },
+   "error": "decifratura fallita"
+  },
+  {
+   "name": "password di 7 byte",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c000000000010",
+    "ssid": "Corta",
+    "iv": "83e952d4a22082fc9b2e855c",
+    "ct": "44e689e668a0710af43816a2623e38c3d9621cddc27572"
+   },
+   "error": "password non valida"
+  },
+  {
+   "name": "password di 64 byte",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c000000000011",
+    "ssid": "Lunga",
+    "iv": "1a0c8595ba1449e66aded0e3",
+    "ct": "068dc694ea0a8c21f67241d24d65ee90e11399a954f285437f9fb5fe3daf7e82169ae9d8c79681efa58efc44572717d4a81bb852e214bbe84e7252e5fc7d163cc422ba8869abb44b9d6e7940cd33660a"
+   },
+   "error": "password non valida"
+  },
+  {
+   "name": "password con un byte zero",
+   "message": {
+    "t": "wifi-add",
+    "v": 1,
+    "id": "c000000000012",
+    "ssid": "Zero",
+    "iv": "f1a15599396a728d19c4f5d3",
+    "ct": "87e2a3f97ac8c068d5657484bbb4bb1cc766ee7deb999426c9"
+   },
+   "error": "password non valida"
+  }
+ ],
+ "forget": [
+  {
+   "name": "rete qualunque",
+   "id": "c5e6f7a8b9c0d",
+   "ssid": "Officina",
+   "macInput": "776966692d666f726765741f633565366637613862396330641f4f66666963696e61",
+   "mac": "90e84ff9c256209863e9511e2b65c2bd",
+   "message": {
+    "t": "wifi-forget",
+    "v": 1,
+    "id": "c5e6f7a8b9c0d",
+    "ssid": "Officina",
+    "mac": "90e84ff9c256209863e9511e2b65c2bd"
+   }
+  },
+  {
+   "name": "SSID UTF-8",
+   "id": "c0a1b2c3d4e60",
+   "ssid": "Caffè «Àrìa» ☕",
+   "macInput": "776966692d666f726765741f633061316232633364346536301f43616666c3a820c2abc38072c3ac61c2bb20e29895",
+   "mac": "28d2130d0ff2eae99a2ced3c88f031fc",
+   "message": {
+    "t": "wifi-forget",
+    "v": 1,
+    "id": "c0a1b2c3d4e60",
+    "ssid": "Caffè «Àrìa» ☕",
+    "mac": "28d2130d0ff2eae99a2ced3c88f031fc"
+   }
+  }
+ ],
+ "forgetNegative": [
+  {
+   "name": "mac di un altro SSID",
+   "message": {
+    "t": "wifi-forget",
+    "v": 1,
+    "id": "c5e6f7a8b9c0d",
+    "ssid": "CasaWiFi",
+    "mac": "90e84ff9c256209863e9511e2b65c2bd"
+   },
+   "error": "mac non valido"
+  },
+  {
+   "name": "mac di un altro id",
+   "message": {
+    "t": "wifi-forget",
+    "v": 1,
+    "id": "c5e6f7a8b9c0e",
+    "ssid": "Officina",
+    "mac": "90e84ff9c256209863e9511e2b65c2bd"
+   },
+   "error": "mac non valido"
+  },
+  {
+   "name": "mac maiuscolo",
+   "message": {
+    "t": "wifi-forget",
+    "v": 1,
+    "id": "c5e6f7a8b9c0d",
+    "ssid": "Officina",
+    "mac": "90E84FF9C256209863E9511E2B65C2BD"
+   },
+   "error": "mac non valido"
+  },
+  {
+   "name": "mac con un'altra SK",
+   "message": {
+    "t": "wifi-forget",
+    "v": 1,
+    "id": "c5e6f7a8b9c0d",
+    "ssid": "Officina",
+    "mac": "4d01cba266d7a0f13f6cb2e6b28e48ef"
+   },
+   "error": "mac non valido"
+  }
+ ],
+ "list": {
+  "message": {
+   "t": "wifi-list",
+   "v": 1,
+   "networks": [
+    {
+     "ssid": "CasaWiFi",
+     "current": true,
+     "rssi": -58,
+     "lastUsed": 1791707400000
+    },
+    {
+     "ssid": "Officina",
+     "current": false,
+     "rssi": -66,
+     "lastUsed": 1791448200000
+    },
+    {
+     "ssid": "Casa Mare",
+     "current": false,
+     "rssi": null,
+     "lastUsed": 1786178400000
+    },
+    {
+     "ssid": "Laboratorio",
+     "current": false,
+     "rssi": null,
+     "lastUsed": null
+    }
+   ]
+  },
+  "json": "{\"t\":\"wifi-list\",\"v\":1,\"networks\":[{\"ssid\":\"CasaWiFi\",\"current\":true,\"rssi\":-58,\"lastUsed\":1791707400000},{\"ssid\":\"Officina\",\"current\":false,\"rssi\":-66,\"lastUsed\":1791448200000},{\"ssid\":\"Casa Mare\",\"current\":false,\"rssi\":null,\"lastUsed\":1786178400000},{\"ssid\":\"Laboratorio\",\"current\":false,\"rssi\":null,\"lastUsed\":null}]}"
+ }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "calamaio-local",
+  "owner": { "name": "MrGamingITA" },
+  "description": "Plugin Calamaio dal repository locale",
+  "plugins": [
+    { "name": "calamaio", "source": "./plugin", "description": "Mostra lo stato delle sessioni di Claude Code sul display e-ink Calamaio." }
+  ]
+}

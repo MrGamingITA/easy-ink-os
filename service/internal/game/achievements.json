@@ -1,0 +1,23 @@
+[
+  {"id": "prima-sessione", "title": "Prima sessione", "description": "La prima sessione di Claude Code con il gioco acceso.", "when": {"counter": "sessions_total", "min": 1}},
+  {"id": "primo-task", "title": "Primo task", "description": "Il primo task completato.", "when": {"counter": "tasks_total", "min": 1}},
+  {"id": "task-10", "title": "10 task", "description": "Dieci task completati.", "when": {"counter": "tasks_total", "min": 10}},
+  {"id": "task-100", "title": "100 task", "description": "Cento task completati.", "when": {"counter": "tasks_total", "min": 100}},
+  {"id": "task-1000", "title": "1000 task", "description": "Mille task completati.", "when": {"counter": "tasks_total", "min": 1000}},
+  {"id": "primo-turno", "title": "Primo riepilogo", "description": "Il primo turno finito con un riepilogo.", "when": {"counter": "turns_total", "min": 1}},
+  {"id": "turni-100", "title": "100 turni", "description": "Cento turni finiti con un riepilogo.", "when": {"counter": "turns_total", "min": 100}},
+  {"id": "primo-verde", "title": "Primo verde", "description": "Il primo test passato da rosso a verde.", "when": {"counter": "greens_total", "min": 1}},
+  {"id": "verdi-10", "title": "10 verdi di fila", "description": "Dieci test verdi di fila, senza un rosso in mezzo.", "when": {"counter": "green_in_row", "min": 10}},
+  {"id": "verdi-50", "title": "50 rossi diventati verdi", "description": "Cinquanta test passati da rosso a verde.", "when": {"counter": "greens_total", "min": 50}},
+  {"id": "tre-insieme", "title": "Tre sessioni insieme", "description": "Tre sessioni contemporanee, tutte finite bene.", "when": {"counter": "concurrent_done", "min": 3}},
+  {"id": "sessioni-100", "title": "100 sessioni chiuse", "description": "Cento sessioni chiuse finite o archiviate.", "when": {"counter": "sessions_closed", "min": 100}},
+  {"id": "prima-pausa", "title": "Prima pausa saggia", "description": "Una pausa di almeno 10 minuti dopo un'ora e mezza di lavoro.", "when": {"counter": "wise_breaks_total", "min": 1}},
+  {"id": "pause-settimana", "title": "Settimana con pause", "description": "Cinque giorni di lavoro di fila, ognuno con almeno una pausa saggia.", "when": {"counter": "wise_break_days", "min": 5}},
+  {"id": "pause-50", "title": "50 pause sagge", "description": "Cinquanta pause sagge.", "when": {"counter": "wise_breaks_total", "min": 50}},
+  {"id": "serie-7", "title": "7 giorni di serie", "description": "Sette giorni di lavoro di fila (il fine settimana non rompe la serie).", "when": {"counter": "streak", "min": 7}},
+  {"id": "serie-30", "title": "30 giorni di serie", "description": "Trenta giorni di lavoro di fila (il fine settimana non rompe la serie).", "when": {"counter": "streak", "min": 30}},
+  {"id": "giorni-100", "title": "100 giorni insieme", "description": "Cento giorni di lavoro con la mascotte.", "when": {"counter": "days_worked", "min": 100}},
+  {"id": "livello-5", "title": "Livello 5", "description": "La mascotte arriva al livello 5.", "when": {"counter": "level", "min": 5}},
+  {"id": "livello-10", "title": "Livello 10", "description": "La mascotte arriva al livello 10.", "when": {"counter": "level", "min": 10}},
+  {"id": "livello-20", "title": "Livello 20", "description": "La mascotte arriva al livello 20.", "when": {"counter": "level", "min": 20}}
+]

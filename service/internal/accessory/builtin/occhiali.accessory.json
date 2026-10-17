@@ -1,0 +1,60 @@
+{
+  "format": "calamaio-accessory",
+  "version": 1,
+  "id": "occhiali",
+  "name": "Occhiali",
+  "author": "Calamaio OS",
+  "description": "Occhiali da studioso: montatura in alto, ponte e stanghette. Il Demone, che ha un occhio solo, porta il monocolo.",
+  "special": false,
+  "w": 14,
+  "h": 10,
+  "frames": 1,
+  "anchor": "eyes",
+  "origin": [6, 2],
+  "outline": false,
+  "hidePoses": ["error", "idle", "tired", "stuffy", "run"],
+  "perAvatar": {
+    "gatto": {"pixels": [
+      [
+        "..............",
+        "..............",
+        "..............",
+        "x....xxxx....x",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        ".............."
+      ]
+    ]},
+    "demone": {"pixels": [
+      [
+        "...xxxxxxxx...",
+        "..x........x..",
+        "..x........x..",
+        "..x........x..",
+        "..x........x..",
+        "..x........x..",
+        "..x........x..",
+        "..x........x..",
+        "...xxxxxxxx.#.",
+        "............#."
+      ]
+    ]}
+  },
+  "pixels": [
+    [
+      "xxxxxx..xxxxxx",
+      "..............",
+      "..............",
+      "x....xxxx....x",
+      "..............",
+      "..............",
+      "..............",
+      "..............",
+      "..............",
+      ".............."
+    ]
+  ]
+}

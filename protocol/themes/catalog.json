@@ -1,0 +1,597 @@
+{
+ "cases": [
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "{oggi.costo}",
+   "upper": false,
+   "kind": "text",
+   "warnings": [
+    "{oggi.costo} può mostrare «$», che Chakra Petch 44 non ha: si vedrà «?»"
+   ]
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "Costo $ €",
+   "upper": false,
+   "kind": "text",
+   "warnings": [
+    "Chakra Petch 44 non ha «C$€»: si vedrà «?»"
+   ]
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "{giorno}",
+   "upper": false,
+   "kind": "text",
+   "warnings": [
+    "{giorno} può mostrare «ì», che Chakra Petch 44 non ha: si vedrà «?»"
+   ]
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "{batteria}",
+   "upper": true,
+   "kind": "text",
+   "warnings": []
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "ok",
+   "upper": true,
+   "kind": "text",
+   "warnings": [
+    "Chakra Petch 44 non ha «OK»: si vedrà «?»"
+   ]
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "{sessione.nome} {sessione.nome}",
+   "upper": false,
+   "kind": "text",
+   "warnings": [
+    "{sessione.nome} è testo libero: Chakra Petch 44 ha solo cifre, minuscole e «%+,-./:?…»"
+   ]
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "hms",
+   "upper": false,
+   "kind": "clock",
+   "warnings": []
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "hm",
+   "upper": false,
+   "kind": "clock",
+   "warnings": []
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 12,
+    "weight": 600
+   },
+   "text": "{data|maiuscolo}",
+   "upper": false,
+   "kind": "text",
+   "warnings": []
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 12,
+    "weight": 600
+   },
+   "text": "{oggi.costo} {sessione.nome} Costo $",
+   "upper": false,
+   "kind": "text",
+   "warnings": []
+  },
+  {
+   "font": {
+    "family": "pix",
+    "size": 8,
+    "weight": 400
+   },
+   "text": "{giorno|maiuscolo} €",
+   "upper": true,
+   "kind": "text",
+   "warnings": []
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "{mascotte.xp}",
+   "upper": false,
+   "kind": "text",
+   "warnings": [
+    "{mascotte.xp} può mostrare «PX», che Chakra Petch 44 non ha: si vedrà «?»"
+   ]
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 44,
+    "weight": 700
+   },
+   "text": "{mascotte.xp|minuscolo}",
+   "upper": false,
+   "kind": "text",
+   "warnings": []
+  },
+  {
+   "font": {
+    "family": "ui",
+    "size": 12,
+    "weight": 600
+   },
+   "text": "é ó ú",
+   "upper": true,
+   "kind": "text",
+   "warnings": [
+    "Chakra Petch 12 non ha «ÓÚ»: si vedrà «?»"
+   ]
+  }
+ ],
+ "clock": "-0123456789:",
+ "comment": "Catalogo dei glifi (docs/TEMI.md §3): caratteri che ogni carattere ha (da firmware/src/gfx/fonts), alfabeto di ogni valore, e casi con gli avvisi attesi del compilatore. Lo verifica TestGlyphCatalog in Go e test-theme.mjs in JS.",
+ "fonts": [
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 10,
+   "weight": 500
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 10,
+   "weight": 600
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 10,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 11,
+   "weight": 500
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 11,
+   "weight": 600
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 12,
+   "weight": 500
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 12,
+   "weight": 600
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 12,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 13,
+   "weight": 600
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 13,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 14,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 15,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 16,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 18,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 20,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 22,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " %+,-./0123456789:?abcdefghijklmnopqrstuvwxyz…",
+   "size": 26,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " %+,-./0123456789:?abcdefghijklmnopqrstuvwxyz…",
+   "size": 40,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " %+,-./0123456789:?abcdefghijklmnopqrstuvwxyz…",
+   "size": 44,
+   "weight": 700
+  },
+  {
+   "family": "ui",
+   "glyphs": " %+,-./0123456789:?abcdefghijklmnopqrstuvwxyz…",
+   "size": 46,
+   "weight": 700
+  },
+  {
+   "family": "pix",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 8,
+   "weight": 400
+  },
+  {
+   "family": "pix",
+   "glyphs": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°·ÀÈÉÌÒ×Ùàèéìíòóùú–—’…′″‹›€←↑→↓−▲▶▼◀●✓✗",
+   "size": 8,
+   "weight": 700
+  }
+ ],
+ "values": [
+  {
+   "example": "api-server",
+   "free": true,
+   "glyphs": "",
+   "id": 0,
+   "name": "sessione.nome"
+  },
+  {
+   "example": "api-server",
+   "free": true,
+   "glyphs": "",
+   "id": 64,
+   "name": "riga.nome"
+  },
+  {
+   "example": "Modifico src/api.ts",
+   "free": true,
+   "glyphs": "",
+   "id": 1,
+   "name": "sessione.stato"
+  },
+  {
+   "example": "Modifico src/api.ts",
+   "free": true,
+   "glyphs": "",
+   "id": 65,
+   "name": "riga.stato"
+  },
+  {
+   "example": "Bash: npm run test",
+   "free": true,
+   "glyphs": "",
+   "id": 2,
+   "name": "sessione.attività"
+  },
+  {
+   "example": "Bash: npm run test",
+   "free": true,
+   "glyphs": "",
+   "id": 66,
+   "name": "riga.attività"
+  },
+  {
+   "example": "Guida aggiornata",
+   "free": true,
+   "glyphs": "",
+   "id": 3,
+   "name": "sessione.riassunto"
+  },
+  {
+   "example": "Guida aggiornata",
+   "free": true,
+   "glyphs": "",
+   "id": 67,
+   "name": "riga.riassunto"
+  },
+  {
+   "example": "3/7 task  ·  12 min",
+   "free": true,
+   "glyphs": "",
+   "id": 4,
+   "name": "sessione.meta"
+  },
+  {
+   "example": "3/7 task  ·  12 min",
+   "free": true,
+   "glyphs": "",
+   "id": 68,
+   "name": "riga.meta"
+  },
+  {
+   "example": "42%",
+   "free": false,
+   "glyphs": "%0123456789",
+   "id": 5,
+   "name": "sessione.contesto"
+  },
+  {
+   "example": "42%",
+   "free": false,
+   "glyphs": "%0123456789",
+   "id": 69,
+   "name": "riga.contesto"
+  },
+  {
+   "example": "3/7",
+   "free": false,
+   "glyphs": "/0123456789",
+   "id": 6,
+   "name": "sessione.task"
+  },
+  {
+   "example": "3/7",
+   "free": false,
+   "glyphs": "/0123456789",
+   "id": 70,
+   "name": "riga.task"
+  },
+  {
+   "example": "12 min",
+   "free": false,
+   "glyphs": " 0123456789himn",
+   "id": 7,
+   "name": "sessione.da"
+  },
+  {
+   "example": "12 min",
+   "free": false,
+   "glyphs": " 0123456789himn",
+   "id": 71,
+   "name": "riga.da"
+  },
+  {
+   "example": "2",
+   "free": false,
+   "glyphs": "0123456789",
+   "id": 8,
+   "name": "sessione.sub"
+  },
+  {
+   "example": "2",
+   "free": false,
+   "glyphs": "0123456789",
+   "id": 72,
+   "name": "riga.sub"
+  },
+  {
+   "example": "✓",
+   "free": false,
+   "glyphs": "✓✗",
+   "id": 9,
+   "name": "sessione.test"
+  },
+  {
+   "example": "✓",
+   "free": false,
+   "glyphs": "✓✗",
+   "id": 73,
+   "name": "riga.test"
+  },
+  {
+   "example": "10:30",
+   "free": false,
+   "glyphs": "-0123456789:",
+   "id": 128,
+   "name": "ora"
+  },
+  {
+   "example": "domenica 11 ottobre",
+   "free": false,
+   "glyphs": " 0123456789abcdefgilmnoprstuvzì",
+   "id": 130,
+   "name": "data"
+  },
+  {
+   "example": "domenica",
+   "free": false,
+   "glyphs": " abcdegilmnorstuvì",
+   "id": 131,
+   "name": "giorno"
+  },
+  {
+   "example": "3",
+   "free": false,
+   "glyphs": "0123456789",
+   "id": 132,
+   "name": "sessioni"
+  },
+  {
+   "example": "1",
+   "free": false,
+   "glyphs": "0123456789",
+   "id": 133,
+   "name": "inattesa"
+  },
+  {
+   "example": "78%",
+   "free": false,
+   "glyphs": "%0123456789",
+   "id": 134,
+   "name": "batteria"
+  },
+  {
+   "example": "Autonomia: circa 3 giorni con il tuo uso",
+   "free": false,
+   "glyphs": " ()0123456789:Aabcdegilmnoprstu",
+   "id": 135,
+   "name": "autonomia"
+  },
+  {
+   "example": "CasaWiFi",
+   "free": true,
+   "glyphs": "",
+   "id": 136,
+   "name": "wifi"
+  },
+  {
+   "example": "calamaio.local",
+   "free": true,
+   "glyphs": "",
+   "id": 137,
+   "name": "pc"
+  },
+  {
+   "example": "6 h 25",
+   "free": false,
+   "glyphs": " 0123456789afhimnt",
+   "id": 138,
+   "name": "giornata.mancano"
+  },
+  {
+   "example": "18:00",
+   "free": false,
+   "glyphs": "0123456789:",
+   "id": 139,
+   "name": "giornata.fine"
+  },
+  {
+   "example": "4",
+   "free": false,
+   "glyphs": "0123456789",
+   "id": 140,
+   "name": "oggi.task"
+  },
+  {
+   "example": "+120 −30",
+   "free": false,
+   "glyphs": " +-0123456789−",
+   "id": 141,
+   "name": "oggi.righe"
+  },
+  {
+   "example": "1,20 $",
+   "free": false,
+   "glyphs": " $,-0123456789",
+   "id": 142,
+   "name": "oggi.costo"
+  },
+  {
+   "example": "37%",
+   "free": false,
+   "glyphs": "%0123456789—",
+   "id": 143,
+   "name": "limiti.5h"
+  },
+  {
+   "example": "12%",
+   "free": false,
+   "glyphs": "%0123456789—",
+   "id": 144,
+   "name": "limiti.7g"
+  },
+  {
+   "example": "3",
+   "free": false,
+   "glyphs": "0123456789—",
+   "id": 145,
+   "name": "mascotte.livello"
+  },
+  {
+   "example": "66/417 XP",
+   "free": false,
+   "glyphs": " -/0123456789PX",
+   "id": 146,
+   "name": "mascotte.xp"
+  },
+  {
+   "example": "80%",
+   "free": false,
+   "glyphs": "%-0123456789",
+   "id": 147,
+   "name": "mascotte.energia"
+  },
+  {
+   "example": "620 ppm",
+   "free": false,
+   "glyphs": " 0123456789mp",
+   "id": 148,
+   "name": "co2"
+  },
+  {
+   "example": "0.13.0-ed",
+   "free": true,
+   "glyphs": "",
+   "id": 149,
+   "name": "versione"
+  }
+ ]
+}

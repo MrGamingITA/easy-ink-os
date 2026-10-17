@@ -1,0 +1,60 @@
+{
+  "format": "calamaio-accessory",
+  "version": 1,
+  "id": "cuffie",
+  "name": "Cuffie",
+  "author": "Calamaio OS",
+  "description": "Cuffie da musica: archetto sulla testa e due padiglioni imbottiti.",
+  "special": false,
+  "w": 14,
+  "h": 10,
+  "frames": 1,
+  "anchor": "head-top",
+  "origin": [6, 4],
+  "outline": false,
+  "hidePoses": ["run"],
+  "perAvatar": {
+    "gatto": {"pixels": [
+      [
+        "..............",
+        "..xxxxxxx.....",
+        ".x...........x",
+        "xx..........xx",
+        "x+..........+x",
+        "xx..........xx",
+        "..............",
+        "..............",
+        "..............",
+        ".............."
+      ]
+    ]},
+    "demone": {"dy": 2, "pixels": [
+      [
+        "..............",
+        "....xxxxxxx...",
+        "...x.......x..",
+        "...........x..",
+        "...........x..",
+        "...........x..",
+        "...........x..",
+        "...........xxx",
+        "...........x+x",
+        "...........xxx"
+      ]
+    ]}
+  },
+  "pixels": [
+    [
+      ".....xxxx.....",
+      "....x....x....",
+      "....x....x....",
+      "...x......x...",
+      "..x...........",
+      ".xxx..........",
+      "xx+x..........",
+      "xx+x..........",
+      ".xxx..........",
+      ".............."
+    ]
+  ]
+}

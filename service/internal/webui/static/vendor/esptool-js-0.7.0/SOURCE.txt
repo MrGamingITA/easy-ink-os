@@ -1,0 +1,17 @@
+esptool-js 0.7.0 (Espressif), copia locale per la pagina Firmware della webapp.
+
+Origine:   pacchetto npm esptool-js@0.7.0 (dist-tag latest al 2026-10-11),
+           https://github.com/espressif/esptool-js
+File:      esptool.js = bundle.js del pacchetto, senza modifiche (modulo ES unico,
+           con dentro gli stub del flasher)
+SHA-256:   00ebe6fb0b202976d3e2a3c6b9a6bd438c26a81d2af6739c95ac276a64c1a84e  esptool.js
+           9c7797cfbcac3a989ab85c52c9daaa65ffc0d538c273a055757b98bb846fdf1f  esptool-js-0.7.0.tgz
+Licenza:   Apache-2.0 (LICENSE-esptool-js.txt)
+
+Dipendenze incluse nel bundle:
+- pako 2.1.0 (deflate/inflate), licenza MIT (LICENSE-pako.txt)
+- atob-lite 2.0.0, licenza MIT (LICENSE-atob-lite.txt)
+
+Per aggiornare: npm pack esptool-js@<versione>, copiare bundle.js come esptool.js in una
+cartella nuova esptool-js-<versione>/ con le licenze, aggiornare l'import in
+assets/js/firmware.js e questo file.

@@ -1,0 +1,7 @@
+// Impostazioni comuni dell'app Calamaio. Squadra e bundle id personali vanno in Config/Local.xcconfig
+// (non nel repository), per esempio:
+//   DEVELOPMENT_TEAM = ABCDE12345
+//   CALAMAIO_BUNDLE_ID = com.mrgamingita.calamaio
+CALAMAIO_BUNDLE_ID = com.mrgamingita.calamaio
+DEVELOPMENT_TEAM =
+#include? "Local.xcconfig"

@@ -1,0 +1,133 @@
+{
+  "comment": "Generato da tools/webui-dev/test-editor.mjs --write: i predefiniti dell'editor (ops.js). Il servizio li compila: service/internal/theme/editor_defaults_test.go.",
+  "newTheme": {
+    "format": "calamaio-theme",
+    "version": 1,
+    "id": "prova",
+    "name": "Prova",
+    "screen": "250x122",
+    "screens": {
+      "home": {
+        "variants": [
+          {
+            "when": "always",
+            "elements": []
+          }
+        ]
+      }
+    }
+  },
+  "defaults": {
+    "text": {
+      "type": "text",
+      "x": 10,
+      "y": 10,
+      "w": 80,
+      "text": "Testo",
+      "font": {
+        "family": "ui",
+        "size": 12,
+        "weight": 600
+      }
+    },
+    "clock": {
+      "type": "clock",
+      "x": 10,
+      "y": 10,
+      "w": 40,
+      "font": {
+        "family": "ui",
+        "size": 12,
+        "weight": 700
+      }
+    },
+    "mascot": {
+      "type": "mascot",
+      "x": 10,
+      "y": 10,
+      "scale": 1
+    },
+    "battery": {
+      "type": "battery",
+      "x": 10,
+      "y": 10
+    },
+    "wifi": {
+      "type": "wifi",
+      "x": 10,
+      "y": 10
+    },
+    "stateIcon": {
+      "type": "stateIcon",
+      "x": 10,
+      "y": 10
+    },
+    "sym": {
+      "type": "sym",
+      "x": 10,
+      "y": 10,
+      "sym": "bell"
+    },
+    "bar": {
+      "type": "bar",
+      "x": 10,
+      "y": 10,
+      "w": 60,
+      "h": 6,
+      "source": "context",
+      "style": "bar"
+    },
+    "qr": {
+      "type": "qr",
+      "x": 10,
+      "y": 10,
+      "w": 40,
+      "h": 40,
+      "text": "{pc}"
+    },
+    "line": {
+      "type": "line",
+      "x": 10,
+      "y": 10,
+      "w": 60,
+      "h": 1
+    },
+    "rect": {
+      "type": "rect",
+      "x": 10,
+      "y": 10,
+      "w": 40,
+      "h": 20
+    },
+    "circle": {
+      "type": "circle",
+      "x": 10,
+      "y": 10,
+      "w": 20,
+      "h": 20
+    },
+    "list": {
+      "type": "list",
+      "x": 10,
+      "y": 10,
+      "w": 120,
+      "h": 60,
+      "rowH": 20,
+      "gap": 2,
+      "row": [
+        {
+          "type": "text",
+          "x": 0,
+          "y": 4,
+          "w": 120,
+          "text": "{riga.nome}",
+          "font": {
+            "family": "ui",
+            "size": 12,
+            "weight": 600
+          }
+        }
+      ]
+    }
+  }
+}

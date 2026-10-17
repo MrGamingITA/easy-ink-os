@@ -1,0 +1,68 @@
+{
+  "format": "calamaio-anchors",
+  "version": 1,
+  "avatar": "demone",
+  "avatarCrc": "a3130345",
+  "anchors": {
+    "working": [
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": [21, 17]},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": [20, 17]},
+      {"head-top": [11, 6], "eyes": [11, 8], "mouth": [6, 14], "neck": [12, 16], "hand": [21, 18]},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": [20, 17]}
+    ],
+    "permission": [
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 4], "eyes": [11, 6], "mouth": [6, 12], "neck": [12, 14], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 4], "eyes": [11, 6], "mouth": [6, 12], "neck": [12, 14], "hand": null}
+    ],
+    "input": [
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null}
+    ],
+    "done": [
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 3], "eyes": [11, 5], "mouth": [6, 11], "neck": [12, 13], "hand": null},
+      {"head-top": [11, 2], "eyes": [11, 4], "mouth": [6, 10], "neck": [12, 12], "hand": null},
+      {"head-top": [11, 4], "eyes": [11, 6], "mouth": [6, 12], "neck": [12, 14], "hand": null}
+    ],
+    "error": [
+      {"head-top": [11, 6], "eyes": [11, 8], "mouth": [6, 14], "neck": [12, 16], "hand": null},
+      {"head-top": [11, 6], "eyes": [11, 8], "mouth": [6, 14], "neck": [12, 16], "hand": null},
+      {"head-top": [11, 6], "eyes": [11, 8], "mouth": [6, 14], "neck": [12, 16], "hand": null},
+      {"head-top": [11, 6], "eyes": [11, 8], "mouth": [6, 14], "neck": [12, 16], "hand": null}
+    ],
+    "idle": [
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null}
+    ],
+    "compact": [
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": [21, 17]},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": [20, 17]},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": [21, 17]},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": [20, 17]}
+    ],
+    "tired": [
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null}
+    ],
+    "stuffy": [
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null},
+      {"head-top": [11, 5], "eyes": [11, 7], "mouth": [6, 13], "neck": [12, 15], "hand": null}
+    ],
+    "run": [
+      {"head-top": [19, 5], "eyes": [19, 8], "mouth": [24, 13], "neck": [18, 16], "hand": null},
+      {"head-top": [19, 4], "eyes": [19, 7], "mouth": [24, 12], "neck": [18, 15], "hand": null},
+      {"head-top": [19, 5], "eyes": [19, 8], "mouth": [24, 13], "neck": [18, 16], "hand": null},
+      {"head-top": [19, 4], "eyes": [19, 7], "mouth": [24, 12], "neck": [18, 15], "hand": null}
+    ]
+  }
+}

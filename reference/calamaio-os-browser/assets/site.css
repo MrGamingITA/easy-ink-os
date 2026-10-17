@@ -1,0 +1,59 @@
+/* Calamaio OS · versione da browser: cornice delle pagine */
+:root {
+  --ink: #14181C;
+  --ink-2: #3D4650;
+  --ink-3: #56606B;
+  --paper: #E7EAEE;
+  --card: #F5F6F8;
+  --line: #C6CCD3;
+  --stage: #CDD2D8;
+  --bar: #1E2022;
+  --accent: #2646C4;
+}
+html, body { margin: 0; }
+body { background: var(--stage); color: var(--ink); font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 4px 6px;
+  padding: 8px 16px; background: var(--bar); color: var(--paper);
+  font: 500 13px/1.2 'IBM Plex Mono', ui-monospace, monospace;
+}
+.topbar a { color: var(--paper); text-decoration: none; padding: 7px 10px; border-radius: 6px; white-space: nowrap; }
+.topbar a:hover { background: #33373C; color: #FFFFFF; }
+.topbar a[aria-current="page"] { background: var(--accent); color: #FFFFFF; }
+.topbar .brand { font: 700 16px/1 'Chakra Petch', sans-serif; letter-spacing: 0.02em; margin-right: 8px; }
+.topbar .sep { width: 1px; height: 20px; background: #3A3F45; margin: 0 6px; }
+.topbar .lbl { color: #8C949D; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 0 4px; }
+
+.stage { padding: 24px 16px 56px; display: flex; justify-content: center; }
+.board-wrap { position: relative; flex: none; }
+.board { width: max-content; transform-origin: 0 0; box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 24px 48px -32px rgba(0,0,0,0.45); border-radius: 4px; overflow: hidden; }
+.foot { text-align: center; padding: 0 16px 40px; font: 400 12px/1.5 'IBM Plex Mono', monospace; color: var(--ink-3); }
+
+/* indice */
+.home { max-width: 1240px; margin: 0 auto; padding: 48px 16px 64px; display: flex; flex-direction: column; gap: 44px; }
+.home header { display: flex; flex-direction: column; gap: 12px; }
+.kicker { margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-3); }
+.home h1 { margin: 0; font: 600 clamp(44px, 7vw, 72px)/1 'Chakra Petch', sans-serif; letter-spacing: -0.01em; }
+.home h2 { margin: 0; font: 600 28px/1.15 'Chakra Petch', sans-serif; }
+.lead { margin: 0; max-width: 760px; font-size: 18px; line-height: 1.55; color: var(--ink-2); }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.card { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; color: inherit; text-decoration: none; transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.card img { display: block; width: 100%; height: 190px; object-fit: cover; object-position: top center; background: var(--paper); border-bottom: 1px solid var(--line); }
+.card .body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; }
+.card .t { font: 600 19px/1.2 'Chakra Petch', sans-serif; }
+.card .d { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
+.section { display: flex; flex-direction: column; gap: 16px; }
+.doc { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; background: var(--bar); color: var(--paper); border-radius: 10px; padding: 22px 24px; }
+.doc p { margin: 0; flex: 1 1 320px; font-size: 15px; line-height: 1.5; color: #C9CED4; }
+.doc strong { display: block; font: 600 22px/1.2 'Chakra Petch', sans-serif; color: #FFFFFF; margin-bottom: 4px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border-radius: 8px; background: var(--accent); color: #FFFFFF; text-decoration: none; font: 600 15px/1 'IBM Plex Sans', sans-serif; }
+.btn:hover { background: #1A3290; }
+.notes { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.note { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+.note h3 { margin: 0; font: 600 18px/1.2 'Chakra Petch', sans-serif; color: var(--ink); }
+.note code { font: 500 13px 'IBM Plex Mono', monospace; color: var(--ink); }
+.note ul { margin: 0; padding-left: 18px; }
+@media (max-width: 640px) { .home { padding-top: 28px; gap: 32px; } .card img { height: 150px; } }

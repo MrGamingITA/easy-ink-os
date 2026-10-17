@@ -1,0 +1,118 @@
+{
+  "format": "calamaio-theme", "version": 1, "id": "elementi", "name": "Tutti gli elementi", "screen": "250x122",
+  "screens": {
+    "detail": { "variants": [ { "when": "always", "elements": [
+      { "type": "rect", "x": 0, "y": 0, "w": 250, "h": 15, "border": 0, "fill": true },
+      { "type": "text", "x": 4, "y": 4, "w": 170, "text": "{sessione.nome}", "font": { "family": "pix", "size": 8, "weight": 700 }, "upper": true, "invert": true },
+      { "type": "text", "x": 176, "y": 2, "w": 70, "text": "ctx {sessione.contesto}", "font": { "family": "ui", "size": 10, "weight": 700 }, "align": "right", "invert": true },
+      { "type": "stateIcon", "x": 4, "y": 20, "scale": 2 },
+      { "type": "text", "x": 22, "y": 19, "w": 224, "text": "{sessione.attività}", "font": { "family": "ui", "size": 12, "weight": 600 } },
+      { "type": "text", "x": 4, "y": 36, "w": 242, "text": "{sessione.meta}", "font": { "family": "ui", "size": 10, "weight": 500 }, "lines": 4, "lineHeight": 12 },
+      { "type": "text", "x": 4, "y": 86, "w": 120, "text": "test {sessione.test} · sub {sessione.sub} · da {sessione.da}", "font": { "family": "ui", "size": 10, "weight": 600 } },
+      { "type": "text", "x": 4, "y": 98, "w": 242, "text": "{sessione.riassunto|minuscolo}", "font": { "family": "ui", "size": 11, "weight": 500 } },
+      { "type": "bar", "x": 4, "y": 110, "w": 242, "h": 8, "source": "context" }
+    ] } ] },
+    "oggi": { "variants": [ { "when": "always", "elements": [
+      { "type": "text", "x": 0, "y": 4, "w": 125, "text": "{oggi.task}", "font": { "family": "ui", "size": 22, "weight": 700 }, "align": "center" },
+      { "type": "text", "x": 125, "y": 4, "w": 125, "text": "{oggi.righe}", "font": { "family": "ui", "size": 16, "weight": 700 }, "align": "center" },
+      { "type": "line", "x": 124, "y": 2, "w": 1, "h": 60, "dir": "v", "style": "dotted" },
+      { "type": "rect", "x": 10, "y": 66, "w": 110, "h": 40, "border": 2, "radius": 3 },
+      { "type": "rect", "x": 130, "y": 66, "w": 110, "h": 40, "border": 1, "radius": 8, "fill": true },
+      { "type": "text", "x": 130, "y": 78, "w": 110, "text": "{oggi.costo}", "font": { "family": "ui", "size": 15, "weight": 700 }, "align": "center", "invert": true },
+      { "type": "rect", "x": -20, "y": 110, "w": 300, "h": 30, "border": 3 },
+      { "type": "text", "x": 240, "y": 30, "w": 60, "text": "FUORI SCHERMO", "font": { "family": "ui", "size": 13, "weight": 700 } }
+    ] } ] },
+    "batteria": { "variants": [ { "when": "always", "elements": [
+      { "type": "battery", "x": 6, "y": 6, "scale": 2, "percent": true },
+      { "type": "bar", "x": 6, "y": 30, "w": 238, "h": 9, "source": "battery", "style": "bar" },
+      { "type": "text", "x": 6, "y": 44, "w": 238, "text": "{autonomia}", "font": { "family": "ui", "size": 11, "weight": 500 }, "lines": 2 },
+      { "type": "sym", "x": 6, "y": 80, "sym": "plug" },
+      { "type": "sym", "x": 16, "y": 80, "sym": "bell", "scale": 2 },
+      { "type": "sym", "x": 34, "y": 80, "sym": "moon", "scale": 3 },
+      { "type": "sym", "x": 58, "y": 80, "sym": "lock" },
+      { "type": "sym", "x": 68, "y": 80, "sym": "bolt" },
+      { "type": "sym", "x": 78, "y": 80, "sym": "dot" },
+      { "type": "sym", "x": 88, "y": 80, "sym": "glass" },
+      { "type": "sym", "x": 98, "y": 80, "sym": "gauge", "invert": true },
+      { "type": "text", "x": 120, "y": 100, "w": 126, "text": "SCARICA", "font": { "family": "ui", "size": 14, "weight": 700 }, "visibleIf": [ { "battBelow": 15 }, { "charging": false } ] }
+    ] } ] },
+    "stato": { "variants": [ { "when": "always", "elements": [
+      { "type": "wifi", "x": 6, "y": 6 },
+      { "type": "wifi", "x": 20, "y": 4, "scale": 2 },
+      { "type": "text", "x": 50, "y": 6, "w": 196, "text": "{wifi} · {pc}", "font": { "family": "ui", "size": 12, "weight": 600 } },
+      { "type": "text", "x": 6, "y": 30, "w": 238, "text": "{giorno} {ora} — {data|maiuscolo}", "font": { "family": "ui", "size": 12, "weight": 700 } },
+      { "type": "clock", "x": 6, "y": 50, "w": 238, "format": "hms", "font": { "family": "ui", "size": 26, "weight": 700 }, "align": "center" },
+      { "type": "text", "x": 6, "y": 90, "w": 238, "text": "{sessioni} SESSIONI, {inattesa} IN ATTESA", "font": { "family": "pix", "size": 8, "weight": 400 } },
+      { "type": "text", "x": 6, "y": 104, "w": 238, "text": "NOTTE", "font": { "family": "ui", "size": 12, "weight": 700 }, "visibleIf": [ { "night": true }, { "pc": true } ] },
+      { "type": "text", "x": 120, "y": 104, "w": 120, "text": "{{graffe}}", "font": { "family": "ui", "size": 12, "weight": 600 }, "visibleIf": [ { "sessions": { "min": 1, "max": 3 } } ] }
+    ] } ] },
+    "limiti": { "variants": [ { "when": "always", "elements": [
+      { "type": "text", "x": 6, "y": 4, "w": 120, "text": "5 ORE", "font": { "family": "pix", "size": 8, "weight": 700 } },
+      { "type": "text", "x": 126, "y": 2, "w": 118, "text": "{limiti.5h}", "font": { "family": "ui", "size": 13, "weight": 700 }, "align": "right" },
+      { "type": "bar", "x": 6, "y": 16, "w": 238, "h": 9, "source": "limit5h" },
+      { "type": "text", "x": 126, "y": 40, "w": 118, "text": "{limiti.7g}", "font": { "family": "ui", "size": 13, "weight": 700 }, "align": "right" },
+      { "type": "bar", "x": 6, "y": 54, "w": 238, "h": 9, "source": "limit7d", "style": "bar" },
+      { "type": "bar", "x": 6, "y": 70, "w": 238, "h": 9, "source": "workday" },
+      { "type": "text", "x": 6, "y": 84, "w": 238, "text": "{giornata.mancano} fino alle {giornata.fine}", "font": { "family": "ui", "size": 10, "weight": 600 } },
+      { "type": "text", "x": 6, "y": 98, "w": 238, "text": "Più di quanto ci sta in una riga sola, anche con tante parole: àèìòù …", "font": { "family": "ui", "size": 40, "weight": 700 } }
+    ] } ] },
+    "focus": { "variants": [ { "when": "always", "elements": [
+      { "type": "qr", "x": 2, "y": 2, "w": 70, "h": 70, "text": "123456" },
+      { "type": "qr", "x": 80, "y": 2, "w": 80, "h": 80, "text": "HTTP://CALAMAIO.LOCAL" },
+      { "type": "qr", "x": 166, "y": 2, "w": 82, "h": 82, "text": "Ciao è {sessioni} {sessione.nome}" },
+      { "type": "qr", "x": 2, "y": 90, "w": 30, "h": 30, "text": "{sessione.meta}{sessione.meta}{sessione.meta}" }
+    ] } ] },
+    "ambiente": { "variants": [ { "when": "always", "elements": [
+      { "type": "circle", "x": 10, "y": 10, "w": 40, "h": 40, "fill": true },
+      { "type": "circle", "x": 60, "y": 10, "w": 41, "h": 50, "border": 3 },
+      { "type": "circle", "x": 230, "y": -10, "w": 40, "h": 40, "border": 2, "invert": true },
+      { "type": "text", "x": 110, "y": 20, "w": 130, "text": "{co2}", "font": { "family": "ui", "size": 18, "weight": 700 } },
+      { "type": "line", "x": 0, "y": 70, "w": 250, "h": 2 },
+      { "type": "line", "x": 0, "y": 80, "w": 250, "h": 3, "style": "dotted" }
+    ] } ] },
+    "pet": { "variants": [ { "when": "always", "elements": [
+      { "type": "mascot", "x": 2, "y": 4, "scale": 3, "pose": "done", "ref": "nobody" },
+      { "type": "mascot", "x": 100, "y": 4, "scale": 2, "accessory": false, "animated": false },
+      { "type": "text", "x": 160, "y": 4, "w": 86, "text": "LIVELLO {mascotte.livello}", "font": { "family": "ui", "size": 14, "weight": 700 } },
+      { "type": "text", "x": 160, "y": 24, "w": 86, "text": "{mascotte.xp}", "font": { "family": "ui", "size": 10, "weight": 600 } },
+      { "type": "text", "x": 160, "y": 36, "w": 86, "text": "{mascotte.energia}", "font": { "family": "ui", "size": 10, "weight": 600 }, "visibleIf": [ { "game": true } ] },
+      { "type": "group", "x": 100, "y": 60, "visibleIf": [ { "state": "working" } ], "children": [
+        { "type": "rect", "x": 0, "y": 0, "w": 60, "h": 20, "fill": true },
+        { "type": "text", "x": 0, "y": 5, "w": 60, "text": "LAVORA", "font": { "family": "pix", "size": 8, "weight": 700 }, "align": "center", "invert": true },
+        { "type": "rect", "x": 70, "y": 0, "w": 10, "h": 10, "hidden": true }
+      ] },
+      { "type": "mascot", "x": -40, "y": 100, "scale": 2, "pose": "error", "ref": "urgent" }
+    ] } ] },
+    "sleep": { "variants": [ { "when": "always", "elements": [
+      { "type": "rect", "x": 0, "y": 0, "w": 250, "h": 122, "border": 0, "fill": true },
+      { "type": "mascot", "x": 2, "y": 2, "scale": 2, "pose": "working", "ref": "nobody", "invert": true },
+      { "type": "rect", "x": 62, "y": 2, "w": 40, "h": 20, "border": 2, "radius": 4, "invert": true },
+      { "type": "rect", "x": 66, "y": 6, "w": 8, "h": 8, "border": 0, "fill": true, "invert": true },
+      { "type": "battery", "x": 108, "y": 4, "percent": true, "invert": true },
+      { "type": "wifi", "x": 160, "y": 2, "scale": 2, "invert": true },
+      { "type": "bar", "x": 62, "y": 28, "w": 120, "h": 8, "source": "battery", "style": "bar", "invert": true },
+      { "type": "bar", "x": 62, "y": 40, "w": 120, "h": 8, "source": "context", "invert": true },
+      { "type": "line", "x": 0, "y": 54, "w": 186, "h": 1, "invert": true },
+      { "type": "line", "x": 0, "y": 57, "w": 186, "h": 2, "style": "dotted", "invert": true },
+      { "type": "line", "x": 184, "y": 2, "w": 2, "h": 50, "dir": "v", "style": "dotted", "invert": true },
+      { "type": "qr", "x": 190, "y": 2, "w": 58, "h": 58, "text": "{sessioni}", "invert": true },
+      { "type": "list", "x": 0, "y": 62, "w": 250, "h": 60, "rowH": 18, "gap": 2, "pageSec": 4, "invert": true, "row": [
+        { "type": "stateIcon", "x": 4, "y": 5, "invert": true },
+        { "type": "text", "x": 16, "y": 3, "w": 150, "text": "{riga.nome}", "font": { "family": "ui", "size": 12, "weight": 600 }, "invert": true },
+        { "type": "text", "x": 170, "y": 4, "w": 70, "text": "{riga.da}", "font": { "family": "ui", "size": 10, "weight": 600 }, "align": "right", "invert": true }
+      ] }
+    ] } ] },
+    "offline": { "variants": [ { "when": "always", "elements": [
+      { "type": "mascot", "x": 6, "y": 20, "scale": 3, "pose": "idle", "ref": "nobody" },
+      { "type": "text", "x": 98, "y": 30, "w": 146, "text": "PC non raggiungibile", "font": { "family": "ui", "size": 18, "weight": 700 }, "lines": 2, "lineHeight": 20 },
+      { "type": "text", "x": 98, "y": 76, "w": 146, "text": "{pc}", "font": { "family": "ui", "size": 10, "weight": 600 } }
+    ] } ] },
+    "riepilogo": { "variants": [
+      { "when": "none", "elements": [ { "type": "text", "x": 0, "y": 50, "w": 250, "text": "PC spento", "font": { "family": "ui", "size": 20, "weight": 700 }, "align": "center" } ] },
+      { "when": "always", "ref": "urgent", "elements": [
+        { "type": "text", "x": 0, "y": 40, "w": 250, "text": "{sessioni} sessioni · {sessione.nome}", "font": { "family": "ui", "size": 20, "weight": 700 }, "align": "center" },
+        { "type": "stateIcon", "x": 120, "y": 80, "scale": 3 }
+      ] }
+    ] }
+  }
+}

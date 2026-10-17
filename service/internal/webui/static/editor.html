@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor schermate (Beta) · Calamaio OS</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/app.css">
+<script type="module" src="assets/js/editor.js"></script>
+</head>
+<body class="ed-page">
+<a class="skip" href="#ed-stage">Vai alla tela</a>
+<nav class="topbar" aria-label="Pagine">
+  <a class="brand" href="./">Calamaio OS</a>
+  <a href="./">Panoramica</a>
+  <a href="avatars.html">Avatar</a>
+  <a href="game.html">Gioco</a>
+  <a href="device.html">Dispositivo</a>
+  <a href="firmware.html">Firmware</a>
+  <a href="editor.html" aria-current="page">Editor schermate <span class="badge beta">Beta</span></a>
+</nav>
+<main class="ed" id="main">
+  <h1 class="sr-only">Editor schermate <span class="badge beta">Beta</span></h1>
+  <div id="ed-top" role="region" aria-label="Barra dell'editor">
+    <button type="button" class="btn secondary ed-drawer-btn" id="ed-open-left" aria-controls="ed-left" aria-expanded="false">Elementi</button>
+    <div class="ed-group ed-rare" role="group" aria-label="Tema">
+      <label class="ed-pick"><span>Tema</span> <select id="ed-themes"></select></label>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-new" data-close-more>Nuovo</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-dup" data-close-more>Duplica</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-rename" data-close-more>Rinomina</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-delete" data-close-more>Elimina</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-export" data-close-more>Esporta</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-import" data-close-more>Importa</button>
+      <input type="file" id="ed-import-file" accept=".json,application/json" hidden>
+    </div>
+    <div class="ed-group" role="group" aria-label="Schermata e variante">
+      <label class="ed-pick"><span>Schermata</span> <select id="ed-screens"></select></label>
+      <label class="ed-pick"><span>Variante</span> <select id="ed-variant"></select></label>
+    </div>
+    <div class="ed-group ed-rare" role="group" aria-label="Varianti">
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-var-add">Aggiungi variante</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-var-del">Togli</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-var-up" aria-label="Sposta la variante su">Su</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-var-down" aria-label="Sposta la variante giù">Giù</button>
+    </div>
+    <label class="ed-pick ed-rare"><span>Zoom</span> <select id="ed-zoom"></select></label>
+    <div class="ed-group" role="group" aria-label="Cronologia">
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-undo">Annulla</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-redo">Ripeti</button>
+    </div>
+    <div class="ed-group ed-rare" role="group" aria-label="Dati di prova">
+      <label class="ed-pick"><span>Dati di prova</span> <select id="ed-sessions"></select></label>
+      <button type="button" class="btn secondary ed-bar-btn ed-toggle" data-test="lowBatt" aria-pressed="false">Batteria scarica</button>
+      <button type="button" class="btn secondary ed-bar-btn ed-toggle" data-test="night" aria-pressed="false">Notte</button>
+      <button type="button" class="btn secondary ed-bar-btn ed-toggle" data-test="perm" aria-pressed="false">Permesso in attesa</button>
+      <button type="button" class="btn secondary ed-bar-btn ed-toggle" data-test="pcOff" aria-pressed="false">PC scollegato</button>
+    </div>
+    <button type="button" class="btn secondary ed-bar-btn ed-toggle" id="ed-play" aria-pressed="false">Anima</button>
+    <div class="ed-group ed-rare" role="group" aria-label="Schermata di serie">
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-stock" data-close-more aria-describedby="ed-stock-why">Parti dalla schermata di serie</button>
+      <span class="ed-why" id="ed-stock-why"></span>
+    </div>
+    <button type="button" class="btn secondary ed-bar-btn" id="ed-more-btn" aria-controls="ed-more" aria-expanded="false">Altro</button>
+    <div class="ed-group" id="ed-save-box" role="group" aria-label="Salvataggio">
+      <span id="ed-save" role="status" aria-live="polite">Salvato</span>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-reload" hidden>Ricarica</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-overwrite" hidden>Sovrascrivi</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-retry" hidden>Riprova</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-save-new" hidden>Salva come nuovo</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-restore" hidden>Riprendi le mie modifiche</button>
+      <button type="button" class="btn secondary ed-bar-btn" id="ed-drop" hidden>Scarta</button>
+    </div>
+    <div class="ed-group" id="ed-send-box" role="group" aria-label="Invia alla scheda">
+      <button type="button" class="btn ed-bar-btn" id="ed-send" aria-describedby="ed-send-state" disabled>Invia alla scheda</button>
+      <span id="ed-send-state" role="status" aria-live="polite"></span>
+    </div>
+    <div class="ed-group" id="ed-others" role="group" aria-label="Altri temi non salvati" hidden></div>
+    <button type="button" class="btn secondary ed-bar-btn" id="ed-warn-count" aria-controls="ed-warnings">Nessun avviso</button>
+    <button type="button" class="btn secondary ed-drawer-btn" id="ed-open-right" aria-controls="ed-right" aria-expanded="false">Proprietà</button>
+    <div id="ed-more" role="group" aria-label="Altro" hidden></div>
+  </div>
+  <p class="alert error ed-msg" id="ed-error" role="alert"></p>
+
+  <div id="ed-body">
+    <aside id="ed-left" class="ed-pane" aria-label="Elementi">
+      <div class="ed-pane-head"><h2>Elementi</h2><button type="button" class="btn secondary ed-close">Chiudi</button></div>
+      <section id="ed-add" aria-labelledby="ed-add-h"><h3 id="ed-add-h">Aggiungi</h3></section>
+      <section id="ed-layers" aria-labelledby="ed-layers-h"><h3 id="ed-layers-h">Livelli</h3></section>
+    </aside>
+
+    <div id="ed-stage" tabindex="-1">
+      <p class="ed-notice" id="ed-notice" role="status" aria-live="polite"></p>
+      <p class="ed-banner" id="ed-banner" role="status" aria-live="polite" hidden></p>
+      <div id="ed-viewport">
+        <div id="ed-frame">
+          <canvas id="ed-screen" role="img" aria-label="Anteprima della schermata"></canvas>
+          <canvas id="ed-overlay" aria-hidden="true"></canvas>
+          <p id="ed-empty" hidden></p>
+        </div>
+      </div>
+      <div id="ed-tools" role="toolbar" aria-label="Tela">
+        <button type="button" class="btn secondary ed-tool" id="ed-zoom-out" aria-label="Riduci lo zoom">−</button>
+        <button type="button" class="btn secondary ed-tool" id="ed-zoom-in" aria-label="Aumenta lo zoom">+</button>
+        <button type="button" class="btn secondary ed-tool ed-touch" id="ed-multi" aria-pressed="false">Seleziona più</button>
+        <span class="ed-touch ed-nudge" role="group" aria-label="Sposta la selezione">
+          <button type="button" class="btn secondary ed-tool" data-dx="-1" data-dy="0" data-dir="a sinistra">←</button>
+          <button type="button" class="btn secondary ed-tool" data-dx="0" data-dy="-1" data-dir="in alto">↑</button>
+          <button type="button" class="btn secondary ed-tool" data-dx="0" data-dy="1" data-dir="in basso">↓</button>
+          <button type="button" class="btn secondary ed-tool" data-dx="1" data-dy="0" data-dir="a destra">→</button>
+          <button type="button" class="btn secondary ed-tool" id="ed-step" aria-pressed="false" aria-label="Passo di 8 punti">±8</button>
+        </span>
+      </div>
+      <div id="ed-warnings" aria-live="polite"></div>
+    </div>
+
+    <aside id="ed-right" class="ed-pane" aria-label="Proprietà">
+      <div class="ed-pane-head"><h2>Proprietà</h2><button type="button" class="btn secondary ed-close">Chiudi</button></div>
+      <div id="ed-props"><p class="hint">Nessun elemento scelto.</p></div>
+    </aside>
+  </div>
+  <div id="ed-scrim" hidden></div>
+</main>
+
+<dialog class="modal" id="ed-dialog" aria-labelledby="ed-dlg-title">
+  <form method="dialog" id="ed-dlg-form">
+    <h2 id="ed-dlg-title"></h2>
+    <p id="ed-dlg-text"></p>
+    <ul class="ed-dlg-list" id="ed-dlg-list" hidden></ul>
+    <label class="ed-field" id="ed-dlg-field" hidden><span>Nome</span><input type="text" id="ed-dlg-input" autocomplete="off" spellcheck="false"></label>
+    <div class="card-actions end">
+      <button type="button" class="btn secondary" id="ed-dlg-cancel">Annulla</button>
+      <button type="submit" class="btn" id="ed-dlg-ok" value="ok">OK</button>
+    </div>
+  </form>
+</dialog>
+<dialog class="modal" id="ed-send-dialog" aria-labelledby="ed-send-title">
+  <form method="dialog">
+    <h2 id="ed-send-title">A quale scheda?</h2>
+    <p>Si invia la versione salvata del tema aperto.</p>
+    <ul class="ed-send-list" id="ed-send-list"></ul>
+    <div class="card-actions end">
+      <button type="button" class="btn secondary" id="ed-send-cancel">Annulla</button>
+    </div>
+  </form>
+</dialog>
+</body>
+</html>

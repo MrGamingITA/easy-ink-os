@@ -1,0 +1,259 @@
+{
+ "format": "calamaio-pad-report",
+ "version": 1,
+ "length": 8,
+ "bits": {
+  "A": 0,
+  "B": 1,
+  "X": 2,
+  "Y": 3,
+  "LB": 4,
+  "RB": 5,
+  "View": 6,
+  "Menu": 7,
+  "Guide": 8,
+  "LS": 9,
+  "RS": 10,
+  "Share": 11,
+  "Up": 12,
+  "Down": 13,
+  "Left": 14,
+  "Right": 15
+ },
+ "cases": [
+  {
+   "name": "vuoto",
+   "hex": "0100000000000100",
+   "valid": true,
+   "encode": true,
+   "seq": 0,
+   "buttons": 0,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "A",
+   "hex": "0101010000000100",
+   "valid": true,
+   "encode": true,
+   "seq": 1,
+   "buttons": 1,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "A+B",
+   "hex": "0102030000000100",
+   "valid": true,
+   "encode": true,
+   "seq": 2,
+   "buttons": 3,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "su-sinistra",
+   "hex": "0103005000000100",
+   "valid": true,
+   "encode": true,
+   "seq": 3,
+   "buttons": 20480,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "start = Menu",
+   "hex": "0104800000000100",
+   "valid": true,
+   "encode": true,
+   "seq": 4,
+   "buttons": 128,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "select = View",
+   "hex": "0105400000000100",
+   "valid": true,
+   "encode": true,
+   "seq": 5,
+   "buttons": 64,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "guida",
+   "hex": "0106000100000100",
+   "valid": true,
+   "encode": true,
+   "seq": 6,
+   "buttons": 256,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "giù-destra",
+   "hex": "010700a000000100",
+   "valid": true,
+   "encode": true,
+   "seq": 7,
+   "buttons": 40960,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "tutti i bit",
+   "hex": "0108ffff00000100",
+   "valid": true,
+   "encode": false,
+   "seq": 8,
+   "buttons": 65535,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "levetta ai bordi",
+   "hex": "010900009c640100",
+   "valid": true,
+   "encode": true,
+   "seq": 9,
+   "buttons": 0,
+   "lx": -100,
+   "ly": 100,
+   "fg": true
+  },
+  {
+   "name": "levetta fuori scala",
+   "hex": "010a00007f800100",
+   "valid": true,
+   "encode": false,
+   "seq": 10,
+   "buttons": 0,
+   "lx": 100,
+   "ly": -100,
+   "fg": true
+  },
+  {
+   "name": "levetta 101 limitata",
+   "hex": "010e0000659b0100",
+   "valid": true,
+   "encode": false,
+   "seq": 14,
+   "buttons": 0,
+   "lx": 100,
+   "ly": -100,
+   "fg": true
+  },
+  {
+   "name": "secondo piano con levette",
+   "hex": "010f010032ce0000",
+   "valid": true,
+   "encode": false,
+   "seq": 15,
+   "buttons": 0,
+   "lx": 0,
+   "ly": 0,
+   "fg": false
+  },
+  {
+   "name": "flags 0x80 senza primo piano",
+   "hex": "0110020000008000",
+   "valid": true,
+   "encode": false,
+   "seq": 16,
+   "buttons": 0,
+   "lx": 0,
+   "ly": 0,
+   "fg": false
+  },
+  {
+   "name": "seq 255",
+   "hex": "01ff020000000100",
+   "valid": true,
+   "encode": true,
+   "seq": 255,
+   "buttons": 2,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "secondo piano con A",
+   "hex": "010b010000000000",
+   "valid": true,
+   "encode": false,
+   "seq": 11,
+   "buttons": 0,
+   "lx": 0,
+   "ly": 0,
+   "fg": false
+  },
+  {
+   "name": "secondo piano vuoto",
+   "hex": "010c000000000000",
+   "valid": true,
+   "encode": true,
+   "seq": 12,
+   "buttons": 0,
+   "lx": 0,
+   "ly": 0,
+   "fg": false
+  },
+  {
+   "name": "rsv e flag sconosciuti",
+   "hex": "010d01000000815a",
+   "valid": true,
+   "encode": false,
+   "seq": 13,
+   "buttons": 1,
+   "lx": 0,
+   "ly": 0,
+   "fg": true
+  },
+  {
+   "name": "vuoto 0 byte",
+   "hex": "",
+   "valid": false,
+   "reason": "lunghezza"
+  },
+  {
+   "name": "corto 7 byte",
+   "hex": "01000000000001",
+   "valid": false,
+   "reason": "lunghezza"
+  },
+  {
+   "name": "lungo 9 byte",
+   "hex": "010000000000010000",
+   "valid": false,
+   "reason": "lunghezza"
+  },
+  {
+   "name": "versione 0",
+   "hex": "0000000000000100",
+   "valid": false,
+   "reason": "versione"
+  },
+  {
+   "name": "versione 2",
+   "hex": "0200000000000100",
+   "valid": false,
+   "reason": "versione"
+  },
+  {
+   "name": "versione 2 e corto 7 byte",
+   "hex": "02000000000001",
+   "valid": false,
+   "reason": "lunghezza"
+  }
+ ]
+}

@@ -1,0 +1,453 @@
+{
+  "$comment": "Vettori di prova di M5 (docs/M5-PERMESSI.md). Generato da firmware/test/test_crypto/gen-vectors.mjs con il crypto di Node (OpenSSL); il firmware (test_crypto) e il servizio Go devono riprodurre ogni byte. Non modificare a mano.",
+  "format": {
+    "hex": "tutte le stringhe binarie sono esadecimali minuscole",
+    "concat": "pair, auth e KE: concatenazione di byte grezzi, etichette e board in ASCII senza separatori (commit, pk, ns, nd sono i byte, non l'esadecimale)",
+    "sep": "perm-request («req» ␟ id ␟ session ␟ name ␟ tool ␟ arg ␟ at), perm-close («close» ␟ id ␟ reason), perm-reply («rep» ␟ id ␟ decision ␟ nonce) e unpair («unpair» ␟ board): etichetta e campi come testo UTF-8 del JSON (id, nonce in esadecimale; at in decimale), separati da un byte 0x1F, senza 0x1F finale. name ≤ 31, tool ≤ 63, arg ≤ 96 byte, troncati in modo sicuro per UTF-8 prima del mac",
+    "mac": "HMAC-SHA256 troncato ai primi 16 byte (32 caratteri esadecimali)",
+    "sas": "HKDF(Z, salt = T, info = \"calamaio-sas\"): i primi 4 byte (uguali per qualsiasi lunghezza L) come intero big-endian, modulo 1 000 000, 6 cifre con zeri iniziali",
+    "x25519": "RFC 7748: segreto «clampato» e bit alto di u ignorato; un risultato tutto zero si rifiuta",
+    "record": "segreti sulla scheda: 0x01 ‖ iv (12) ‖ tag (16) ‖ cifrato; AES-256-GCM con chiave KE = HMAC_eFuse(\"calamaio-nvs\" ‖ sale) e AAD = nome del record in ASCII («wifi-pass»: password UTF-8 più 0x00; «pair-key»: K, 32 byte). Il record cifrato sta in NVS sotto «<nome>.e», il chiaro (prima di Proteggi le chiavi) sotto «<nome>»"
+  },
+  "standard": {
+    "sha256": [
+      {
+        "name": "FIPS 180-2 «abc»",
+        "data": "616263",
+        "hash": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+      },
+      {
+        "name": "stringa vuota",
+        "data": "",
+        "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "FIPS 180-2 448 bit",
+        "data": "6162636462636465636465666465666765666768666768696768696a68696a6b696a6b6c6a6b6c6d6b6c6d6e6c6d6e6f6d6e6f706e6f7071",
+        "hash": "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+      }
+    ],
+    "hmacSha256": [
+      {
+        "name": "RFC 4231 #1",
+        "key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+        "data": "4869205468657265",
+        "mac": "b0344c61d8db38535ca8afceaf0bf12b881dc200c9833da726e9376c2e32cff7"
+      },
+      {
+        "name": "RFC 4231 #2",
+        "key": "4a656665",
+        "data": "7768617420646f2079612077616e7420666f72206e6f7468696e673f",
+        "mac": "5bdcc146bf60754e6a042426089575c75a003f089d2739839dec58b964ec3843"
+      },
+      {
+        "name": "RFC 4231 #3",
+        "key": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "data": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "mac": "773ea91e36800e46854db8ebd09181a72959098b3ef8c122d9635514ced565fe"
+      },
+      {
+        "name": "RFC 4231 #4",
+        "key": "0102030405060708090a0b0c0d0e0f10111213141516171819",
+        "data": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+        "mac": "82558a389a443c0ea4cc819899f2083a85f0faa3e578f8077a2e3ff46729665b"
+      },
+      {
+        "name": "RFC 4231 #5 (troncato a 128 bit)",
+        "key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+        "data": "546573742057697468205472756e636174696f6e",
+        "mac": "a3b6167473100ee06e0c796c2955552b"
+      },
+      {
+        "name": "RFC 4231 #6",
+        "key": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "data": "54657374205573696e67204c6172676572205468616e20426c6f636b2d53697a65204b6579202d2048617368204b6579204669727374",
+        "mac": "60e431591ee0b67f0d8a26aacbf5b77f8e0bc6213728c5140546040f0ee37f54"
+      },
+      {
+        "name": "RFC 4231 #7",
+        "key": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "data": "5468697320697320612074657374207573696e672061206c6172676572207468616e20626c6f636b2d73697a65206b657920616e642061206c6172676572207468616e20626c6f636b2d73697a6520646174612e20546865206b6579206e6565647320746f20626520686173686564206265666f7265206265696e6720757365642062792074686520484d414320616c676f726974686d2e",
+        "mac": "9b09ffa71b942fcb27635fbcd5b0e944bfdc63644f0713938a7f51535c3a35e2"
+      }
+    ],
+    "hkdfSha256": [
+      {
+        "name": "RFC 5869 A.1",
+        "ikm": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+        "salt": "000102030405060708090a0b0c",
+        "info": "f0f1f2f3f4f5f6f7f8f9",
+        "L": 42,
+        "okm": "3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf34007208d5b887185865"
+      },
+      {
+        "name": "RFC 5869 A.2",
+        "ikm": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+        "salt": "606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+        "info": "b0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+        "L": 82,
+        "okm": "b11e398dc80327a1c8e7f78c596a49344f012eda2d4efad8a050cc4c19afa97c59045a99cac7827271cb41c65e590e09da3275600c2f09b8367793a9aca3db71cc30c58179ec3e87c14c01d5c1f3434f1d87"
+      },
+      {
+        "name": "RFC 5869 A.3",
+        "ikm": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+        "salt": "",
+        "info": "",
+        "L": 42,
+        "okm": "8da4e775a563c18f715f802a063c5a31b8a11f5c5ee1879ec3454e5f3c738d2d9d201395faa4b61a96c8"
+      }
+    ],
+    "x25519": [
+      {
+        "name": "RFC 7748 5.2 #1",
+        "scalar": "a546e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449ac4",
+        "u": "e6db6867583030db3594c1a424b15f7c726624ec26b3353b10a903a6d0ab1c4c",
+        "out": "c3da55379de9c6908e94ea4df28d084f32eccf03491c71f754b4075577a28552"
+      },
+      {
+        "name": "RFC 7748 5.2 #2",
+        "scalar": "4b66e9d4d1b4673c5ad22691957d6af5c11b6421e0ea01d42ca4169e7918ba0d",
+        "u": "e5210f12786811d3f4b7959d0538ae2c31dbe7106fc03c3efc4cd549c715a493",
+        "out": "95cbde9476e8907d7aade45cb4b873f88b595a68799fa152e6f8f7647aac7957"
+      },
+      {
+        "name": "RFC 7748 6.1 Alice·Bob",
+        "scalar": "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a",
+        "u": "de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f",
+        "out": "4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742"
+      },
+      {
+        "name": "RFC 7748 6.1 Bob·Alice",
+        "scalar": "5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb",
+        "u": "8520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a",
+        "out": "4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742"
+      }
+    ],
+    "x25519Base": [
+      {
+        "name": "RFC 7748 6.1 Alice",
+        "scalar": "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a",
+        "pk": "8520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a"
+      },
+      {
+        "name": "RFC 7748 6.1 Bob",
+        "scalar": "5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb",
+        "pk": "de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f"
+      }
+    ],
+    "x25519Iterated": {
+      "name": "RFC 7748 5.2 iterazioni (k = u = 9)",
+      "after1": "422c8e7a6227d7bca1350b3e2bb7279f7897b87bb6854b783c60e80311ae3079",
+      "after1000": "684cf59ba83309552800ef566f2f4d3c1c3887c49360e3875f2eb94d99532c51"
+    },
+    "x25519LowOrder": [
+      {
+        "name": "u = 0",
+        "u": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "name": "u = 1",
+        "u": "0100000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "name": "ordine 8",
+        "u": "e0eb7a7c3b41b8ae1656e3faf19fc46ada098deb9c32b1fd866205165f49b800"
+      }
+    ],
+    "aes256Gcm": [
+      {
+        "name": "McGrew-Viega #13 (AES-256, vuoto)",
+        "key": "0000000000000000000000000000000000000000000000000000000000000000",
+        "iv": "000000000000000000000000",
+        "aad": "",
+        "pt": "",
+        "ct": "",
+        "tag": "530f8afbc74536b9a963b4f1c4cb738b"
+      },
+      {
+        "name": "McGrew-Viega #14",
+        "key": "0000000000000000000000000000000000000000000000000000000000000000",
+        "iv": "000000000000000000000000",
+        "aad": "",
+        "pt": "00000000000000000000000000000000",
+        "ct": "cea7403d4d606b6e074ec5d3baf39d18",
+        "tag": "d0d1c8a799996bf0265b98b5d48ab919"
+      },
+      {
+        "name": "McGrew-Viega #16 (con AAD)",
+        "key": "feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308",
+        "iv": "cafebabefacedbaddecaf888",
+        "aad": "feedfacedeadbeeffeedfacedeadbeefabaddad2",
+        "pt": "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c95956809532fcf0e2449a6b525b16aedf5aa0de657ba637b39",
+        "ct": "522dc1f099567d07f47f37a32a84427d643a8cdcbfe5c0c97598a2bd2555d1aa8cb08e48590dbb3da7b08b1056828838c5f61e6393ba7a0abcc9f662",
+        "tag": "76fc6ece0f4e1768cddf8853bb2d551b"
+      }
+    ]
+  },
+  "flow": {
+    "board": "calamaio-3f2a",
+    "pair": {
+      "id": "p7",
+      "skS": "edb7442edea78e3f4dd089a2a8ac142d3fae331b16eb0b19fedd7ae11ed17369",
+      "pkS": "b3d8cf94a51157d4feff5c8b6a652c96dec112b4ca2dc71d663821b4a248857b",
+      "commit": "ea9dc0cdc6917dcca45d2df3178ffb59934fac89ca1f86939054444ea7e71571",
+      "skD": "bf1c605a0b5bc4eac989691d5273772fca475845a8a5c13f8ca14fdb4916feff",
+      "pkD": "21349ff35a74f3cfe469402550191ff05edb5ad6bc1a584b6c29bf2943ce6e15",
+      "Z": "43d58bbea20da4aaf47b30e9841402544868fb5e4f8ed1b096276ccc384bdf69",
+      "Tinput": "63616c616d61696f2d706169722d763163616c616d61696f2d33663261ea9dc0cdc6917dcca45d2df3178ffb59934fac89ca1f86939054444ea7e7157121349ff35a74f3cfe469402550191ff05edb5ad6bc1a584b6c29bf2943ce6e15b3d8cf94a51157d4feff5c8b6a652c96dec112b4ca2dc71d663821b4a248857b",
+      "T": "b02660e6d4e7b6b61a3065f94fcad9eceaecb86a3ca3380c0b794cfb2fb191b9",
+      "K": "3d9c852a2bcba1e6337f46470998e3bd093d70c3a6fcaa006c4f7875a15e6ba0",
+      "sasBytes": "44accd251d5943aa4d5dc7bf96c1a02d34bb124d57e940ec460b647501a988f8",
+      "sasInt": 1152175397,
+      "sas": "175397",
+      "pairConfirmMac": "b0da518010b82314a49e74266482cc00",
+      "pairDoneMac": "66cd1556e662be79085ba22096fefc7b",
+      "messages": [
+        {
+          "t": "pair-begin",
+          "v": 1,
+          "id": "p7",
+          "commit": "ea9dc0cdc6917dcca45d2df3178ffb59934fac89ca1f86939054444ea7e71571"
+        },
+        {
+          "t": "pair-key",
+          "v": 1,
+          "id": "p7",
+          "pkD": "21349ff35a74f3cfe469402550191ff05edb5ad6bc1a584b6c29bf2943ce6e15"
+        },
+        {
+          "t": "pair-reveal",
+          "v": 1,
+          "id": "p7",
+          "pkS": "b3d8cf94a51157d4feff5c8b6a652c96dec112b4ca2dc71d663821b4a248857b"
+        },
+        {
+          "t": "pair-confirm",
+          "v": 1,
+          "id": "p7",
+          "mac": "b0da518010b82314a49e74266482cc00"
+        },
+        {
+          "t": "pair-done",
+          "v": 1,
+          "id": "p7",
+          "mac": "66cd1556e662be79085ba22096fefc7b"
+        }
+      ],
+      "wrongCode": {
+        "t": "pair-abort",
+        "v": 1,
+        "id": "p7",
+        "reason": "codice"
+      }
+    },
+    "auth": {
+      "ns": "c0fc17cb1b5243386211f722afcf80b3",
+      "nd": "55d0e39191a1a9b2a682b829cfdd8c38",
+      "authInput": "617574682d6463616c616d61696f2d33663261c0fc17cb1b5243386211f722afcf80b355d0e39191a1a9b2a682b829cfdd8c38",
+      "authMac": "8a4ae03bf68939305f3129748133ad36",
+      "authOkInput": "617574682d7363616c616d61696f2d3366326155d0e39191a1a9b2a682b829cfdd8c38c0fc17cb1b5243386211f722afcf80b3",
+      "authOkMac": "650a86786241b29e0f270eedda363527",
+      "SK": "81a3f3f03e37e33781fda3a8cef3efb6b583a0a59a131ec8620c3b7d9fb194e0",
+      "messages": [
+        {
+          "t": "auth-challenge",
+          "v": 1,
+          "ns": "c0fc17cb1b5243386211f722afcf80b3"
+        },
+        {
+          "t": "auth",
+          "v": 1,
+          "nd": "55d0e39191a1a9b2a682b829cfdd8c38",
+          "mac": "8a4ae03bf68939305f3129748133ad36"
+        },
+        {
+          "t": "auth-ok",
+          "v": 1,
+          "mac": "650a86786241b29e0f270eedda363527"
+        }
+      ]
+    },
+    "permRequest": [
+      {
+        "fields": {
+          "id": "3783003f4af5b89369046e1d55a95199",
+          "session": "8c1d4e2a-6b3f-4c5d-9e7f-0a1b2c3d4e5f",
+          "name": "web-app",
+          "tool": "Bash",
+          "arg": "npm run test",
+          "at": 1791707400000
+        },
+        "macInput": "7265711f33373833303033663461663562383933363930343665316435356139353139391f38633164346532612d366233662d346335642d396537662d3061316232633364346535661f7765622d6170701f426173681f6e706d2072756e20746573741f31373931373037343030303030",
+        "mac": "d38983d200c0a5bd9dda2c27c172f2ef",
+        "message": {
+          "t": "perm-request",
+          "v": 1,
+          "id": "3783003f4af5b89369046e1d55a95199",
+          "session": "8c1d4e2a-6b3f-4c5d-9e7f-0a1b2c3d4e5f",
+          "name": "web-app",
+          "tool": "Bash",
+          "arg": "npm run test",
+          "at": 1791707400000,
+          "mac": "d38983d200c0a5bd9dda2c27c172f2ef"
+        }
+      },
+      {
+        "fields": {
+          "id": "f648db9d4e120176554ca4073250b10f",
+          "session": "8c1d4e2a-6b3f-4c5d-9e7f-0a1b2c3d4e5f",
+          "name": "web-app",
+          "tool": "Edit",
+          "arg": "src/città/perché.ts",
+          "at": 1791707461000
+        },
+        "macInput": "7265711f66363438646239643465313230313736353534636134303733323530623130661f38633164346532612d366233662d346335642d396537662d3061316232633364346535661f7765622d6170701f456469741f7372632f63697474c3a02f7065726368c3a92e74731f31373931373037343631303030",
+        "mac": "bdaff79810829bfef435980cae7fc346",
+        "message": {
+          "t": "perm-request",
+          "v": 1,
+          "id": "f648db9d4e120176554ca4073250b10f",
+          "session": "8c1d4e2a-6b3f-4c5d-9e7f-0a1b2c3d4e5f",
+          "name": "web-app",
+          "tool": "Edit",
+          "arg": "src/città/perché.ts",
+          "at": 1791707461000,
+          "mac": "bdaff79810829bfef435980cae7fc346"
+        }
+      }
+    ],
+    "permReply": [
+      {
+        "fields": {
+          "id": "3783003f4af5b89369046e1d55a95199",
+          "decision": "allow",
+          "nonce": "bf6c105a91d353c0be23deb4be067d28"
+        },
+        "macInput": "7265701f33373833303033663461663562383933363930343665316435356139353139391f616c6c6f771f6266366331303561393164333533633062653233646562346265303637643238",
+        "mac": "085f59fd7103be2688db24bbfd82ec3c",
+        "message": {
+          "t": "perm-reply",
+          "v": 1,
+          "id": "3783003f4af5b89369046e1d55a95199",
+          "decision": "allow",
+          "nonce": "bf6c105a91d353c0be23deb4be067d28",
+          "mac": "085f59fd7103be2688db24bbfd82ec3c"
+        }
+      },
+      {
+        "fields": {
+          "id": "f648db9d4e120176554ca4073250b10f",
+          "decision": "deny",
+          "nonce": "edad2dccca046bbf27801a48bd55c236"
+        },
+        "macInput": "7265701f66363438646239643465313230313736353534636134303733323530623130661f64656e791f6564616432646363636130343662626632373830316134386264353563323336",
+        "mac": "49e39da82bacdab6328b25a0188125e5",
+        "message": {
+          "t": "perm-reply",
+          "v": 1,
+          "id": "f648db9d4e120176554ca4073250b10f",
+          "decision": "deny",
+          "nonce": "edad2dccca046bbf27801a48bd55c236",
+          "mac": "49e39da82bacdab6328b25a0188125e5"
+        }
+      }
+    ],
+    "permClose": {
+      "fields": {
+        "id": "3783003f4af5b89369046e1d55a95199",
+        "reason": "terminal"
+      },
+      "macInput": "636c6f73651f33373833303033663461663562383933363930343665316435356139353139391f7465726d696e616c",
+      "mac": "1fefbb95e1cd0d5cb83a47da48653abe",
+      "message": {
+        "t": "perm-close",
+        "v": 1,
+        "id": "3783003f4af5b89369046e1d55a95199",
+        "reason": "terminal",
+        "mac": "1fefbb95e1cd0d5cb83a47da48653abe"
+      }
+    },
+    "negative": {
+      "permRequestNameAltered": {
+        "expect": "rifiutato",
+        "why": "name è nel mac",
+        "message": {
+          "t": "perm-request",
+          "v": 1,
+          "id": "3783003f4af5b89369046e1d55a95199",
+          "session": "8c1d4e2a-6b3f-4c5d-9e7f-0a1b2c3d4e5f",
+          "name": "altra-sessione",
+          "tool": "Bash",
+          "arg": "npm run test",
+          "at": 1791707400000,
+          "mac": "d38983d200c0a5bd9dda2c27c172f2ef"
+        }
+      },
+      "permRequestNameTooLong": {
+        "expect": "rifiutato",
+        "why": "name oltre 31 byte (il servizio tronca prima del mac)",
+        "message": {
+          "t": "perm-request",
+          "v": 1,
+          "id": "3783003f4af5b89369046e1d55a95199",
+          "session": "8c1d4e2a-6b3f-4c5d-9e7f-0a1b2c3d4e5f",
+          "name": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+          "tool": "Bash",
+          "arg": "npm run test",
+          "at": 1791707400000,
+          "mac": "d38983d200c0a5bd9dda2c27c172f2ef"
+        }
+      },
+      "permCloseNoMac": {
+        "expect": "ignorato",
+        "why": "perm-close senza mac",
+        "message": {
+          "t": "perm-close",
+          "v": 1,
+          "id": "3783003f4af5b89369046e1d55a95199",
+          "reason": "terminal"
+        }
+      },
+      "permCloseBadMac": {
+        "expect": "ignorato",
+        "why": "perm-close con mac sbagliato",
+        "message": {
+          "t": "perm-close",
+          "v": 1,
+          "id": "3783003f4af5b89369046e1d55a95199",
+          "reason": "terminal",
+          "mac": "228a46a330ce703d9fd212458d50c5ee"
+        }
+      }
+    },
+    "unpair": {
+      "macInput": "756e706169721f63616c616d61696f2d33663261",
+      "mac": "8cd02848ca72a847b501222d15b058ef",
+      "message": {
+        "t": "unpair",
+        "v": 1,
+        "mac": "8cd02848ca72a847b501222d15b058ef"
+      }
+    },
+    "vault": {
+      "efuseKey": "2d2a098081e6025b7f3052391ab3600f5798a77ef523e8656eaeda8e9a410432",
+      "salt": "dffe782d8d866dac12a4db4cba4ac01f",
+      "keInput": "63616c616d61696f2d6e7673dffe782d8d866dac12a4db4cba4ac01f",
+      "KE": "8279d80ff6537b140c64d6075feb8641687795723e0bb017019ac74b921621d1",
+      "records": [
+        {
+          "name": "wifi-pass",
+          "plaintext": "736567726574612d31323300",
+          "iv": "675116fb5aa48fe69caf4c24",
+          "record": "01675116fb5aa48fe69caf4c246322ec2148d04df29d9ec327767c785d277ef186781fd03210d96b97"
+        },
+        {
+          "name": "pair-key",
+          "plaintext": "3d9c852a2bcba1e6337f46470998e3bd093d70c3a6fcaa006c4f7875a15e6ba0",
+          "iv": "d7251df0b3afc5e4fa939402",
+          "record": "01d7251df0b3afc5e4fa93940202afe69570df4922205496f64539365019aa22cd85bc2f306ca5b404acf54d65af54aa6573d9a7c80aaf8ef2214fce2b"
+        }
+      ]
+    }
+  }
+}

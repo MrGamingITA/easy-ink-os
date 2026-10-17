@@ -1,0 +1,1 @@
+{"t":"crash","v":1,"fw":"0.7.0","reason":"LoadProhibited","exc":"EXCCAUSE 28","task":"loopTask","pc":"0x42012a3c","backtrace":["0x42012a39:0x3fcebf00","0x4200b8f2:0x3fcebf30","0x42019d77:0x3fcebf60"],"last":"[903112] [ui] refresh parziale 644 ms","elf":"bf9fc49ac40ee901"}

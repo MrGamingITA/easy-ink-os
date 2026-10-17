@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calamaio OS · versione da browser</title>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>body{background:#E7EAEE}</style>
+</head>
+<body>
+<nav class="topbar" aria-label="Pagine">
+  <a class="brand" href="index.html" aria-current="page">Calamaio OS</a>
+  <a href="panoramica.html">Panoramica</a>
+  <a href="navigazione.html">Navigazione</a>
+  <a href="novita-0-2.html">Novità 0.2</a>
+  <span class="sep" aria-hidden="true"></span><span class="lbl">Test</span>
+  <a href="test-heltec-wireless-paper.html">Heltec 2,13″</a>
+  <a href="test-lilygo-t5-213.html">T5 2,13″</a>
+  <a href="test-crowpanel-42.html">CrowPanel 4,2″</a>
+  <a href="test-crowpanel-579.html">CrowPanel 5,79″</a>
+  <a href="test-lilygo-t5-47.html">T5 4,7″</a>
+  <a href="test-reterminal-e1001.html">reTerminal 7,5″</a>
+  <span class="sep" aria-hidden="true"></span><a href="docs/Calamaio-OS-guida.pdf">Guida PDF</a>
+</nav>
+<main class="home">
+  <header>
+    <p class="kicker">Bozza 0.2 · sistema per display e-ink · Claude Code</p>
+    <h1>Calamaio OS</h1>
+    <p class="lead">Il progetto di design in pagine HTML da aprire nel browser, anche senza internet. Le tavole di sistema spiegano come funziona; i banchi TEST simulano ogni dispositivo con i suoi tasti.</p>
+  </header>
+
+  <section class="section">
+    <h2>Sistema</h2>
+    <div class="grid">
+<a class="card" href="panoramica.html"><img src="assets/anteprime/panoramica.png" alt="" loading="lazy"><span class="body"><span class="t">Panoramica</span><span class="d">Mascotte, classi di schermo, profili di animazione, barra di stato.</span></span></a>
+<a class="card" href="navigazione.html"><img src="assets/anteprime/navigazione.png" alt="" loading="lazy"><span class="body"><span class="t">Navigazione</span><span class="d">Mappa dei menu e gesti per ogni tipo di tasti.</span></span></a>
+<a class="card" href="novita-0-2.html"><img src="assets/anteprime/novita-0-2.png" alt="" loading="lazy"><span class="body"><span class="t">Novità 0.2</span><span class="d">Limiti, riepiloghi, strumenti, hook diretti e accessori.</span></span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>TEST · un banco per ogni dispositivo</h2>
+    <div class="grid">
+<a class="card" href="test-heltec-wireless-paper.html"><img src="assets/anteprime/test-heltec-wireless-paper.png" alt="" loading="lazy"><span class="body"><span class="t">Heltec Wireless Paper 2,13″</span><span class="d">Un tasto (PRG), 250×122.</span></span></a>
+<a class="card" href="test-lilygo-t5-213.html"><img src="assets/anteprime/test-lilygo-t5-213.png" alt="" loading="lazy"><span class="body"><span class="t">LilyGO T5 V2.4 2,13″</span><span class="d">Un tasto (IO39), 250×122.</span></span></a>
+<a class="card" href="test-crowpanel-42.html"><img src="assets/anteprime/test-crowpanel-42.png" alt="" loading="lazy"><span class="body"><span class="t">CrowPanel ESP32‑S3 4,2″</span><span class="d">Rotella, MENU, EXIT, 400×300.</span></span></a>
+<a class="card" href="test-crowpanel-579.html"><img src="assets/anteprime/test-crowpanel-579.png" alt="" loading="lazy"><span class="body"><span class="t">CrowPanel ESP32‑S3 5,79″</span><span class="d">Rotella, MENU, EXIT, 792×272.</span></span></a>
+<a class="card" href="test-lilygo-t5-47.html"><img src="assets/anteprime/test-lilygo-t5-47.png" alt="" loading="lazy"><span class="body"><span class="t">LilyGO T5 4,7″ S3</span><span class="d">Un tasto e tocco, 960×540, 16 grigi.</span></span></a>
+<a class="card" href="test-reterminal-e1001.html"><img src="assets/anteprime/test-reterminal-e1001.png" alt="" loading="lazy"><span class="body"><span class="t">Seeed reTerminal E1001 7,5″</span><span class="d">Tre tasti, cicalino, LED, 800×480.</span></span></a>
+    </div>
+  </section>
+
+  <section class="doc">
+    <p><strong>Guida illustrata in PDF</strong>Funzioni, schermate, collegamenti e funzionamento sull’hardware reale.</p>
+    <a class="btn" href="docs/Calamaio-OS-guida.pdf">Apri la guida</a>
+  </section>
+
+  <section class="section">
+    <h2>Com’è fatta questa cartella</h2>
+    <div class="notes">
+      <div class="note"><h3>Pagine</h3><ul><li><code>index.html</code> è questa pagina.</li><li>Una pagina per tavola di sistema e una per banco TEST.</li><li>Ogni pagina contiene il suo template in un tag <code>&lt;template&gt;</code>.</li></ul></div>
+      <div class="note"><h3>Script</h3><ul><li><code>assets/dc-lite.js</code> legge i template: segnaposto, condizioni, liste, eventi.</li><li><code>assets/calamaio-test.js</code> è il simulatore: disegno degli schermi, menu, gesti, refresh e-ink.</li></ul></div>
+      <div class="note"><h3>Senza internet</h3><ul><li>I font sono in <code>assets/fonts</code>, con le loro licenze.</li><li>Nessun server: basta il doppio clic su <code>index.html</code>.</li><li>Funziona in Chrome, Edge, Firefox e Safari recenti.</li></ul></div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

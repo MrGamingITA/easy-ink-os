@@ -1,0 +1,26 @@
+.DS_Store
+# Backup del firmware di fabbrica: binari grandi e specifici della scheda, non vanno nel repository
+backup-fabbrica/
+*.zip
+# Catture grezze: contengono prompt, percorsi e output reali. Nel repository solo le fixture riviste.
+protocol/samples/capture-*.jsonl
+# Build
+firmware/test/roms/.fetched/
+service/calamaio
+service/dist/
+firmware/.pio/
+.venv/
+__pycache__/
+tools/sim-capture/fw/
+tools/sim-capture/diff/
+
+# stato locale della skill github-publish
+.github-publish/
+# Timbro del test di parità dei temi (service/internal/webui/theme_parity_test.go): tiene il test fuori dalla cache
+service/internal/webui/.theme-parity-nocache
+
+# Output di build PlatformIO (qualsiasi profondità)
+.pio/
+
+# Dati personali da tenere fuori dalle immagini (tools/screenshots/make.mjs)
+tools/screenshots/vietati.local.txt

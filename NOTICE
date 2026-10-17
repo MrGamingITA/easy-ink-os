@@ -1,0 +1,27 @@
+EIO — Easy Ink OS (nome in codice: Calamaio)
+Copyright (c) 2026 MrGamingITA (https://github.com/MrGamingITA)
+
+Autore originale: MrGamingITA.
+
+Questo progetto è distribuito con la licenza Creative Commons
+Attribuzione - Non commerciale - Condividi allo stesso modo 4.0 Internazionale
+(CC BY-NC-SA 4.0), testo completo nel file LICENSE.
+
+Chi ridistribuisce il progetto, intero o modificato, deve:
+- citare MrGamingITA come autore originale, con il link a https://github.com/MrGamingITA,
+  e indicare se ha fatto modifiche;
+- conservare questo file NOTICE e il file LICENSE;
+- pubblicare le versioni modificate con la stessa licenza.
+
+L'uso commerciale (vendere il progetto o prodotti che lo contengono, anche in parte)
+non è permesso senza l'autorizzazione scritta di MrGamingITA.
+Per chiederla: https://github.com/MrGamingITA
+
+Componenti di terzi, ciascuno con la propria licenza (testo accanto ai file):
+- Peanut-GB, firmware/lib/peanut_gb/ — MIT, Mahyar Koshkouei
+- QRCode, firmware/src/gfx/qr/ — MIT, Richard Moore (qrcode_ricmoo.LICENSE.txt)
+- TweetNaCl, firmware/src/core/crypto_soft.cpp — pubblico dominio
+- dmg-acid2 (ROM di prova), firmware/test/roms/ — MIT, Matt Currie
+- esptool-js, pako, atob-lite, service/internal/webui/static/vendor/esptool-js-0.7.0/ — licenze nei file LICENSE-*.txt
+- caratteri Chakra Petch, Silkscreen, IBM Plex Sans e Mono — SIL Open Font License 1.1 (cartelle licenze/ e fonts/)
+Le librerie scaricate in fase di compilazione (PlatformIO, moduli Go) restano con le loro licenze.

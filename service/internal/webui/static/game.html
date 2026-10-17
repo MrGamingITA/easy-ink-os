@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gioco · Calamaio OS</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/app.css">
+<script type="module" src="assets/js/game-page.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+<nav class="topbar" aria-label="Pagine">
+  <a class="brand" href="./">Calamaio OS</a>
+  <a href="./">Panoramica</a>
+  <a href="avatars.html">Avatar</a>
+  <a href="game.html" aria-current="page">Gioco</a>
+  <a href="device.html">Dispositivo</a>
+  <a href="firmware.html">Firmware</a>
+  <a href="editor.html">Editor schermate <span class="badge beta">Beta</span></a>
+  <span class="conn" id="conn" role="status"><span class="conn-text">collegamento…</span></span>
+</nav>
+<main class="home" id="main">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="kicker">Gioco della mascotte</p>
+      <h1>Gioco</h1>
+      <p class="lead">Lavorando con Claude Code la mascotte guadagna esperienza, sale di livello e sblocca accessori da indossare sul display. È un gioco gentile: niente punti per i permessi, i costi o le ore filate, e una pausa ogni tanto vale più di una nottata.</p>
+    </div>
+    <figure class="goccia" aria-live="polite">
+      <canvas></canvas>
+      <figcaption><span class="goccia-label"></span><span class="goccia-text"></span></figcaption>
+    </figure>
+  </header>
+
+  <p class="alert error" id="err" role="alert"></p>
+  <p class="alert ok" id="msg" role="status" aria-live="polite"></p>
+
+  <section class="section" aria-labelledby="h-state">
+    <div class="section-head">
+      <p class="kicker" id="state-kicker">Stato</p>
+      <h2 id="h-state">La mascotte oggi</h2>
+    </div>
+    <div class="game-stats" id="stats"></div>
+  </section>
+
+  <section class="section" id="special-sec" aria-labelledby="h-special" hidden>
+    <div class="section-head">
+      <p class="kicker">Premio</p>
+      <h2 id="h-special">Accessorio speciale</h2>
+    </div>
+    <div id="special"></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-acc">
+    <div class="section-head">
+      <p class="kicker" id="acc-count">Accessori</p>
+      <h2 id="h-acc">Galleria degli accessori</h2>
+      <p>Ogni accessorio su ogni avatar, animato come sul display. Si sbloccano a ogni livello pari, nell’ordine del catalogo; quando il catalogo è finito, ogni nuovo traguardo dà diritto a un accessorio speciale disegnato da Claude.</p>
+    </div>
+    <fieldset class="seg" id="pose-pick">
+      <legend>Posa dell’anteprima</legend>
+      <div class="seg-opts" id="pose-opts"></div>
+    </fieldset>
+    <p class="muted" id="no-anchors"></p>
+    <div id="gallery" class="acc-gallery"></div>
+    <div id="problems"></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-hist">
+    <div class="section-head">
+      <p class="kicker">Ultimi 30 giorni</p>
+      <h2 id="h-hist">XP per giorno</h2>
+      <p id="hist-note">Il tetto è di 300 XP al giorno; dalle 00 alle 06 il lavoro non conta.</p>
+    </div>
+    <div class="note" id="history"></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-ach">
+    <div class="section-head">
+      <p class="kicker" id="ach-count">Traguardi</p>
+      <h2 id="h-ach">Traguardi</h2>
+    </div>
+    <div class="ach-cols" id="achievements"></div>
+  </section>
+</main>
+
+<dialog class="modal" id="dlg-special" aria-labelledby="dlg-special-title">
+  <form method="dialog">
+    <h2 id="dlg-special-title">Crea un accessorio speciale</h2>
+    <p>L’accessorio lo disegna Claude, in una sessione di Claude Code collegata a Calamaio (con la skill <code>calamaio</code> attiva nel progetto):</p>
+    <ol class="steps-list">
+      <li>Apri Claude Code nel progetto in cui lavori.</li>
+      <li>Scrivi la richiesta qui sotto (puoi aggiungere un’idea: «una corona di stelle», «un cappello da pirata»).</li>
+      <li>Claude usa la skill <code>calamaio:accessorio</code>: disegna, controlla l’anteprima su tutti gli avatar, corregge e lo aggiunge con <code>calamaio accessory add --special</code>.</li>
+      <li>L’accessorio arriva sulla scheda senza riflashare, già indossato.</li>
+    </ol>
+    <p class="hash" id="special-prompt"></p>
+    <div class="card-actions">
+      <button class="btn" type="button" id="copy-prompt">Copia la richiesta</button>
+      <button class="btn secondary" value="close">Chiudi</button>
+    </div>
+    <p class="muted" id="copy-note" role="status"></p>
+  </form>
+</dialog>
+</body>
+</html>

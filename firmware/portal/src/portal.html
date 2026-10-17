@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calamaio OS · Wi-Fi</title>
+<style>
+/*@@FONTS@@*/
+:root{--paper:rgb(214,215,207);--ink:rgb(30,32,34)}
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+html,body{background:var(--paper);color:var(--ink)}
+body{font:600 17px/1.35 "Chakra Petch","Arial Narrow",sans-serif;max-width:440px;margin:0 auto;padding:0 0 28px}
+.px{font-family:"Silkscreen",monospace;font-weight:400;font-size:13px;letter-spacing:.5px;text-transform:uppercase}
+.px b{font-weight:400}
+header{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:var(--paper);padding:8px 12px}
+.hero{display:flex;align-items:center;gap:14px;padding:16px 14px 8px}
+canvas{image-rendering:pixelated;image-rendering:crisp-edges;width:112px;height:116px;flex:none}
+h1{font-size:24px;font-weight:700;line-height:1.1}
+.sub{font-weight:600;margin-top:6px}
+main{padding:4px 14px}
+.dots{border-top:2px dotted var(--ink);margin:12px 0}
+ul{list-style:none;border:2px solid var(--ink)}
+li+li{border-top:2px dotted var(--ink)}
+button,.btn{font:700 17px "Chakra Petch","Arial Narrow",sans-serif;color:var(--ink);background:var(--paper);border:2px solid var(--ink);padding:10px 12px;width:100%;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none}
+ul button{border:0;display:flex;justify-content:space-between;align-items:center;gap:10px}
+button:active,ul button:focus,button.sel{background:var(--ink);color:var(--paper);outline:0}
+button:active .bars i,button.sel .bars i{background:var(--paper)}
+.go{text-align:center;background:var(--ink);color:var(--paper);margin-top:12px}
+.go:active{background:var(--paper);color:var(--ink)}
+.go:disabled{opacity:.45}
+.row{display:flex;gap:10px;margin-top:12px}
+.row button{text-align:center;margin:0}
+.ssid{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.meta{display:flex;align-items:center;gap:8px;flex:none}
+.bars{display:inline-flex;align-items:flex-end;gap:2px;height:14px}
+.bars i{display:block;width:4px;background:var(--ink)}
+.bars i.off{background:transparent;border:1px solid currentColor}
+label{display:block;margin:14px 0 6px}
+input{font:600 18px "Chakra Petch","Arial Narrow",sans-serif;color:var(--ink);background:var(--paper);border:2px solid var(--ink);padding:10px;width:100%;-webkit-appearance:none;appearance:none}
+input:focus{outline:3px solid var(--ink);outline-offset:0}
+.check{display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:600}
+.check input{width:22px;height:22px;padding:0;accent-color:var(--ink)}
+.note{margin-top:12px;font-weight:500;font-size:15px}
+.err{background:var(--ink);color:var(--paper);padding:8px 10px;margin-top:12px}
+dl{display:grid;grid-template-columns:auto 1fr;border:2px solid var(--ink)}
+dt,dd{padding:7px 10px;border-top:2px dotted var(--ink)}
+dt:first-of-type,dd:first-of-type{border-top:0}
+dd{font-weight:700;text-align:right;overflow-wrap:anywhere}
+.hide{display:none}
+footer{padding:16px 14px 0}
+</style>
+</head>
+<body>
+<header><span class="px"><b>Calamaio OS</b></span><span class="px" id="board">calamaio</span></header>
+<div class="hero">
+  <canvas id="goccia" width="28" height="29" aria-hidden="true"></canvas>
+  <div><h1 id="title">Configura il Wi-Fi</h1><p class="sub" id="subtitle">Scegli la rete di casa.</p></div>
+</div>
+<main>
+  <!-- 1. scelta della rete -->
+  <section id="v-list">
+    <p class="px" id="list-label">Reti vicine</p>
+    <ul id="nets"><li><button disabled><span class="ssid">Ricerca reti…</span></button></li></ul>
+    <div class="row">
+      <button id="rescan" type="button">Cerca di nuovo</button>
+      <button id="other" type="button">Altra rete</button>
+    </div>
+  </section>
+  <!-- 2. password (funziona anche senza JavaScript: POST /save) -->
+  <section id="v-pass" class="hide">
+    <form id="form" method="post" action="/save">
+      <label class="px" for="ssid">Rete</label>
+      <input id="ssid" name="ssid" maxlength="32" autocomplete="off" autocapitalize="none" spellcheck="false" required>
+      <label class="px" for="pass">Password</label>
+      <input id="pass" name="pass" type="password" maxlength="63" autocomplete="off" autocapitalize="none" spellcheck="false">
+      <label class="check"><input id="show" type="checkbox"> Mostra la password</label>
+      <p class="err hide" id="pass-err"></p>
+      <button class="go" type="submit">Collega</button>
+      <div class="row"><button id="back" type="button">Indietro</button></div>
+    </form>
+  </section>
+  <!-- 3. attesa, 4. esito -->
+  <!-- 2b. lista piena (5 reti salvate): quale togliere per far posto alla nuova -->
+  <section id="v-drop" class="hide">
+    <p class="px">Reti salvate</p>
+    <ul id="saved"></ul>
+    <p class="note">La rete scelta si toglie solo se il display riesce a collegarsi a quella nuova. Dopo, il display si riavvia per cancellare anche la sua password dalla memoria.</p>
+    <button class="go" id="drop-go" type="button" disabled>Togli e collega</button>
+    <div class="row"><button id="drop-back" type="button">Indietro</button></div>
+  </section>
+  <section id="v-wait" class="hide">
+    <p class="note" id="wait-note">Il display mostra «Connessione a …». Il telefono può staccarsi per un attimo dalla rete Calamaio: è normale.</p>
+  </section>
+  <section id="v-done" class="hide">
+    <dl id="done-info"></dl>
+    <p class="note">Puoi chiudere questa pagina. Ora il display cerca il servizio Calamaio sul PC.</p>
+  </section>
+  <section id="v-fail" class="hide">
+    <p class="note">Controlla la password e che la rete sia a 2,4 GHz: il display non vede le reti a 5 GHz.</p>
+    <button class="go" id="retry" type="button">Riprova</button>
+  </section>
+  <!-- stato (pagina / quando il display è già in rete) -->
+  <section id="v-info" class="hide">
+    <dl id="info"></dl>
+    <button class="go" id="change" type="button">Aggiungi rete</button>
+    <div class="dots"></div>
+    <!-- 0.12.1: indirizzo del PC per questa rete, se mDNS non passa (POST /api/pc) -->
+    <form id="pc-form">
+      <label class="px" for="pc-host">Indirizzo del PC</label>
+      <input id="pc-host" name="host" maxlength="21" placeholder="192.168.1.20" autocomplete="off" autocapitalize="none" spellcheck="false">
+      <p class="note">Facoltativo, vale per questa rete: serve solo se il display non trova il PC da solo. Scrivi l'IP del PC, con la porta se non è 8766. Vuoto cancella.</p>
+      <p class="err hide" id="pc-err"></p>
+      <p class="note hide" id="pc-ok"></p>
+      <button class="go" type="submit">Salva indirizzo</button>
+    </form>
+  </section>
+</main>
+<footer class="px" id="foot">Calamaio OS · configurazione</footer>
+<script>
+'use strict';
+// ---- Goccia: mascot() e HW copiati dal simulatore (reference/calamaio-os-browser/assets/calamaio-test.js) ----
+const INK = 'rgb(30,32,34)', PAPER = 'rgb(214,215,207)';
+/*@@MASCOT@@*/
+// ---- animazione: 4 fotogrammi ciclici, posa secondo la pagina ----
+const cv = document.getElementById('goccia'), cx = cv.getContext('2d');
+let pose = 'input', frame = 0;
+function paint() {
+  cx.fillStyle = PAPER; cx.fillRect(0, 0, cv.width, cv.height);
+  mascot(cx, 0, 3, 1, pose, frame);  // oy = 3: il salto di «done» sale fino a −3
+}
+setInterval(function () { frame = (frame + 1) % 4; paint(); }, 450);
+paint();
+
+// ---- dati: scheda vera (/api/…) oppure prova dal Mac (file:// o ?demo) ----
+const DEMO = location.protocol === 'file:' || /[?&]demo/.test(location.search);
+const demo = { mode: /[?&]modo=sta/.test(location.search) ? 'sta' : 'ap', st: 'wait', ssid: '', t: 0,
+  // ?piena: 5 reti salvate (il portale chiede quale togliere); ?nuova: nessuna rete salvata (prima configurazione)
+  saved: /[?&]piena/.test(location.search) ? ['CasaWiFi', 'Officina', 'Casa Mare', 'Laboratorio', 'Ufficio']
+       : /[?&]nuova/.test(location.search) ? [] : ['CasaWiFi', 'Casa Mare'],
+  pcManual: '',
+  nets: [{ s: 'CasaWiFi', r: -54, l: 1 }, { s: 'Officina', r: -66, l: 1 }, { s: 'Ospiti', r: -71, l: 0 },
+         { s: 'TIM-29384712', r: -79, l: 1 }, { s: 'Vodafone-A1B2', r: -86, l: 1 }] };
+function demoStatus() {
+  if (demo.st === 'join' && Date.now() - demo.t > 3000) demo.st = demo.pass === 'sbagliata' ? 'fail' : 'ok';
+  return { mode: demo.mode, st: demo.st, ssid: demo.ssid || 'CasaWiFi', ip: '192.168.1.42', board: 'calamaio-48e8',
+           ap: 'Calamaio-48E8', fw: '0.8.0', rssi: -58, pc: true, pcHost: 'mac-sviluppo.local', sessions: 4,
+           saved: demo.saved, max: 5, pcManual: demo.pcManual, pcLast: '192.168.1.30:8766' };
+}
+function api(path, body, cb) {
+  if (DEMO) {
+    setTimeout(function () {
+      if (path.indexOf('/api/nets') === 0) cb(demo.nets);
+      else if (path === '/api/pc') {
+        const h = body.host.trim();
+        if (h && !/^\d{1,3}(\.\d{1,3}){3}(:\d{1,5})?$/.test(h)) { cb({ ok: false, err: 'indirizzo non valido: scrivi un IPv4, per esempio 192.168.1.20 o 192.168.1.20:8766' }); return; }
+        demo.pcManual = h.replace(/:8766$/, ''); cb({ ok: true, host: demo.pcManual });
+      }
+      else if (path === '/api/save') {
+        if (demo.saved.indexOf(body.ssid) < 0 && demo.saved.length >= 5 && demo.saved.indexOf(body.drop) < 0) { cb({ ok: false, full: true }); return; }
+        demo.ssid = body.ssid; demo.pass = body.pass; demo.st = 'join'; demo.t = Date.now(); cb({ ok: true });
+      }
+      else cb(demoStatus());
+    }, path.indexOf('rescan') > 0 ? 1500 : 150);
+    return;
+  }
+  const x = new XMLHttpRequest();
+  x.open(body ? 'POST' : 'GET', path);
+  x.timeout = path.indexOf('rescan') > 0 ? 15000 : 5000;
+  x.onload = function () { let j = null; try { j = JSON.parse(x.responseText); } catch (e) {} cb(j); };
+  x.onerror = x.ontimeout = function () { cb(null); };
+  if (body) {
+    x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    x.send(Object.keys(body).map(function (k) { return k + '=' + encodeURIComponent(body[k]); }).join('&'));
+  } else x.send();
+}
+
+// ---- viste ----
+const $ = function (id) { return document.getElementById(id); };
+const VIEWS = ['list', 'pass', 'drop', 'wait', 'done', 'fail', 'info'];
+function show(v, p, title, sub) {
+  VIEWS.forEach(function (k) { $('v-' + k).classList.toggle('hide', k !== v); });
+  pose = p; frame = 0; paint();
+  $('title').textContent = title; $('subtitle').textContent = sub || '';
+  window.scrollTo(0, 0);
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function bars(r) {  // come rssiBars() del simulatore
+  const n = r > -55 ? 4 : r > -65 ? 3 : r > -75 ? 2 : r > -85 ? 1 : 0;
+  let h = '<span class="bars" aria-label="segnale ' + n + ' su 4">';
+  for (let k = 0; k < 4; k++) h += '<i style="height:' + (5 + k * 3) + 'px"' + (k < n ? '' : ' class="off"') + '></i>';
+  return h + '</span>';
+}
+function rows(el, list) {
+  el.innerHTML = list.map(function (r) { return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('');
+}
+
+let nets = [], saved = [], maxSaved = 5;
+// «Aggiungi rete» (0.8.0): con reti già salvate la nuova si aggiunge, non le sostituisce.
+function home() {
+  if (saved.length) show('list', 'input', 'Aggiungi una rete', 'Si aggiunge alle reti salvate (' + saved.length + ' di ' + maxSaved + ').');
+  else show('list', 'input', 'Configura il Wi-Fi', 'Scegli la rete di casa.');
+}
+function renderNets() {
+  const ul = $('nets');
+  if (!nets.length) { ul.innerHTML = '<li><button disabled><span class="ssid">Nessuna rete trovata</span></button></li>'; return; }
+  ul.innerHTML = nets.map(function (n, i) {
+    return '<li><button type="button" data-i="' + i + '"><span class="ssid">' + esc(n.s) + '</span><span class="meta">' +
+      (n.l ? '<span class="px">protetta</span>' : '<span class="px">aperta</span>') + bars(n.r) + '</span></button></li>';
+  }).join('');
+}
+function loadNets(rescan) {
+  $('list-label').textContent = rescan ? 'Ricerca reti…' : 'Reti vicine';
+  if (rescan) pose = 'working';
+  api('/api/nets' + (rescan ? '?rescan=1' : ''), null, function (j) {
+    nets = j || [];
+    $('list-label').textContent = 'Reti vicine';
+    if (rescan) { pose = 'input'; paint(); }
+    renderNets();
+  });
+}
+function choose(ssid, lock) {
+  $('ssid').value = ssid; $('pass').value = ''; $('pass-err').classList.add('hide');
+  show('pass', 'input', ssid ? ssid : 'Altra rete', lock === false ? 'Rete aperta: lascia vuota la password.' : 'Scrivi la password della rete.');
+  (ssid ? $('pass') : $('ssid')).focus();
+}
+
+let joining = '', joinDrop = '', polls = 0;
+function poll() {
+  api('/api/status', null, function (j) {
+    polls++;
+    if (j && j.st === 'ok') {
+      show('done', 'done', 'Collegato!', 'Calamaio è in rete su ' + (j.ssid || joining) + '.');
+      rows($('done-info'), [['Rete', j.ssid || joining], ['Indirizzo', j.ip || '—'], ['Nome', (j.board || 'calamaio') + '.local']]
+        .concat(joinDrop ? [['Tolta', joinDrop + ' (il display si riavvia fra poco)']] : []));
+      return;
+    }
+    if (j && j.st === 'fail') {
+      show('fail', 'error', 'Non riesco a collegarmi', 'La rete ' + joining + ' non ha accettato il collegamento.');
+      return;
+    }
+    if (!j && polls > 20) $('wait-note').textContent = 'La pagina non risponde più: guarda il display. Se mostra di nuovo il QR, ricollega il telefono alla rete Calamaio e riprova.';
+    setTimeout(poll, 1000);
+  });
+}
+// Lista piena: scegli quale rete togliere (va via solo se la nuova si collega).
+let dropPick = '', dropFor = null;
+function askDrop(ssid, pass) {
+  dropPick = ''; dropFor = { ssid: ssid, pass: pass };
+  $('drop-go').disabled = true;
+  $('saved').innerHTML = saved.map(function (s, i) {
+    return '<li><button type="button" data-d="' + i + '"><span class="ssid">' + esc(s) + '</span></button></li>';
+  }).join('');
+  show('drop', 'input', 'Lista piena', 'Ci sono già ' + maxSaved + ' reti salvate: scegli quale togliere per aggiungere ' + ssid + '.');
+}
+function join(ssid, pass, drop) {
+  if (!drop && saved.indexOf(ssid) < 0 && saved.length >= maxSaved) { askDrop(ssid, pass); return; }
+  joining = ssid; joinDrop = drop || ''; polls = 0;
+  show('wait', 'working', 'Mi collego…', 'Connessione a ' + ssid + '.');
+  api('/api/save', { ssid: ssid, pass: pass, drop: drop || '' }, function (j) {
+    if (j && j.full) { askDrop(ssid, pass); return; }  // la lista si è riempita nel frattempo (rete aggiunta dal PC)
+    setTimeout(poll, 1500);
+  });
+}
+$('saved').addEventListener('click', function (e) {
+  const b = e.target.closest('button[data-d]');
+  if (!b) return;
+  Array.prototype.forEach.call($('saved').querySelectorAll('button'), function (x) { x.classList.toggle('sel', x === b); });
+  dropPick = saved[+b.getAttribute('data-d')];
+  $('drop-go').disabled = false;
+});
+$('drop-go').onclick = function () { if (dropPick && dropFor) join(dropFor.ssid, dropFor.pass, dropPick); };
+$('drop-back').onclick = function () { choose(dropFor ? dropFor.ssid : '', true); };
+
+$('nets').addEventListener('click', function (e) {
+  const b = e.target.closest('button[data-i]');
+  if (!b) return;
+  b.classList.add('sel');
+  const n = nets[+b.getAttribute('data-i')];
+  setTimeout(function () { b.classList.remove('sel'); choose(n.s, !!n.l); }, 120);
+});
+$('rescan').onclick = function () { loadNets(true); };
+$('other').onclick = function () { choose('', true); };
+$('back').onclick = home;
+$('retry').onclick = $('back').onclick;
+$('change').onclick = function () { $('back').onclick(); loadNets(false); };
+$('show').onchange = function () { $('pass').type = this.checked ? 'text' : 'password'; };
+$('pc-form').onsubmit = function (e) {
+  e.preventDefault();
+  const host = $('pc-host').value.trim(), err = $('pc-err'), ok = $('pc-ok');
+  err.classList.add('hide'); ok.classList.add('hide');
+  api('/api/pc', { host: host }, function (j) {
+    if (j && j.ok) {
+      $('pc-host').value = j.host || '';
+      ok.textContent = j.host ? 'Indirizzo salvato: ' + j.host + '.' : 'Indirizzo cancellato.';
+      ok.classList.remove('hide');
+      return;
+    }
+    err.textContent = j && j.err ? 'Non salvato: ' + j.err + '.' : 'Non salvato: la scheda non risponde.';
+    err.classList.remove('hide');
+    const was = pose;
+    pose = 'error'; paint(); setTimeout(function () { pose = was; }, 1800);
+  });
+};
+$('form').onsubmit = function (e) {
+  e.preventDefault();
+  const ssid = $('ssid').value.trim(), pass = $('pass').value, err = $('pass-err');
+  let msg = '';
+  if (!ssid) msg = 'Scrivi il nome della rete.';
+  else if (pass && (pass.length < 8 || pass.length > 63)) msg = 'La password Wi-Fi ha da 8 a 63 caratteri.';
+  err.textContent = msg; err.classList.toggle('hide', !msg);
+  if (msg) { pose = 'error'; paint(); setTimeout(function () { pose = 'input'; }, 1800); return; }
+  join(ssid, pass);
+};
+
+// ---- avvio: configurazione (rete Calamaio) oppure stato (display già in rete) ----
+api('/api/status', null, function (j) {
+  j = j || {};
+  if (j.board) $('board').textContent = j.board;
+  saved = j.saved || []; maxSaved = j.max || 5;
+  if (/[?&]s=join/.test(location.search) && j.st) { joining = j.ssid || ''; show('wait', 'working', 'Mi collego…', 'Connessione a ' + joining + '.'); poll(); return; }
+  if (j.mode === 'sta' && !/\/setup/.test(location.pathname)) {
+    show('info', j.pc ? 'done' : 'idle', j.pc ? 'Tutto collegato' : 'Cerco il PC…', j.pc ? 'Il display riceve lo stato dal PC.' : 'Il servizio Calamaio sul PC non risponde ancora.');
+    rows($('info'), [['Rete', j.ssid || '—'], ['Segnale', j.rssi ? j.rssi + ' dBm' : '—'], ['Indirizzo', j.ip || '—'],
+                     ['Nome', (j.board || 'calamaio') + '.local'], ['Server PC', j.pc ? (j.pcHost || 'calamaio.local') : 'non risponde'],
+                     ['Sessioni', j.pc ? String(j.sessions) : '—'], ['Firmware', 'Calamaio OS ' + (j.fw || '')]]
+                     .concat(j.pcLast ? [['Ultimo PC', j.pcLast]] : []));
+    $('pc-host').value = j.pcManual || '';
+    $('foot').textContent = 'Calamaio OS · stato';
+    return;
+  }
+  home();
+  loadNets(false);
+  if (j.pre) choose(j.pre, true);  // rete già scelta sul display (Cerca reti)
+});
+</script>
+</body>
+</html>

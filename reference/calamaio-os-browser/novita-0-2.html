@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novità 0.2 · Calamaio OS</title>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+body{margin:0}
+</style>
+</head>
+<body>
+<nav class="topbar" aria-label="Pagine">
+  <a class="brand" href="index.html">Calamaio OS</a>
+  <a href="panoramica.html">Panoramica</a>
+  <a href="navigazione.html">Navigazione</a>
+  <a href="novita-0-2.html" aria-current="page">Novità 0.2</a>
+  <span class="sep" aria-hidden="true"></span><span class="lbl">Test</span>
+  <a href="test-heltec-wireless-paper.html">Heltec 2,13″</a>
+  <a href="test-lilygo-t5-213.html">T5 2,13″</a>
+  <a href="test-crowpanel-42.html">CrowPanel 4,2″</a>
+  <a href="test-crowpanel-579.html">CrowPanel 5,79″</a>
+  <a href="test-lilygo-t5-47.html">T5 4,7″</a>
+  <a href="test-reterminal-e1001.html">reTerminal 7,5″</a>
+  <span class="sep" aria-hidden="true"></span><a href="docs/Calamaio-OS-guida.pdf">Guida PDF</a>
+</nav>
+<main class="stage"><div class="board-wrap"><div class="board" id="app"></div></div></main>
+<template id="tpl">
+<div style="width: 1360px; height: 2000px; box-sizing: border-box; padding: 56px 64px; background: #E7EAEE; color: #14181C; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column; gap: 40px; overflow: hidden;">
+
+  <header style="display: flex; flex-direction: column; gap: 12px;">
+    <p style="margin: 0; font: 500 13px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Calamaio OS · versione 0.2</p>
+    <h1 style="margin: 0; font: 600 60px/1 'Chakra Petch', sans-serif; letter-spacing: -0.01em;">Novità 0.2</h1>
+    <p style="margin: 0; max-width: 860px; font-size: 18px; line-height: 1.5; color: #3D4650;">Limiti e contesto, riepiloghi, strumenti per la scrivania e accessori da saldare. Tutto è già provabile nei banchi TEST, con i nuovi pulsanti di Simula: PC spento, Limite 5h al 92%, Accessori I²C, Aria viziata.</p>
+  </header>
+
+  <section style="display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Mascotte</p>
+      <h2 style="margin: 0; font: 600 30px/1.15 'Chakra Petch', sans-serif;">Tre pose nuove per la Goccia</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+      <sc-for list="{{poses}}" as="p" hint-placeholder-count="3">
+        <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0;">
+          <canvas ref="{{p.ref}}" data-pose="{{p.id}}" width="120" height="25" role="img" aria-label="Goccia, posa {{p.label}}" style="display: block; width: 360px; max-width: 100%; height: 75px; image-rendering: pixelated; background: #D6D7CF; border-radius: 4px;"></canvas>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <span style="font: 700 16px/1.3 'Chakra Petch', sans-serif; letter-spacing: 0.04em;">{{p.label}}</span>
+            <span style="font-size: 14px; line-height: 1.45; color: #3D4650;">{{p.text}}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Funzioni</p>
+      <h2 style="margin: 0; font: 600 30px/1.15 'Chakra Petch', sans-serif;">Cosa mostra, da dove arriva, dove lo trovi</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px;">
+      <sc-for list="{{features}}" as="ft" hint-placeholder-count="12">
+        <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+          <h3 style="margin: 0; font: 600 19px/1.2 'Chakra Petch', sans-serif;">{{ft.name}}</h3>
+          <p style="margin: 0; font-size: 14px; line-height: 1.45; color: #3D4650;">{{ft.text}}</p>
+          <div style="margin-top: auto; padding-top: 4px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
+            <span style="font: 500 11px/1.3 'IBM Plex Mono', monospace; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 7px; border-radius: 4px; background: {{ft.bg}}; color: #FFFFFF;">{{ft.src}}</span>
+            <span style="font-size: 13px; line-height: 1.4; color: #56606B;">{{ft.where}}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 18px; font: 500 12px/1.4 'IBM Plex Mono', monospace; color: #56606B;">
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #2646C4;"></span>Status line di Claude Code</span>
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #1E2022;"></span>Hook di Claude Code</span>
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #56606B;"></span>Servizio sul PC</span>
+      <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #7A5A12;"></span>Scheda o sensore</span>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 20px;">
+    <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Hook diretti</p>
+        <h2 style="margin: 0; font: 600 26px/1.15 'Chakra Petch', sans-serif;">Due strade per arrivare alla scheda</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1.25fr) 28px minmax(0, 1fr); align-items: stretch; row-gap: 10px; column-gap: 6px; font-size: 13px; line-height: 1.35;">
+        <div style="border: 1px solid #C6CCD3; background: #FFFFFF; border-radius: 6px; padding: 9px 11px;"><strong style="display: block; font: 600 14px/1.25 'Chakra Petch', sans-serif;">Claude Code</strong><span style="color: #56606B;">sul tuo PC</span></div>
+        <div style="display: flex; align-items: center; justify-content: center; font: 600 16px 'IBM Plex Mono', monospace; color: #56606B;">→</div>
+        <div style="background: #1E2022; color: #E7EAEE; border-radius: 6px; padding: 9px 11px;"><strong style="display: block; font: 600 14px/1.25 'Chakra Petch', sans-serif;">Servizio Calamaio</strong><span style="color: #B9C0C8;">tutto, permessi compresi</span></div>
+        <div style="display: flex; align-items: center; justify-content: center; font: 600 16px 'IBM Plex Mono', monospace; color: #56606B;">→</div>
+        <div style="border: 1px solid #C6CCD3; background: #FFFFFF; border-radius: 6px; padding: 9px 11px;"><strong style="display: block; font: 600 14px/1.25 'Chakra Petch', sans-serif;">Scheda</strong><span style="color: #56606B;">calamaio.local</span></div>
+
+        <div style="border: 1px solid #C6CCD3; background: #FFFFFF; border-radius: 6px; padding: 9px 11px;"><strong style="display: block; font: 600 14px/1.25 'Chakra Petch', sans-serif;">Claude Code</strong><span style="color: #56606B;">su un server o un altro PC</span></div>
+        <div style="display: flex; align-items: center; justify-content: center; font: 600 16px 'IBM Plex Mono', monospace; color: #56606B;">→</div>
+        <div style="border: 1px dashed #56606B; border-radius: 6px; padding: 9px 11px;"><strong style="display: block; font: 600 14px/1.25 'Chakra Petch', sans-serif;">Hook http</strong><span style="color: #56606B;">stato, task, fine turno, subagenti</span></div>
+        <div style="display: flex; align-items: center; justify-content: center; font: 600 16px 'IBM Plex Mono', monospace; color: #56606B;">→</div>
+        <div style="border: 1px solid #C6CCD3; background: #FFFFFF; border-radius: 6px; padding: 9px 11px;"><strong style="display: block; font: 600 14px/1.25 'Chakra Petch', sans-serif;">Scheda</strong><span style="color: #56606B;">/hook</span></div>
+      </div>
+      <pre style="margin: 0; padding: 12px 14px; background: #1E2022; color: #E7EAEE; border-radius: 6px; font: 400 12.5px/1.55 'IBM Plex Mono', monospace; white-space: pre; overflow: hidden;">"hooks": {
+  "Stop": [
+    { "hooks": [ { "type": "http", "url": "http://calamaio-3f2a.local/hook" } ] }
+  ]
+}</pre>
+      <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.45; color: #3D4650;">
+        <li>Limiti, contesto e costo vengono dalla status line: arrivano solo passando dal servizio.</li>
+        <li>Le risposte ai permessi passano sempre dal servizio, così nessun dispositivo in rete può approvare un comando al posto tuo.</li>
+        <li>Si attiva da Menu › Wi‑Fi › Hook diretti.</li>
+      </ul>
+    </div>
+
+    <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Accessori</p>
+        <h2 style="margin: 0; font: 600 26px/1.15 'Chakra Petch', sans-serif;">Tre aggiunte da saldare</h2>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid #C6CCD3;">
+        <strong style="font: 600 16px/1.25 'Chakra Petch', sans-serif;">Sensore CO₂ · SCD40</strong>
+        <span style="font-size: 14px; line-height: 1.45; color: #3D4650;">Sui pin I²C a 3,3 V, misura ogni 30 secondi in basso consumo. Sul reTerminal temperatura e umidità ci sono già (SHT40).</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid #C6CCD3;">
+        <strong style="font: 600 16px/1.25 'Chakra Petch', sans-serif;">Buzzer esterno</strong>
+        <span style="font-size: 14px; line-height: 1.45; color: #3D4650;">Un piezo su un pin libero. Suona solo per i permessi e tace con Silenzia, Notturno e Concentrazione. Il reTerminal ha già il cicalino.</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <strong style="font: 600 16px/1.25 'Chakra Petch', sans-serif;">Secondo tasto · idea</strong>
+        <span style="font-size: 14px; line-height: 1.45; color: #3D4650;">Sulle schede a un tasto solo: uno scorre, l’altro apre. Spariscono le doppie e triple pressioni, la lunga resta Indietro.</span>
+      </div>
+      <p style="margin: auto 0 0; font-size: 13px; line-height: 1.45; color: #56606B;">Il firmware li cerca all’avvio; in Menu › Info › Accessori vedi cosa ha trovato.</p>
+    </div>
+  </section>
+</div>
+</template>
+<script src="assets/dc-lite.js"></script>
+<script src="assets/site.js"></script>
+<script>
+class Component extends DCLogic {
+  static build() {
+    const HW = [1, 1, 2, 2, 3, 4, 5, 6, 7, 7, 8, 8, 8, 8, 8, 7, 7, 6, 4];
+    function mascot(c, ox, oy, s, st, f, ink, paper) {
+      const fr = ((f % 4) + 4) % 4;
+      const P = (x, y, col) => { c.fillStyle = col; c.fillRect(ox + x * s, oy + y * s, s, s); };
+      const I = (x, y) => P(x, y, ink), O = (x, y) => P(x, y, paper);
+      const top = 4, cx = 13;
+      for (let r = 0; r < HW.length; r++) { const h = HW[r]; for (let x = cx - h; x < cx + h; x++) I(x, top + r); }
+      I(9, top + 19); I(10, top + 19); I(15, top + 19); I(16, top + 19);
+      const ey = top + 9;
+      const eye = (ex, k) => {
+        if (k === 'closed') { for (let x = 0; x < 4; x++) O(ex + x, ey + 2); return; }
+        for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) O(ex + x, ey + y);
+        let px = ex + 1, py = ey + 1;
+        if (k === 'down') py = ey + 2; else if (k === 'up') { py = ey; px = ex + 2; }
+        I(px, py); I(px + 1, py); I(px, py + 1); I(px + 1, py + 1);
+      };
+      const eyes = (k) => { eye(7, k); eye(15, k); };
+      const mouth = (k) => {
+        const y = top + 14;
+        if (k === 'o') { O(12, y); O(13, y); O(12, y + 1); O(13, y + 1); }
+        else { O(11, y + 1); O(12, y + 1); O(13, y + 1); O(14, y + 1); }
+      };
+      const arm = (k, side) => {
+        const mm = side < 0 ? ((x) => 25 - x) : ((x) => x), A = (x, y) => I(mm(x), top + y);
+        if (k === 'rest') { A(21, 13); A(22, 14); }
+        else if (k === 'type') { A(21, 13); A(22, 13); }
+        else if (k === 'droop') { A(21, 14); A(22, 15); }
+      };
+      const bubble = () => {
+        for (let x = 19; x <= 25; x++) { I(x, 0); I(x, 6); }
+        for (let y = 1; y <= 5; y++) { I(18, y); I(26, y); }
+        for (let y = 1; y <= 5; y++) for (let x = 19; x <= 25; x++) O(x, y);
+        I(18, 7); I(17, 8);
+      };
+      if (st === 'compact') {
+        eyes('up'); mouth('flat'); arm(fr % 2 ? 'type' : 'rest', 1); arm(fr % 2 ? 'rest' : 'type', -1); bubble();
+        [2, 4].forEach((yy, k) => { const len = (fr + k) % 2 ? 3 : 5; for (let x = 0; x < len; x++) I(20 + x, yy); });
+      } else if (st === 'tired') {
+        eyes('closed'); O(7, ey + 1); O(10, ey + 1); O(15, ey + 1); O(18, ey + 1); mouth('flat'); arm('droop', 1); arm('droop', -1);
+        const d = fr % 2; I(5, top + 4 + d); I(5, top + 5 + d); I(4, top + 5 + d);
+      } else {
+        eyes('closed'); mouth('o'); arm('droop', 1); arm('droop', -1);
+        const w = fr % 2; [[1, 1], [4, 0], [21, 1], [24, 0]].forEach((p) => { I(p[0], p[1] + w); I(p[0] + 1, p[1] + 1 - w); I(p[0] + 2, p[1] + w); });
+      }
+    }
+    return { mascot };
+  }
+  eng() {
+    const C = this.constructor;
+    if (!C._E) C._E = C.build();
+    return C._E;
+  }
+  paint(el, st) {
+    if (!el || !el.getContext) return;
+    const c = el.getContext('2d');
+    c.fillStyle = '#D6D7CF';
+    c.fillRect(0, 0, el.width, el.height);
+    for (let k = 0; k < 4; k++) this.eng().mascot(c, k * 31, 0, 1, st, k, '#1E2022', '#D6D7CF');
+  }
+  componentDidMount() {
+    this.t = setTimeout(() => {
+      document.querySelectorAll('canvas[data-pose]').forEach((el) => this.paint(el, el.getAttribute('data-pose')));
+    }, 80);
+  }
+  componentWillUnmount() {
+    clearTimeout(this.t);
+  }
+  renderVals() {
+    if (!this.poses) {
+      const L = [
+        ['compact', 'RIORDINA', 'Mentre Claude compatta il contesto: nel fumetto le righe si accorciano.'],
+        ['tired', 'STANCA', 'Limite delle 5 ore oltre il 90%: occhi socchiusi e una goccia di sudore.'],
+        ['stuffy', 'ARIA VIZIATA', 'CO₂ sopra 1000 ppm: bocca aperta e aria che ondeggia.']
+      ];
+      this.poses = L.map((r) => ({ id: r[0], label: r[1], text: r[2], ref: (el) => this.paint(el, r[0]) }));
+      const BG = { sl: '#2646C4', hook: '#1E2022', pc: '#56606B', hw: '#7A5A12' };
+      const F = [
+        ['Limiti 5 ore e 7 giorni', 'Quota usata e ora del reset. In barra «5h 62%»; sugli schermi piccoli un’icona oltre l’80%.', 'sl', 'Status line · rate_limits', 'Menu › Limiti · solo piani Pro e Max'],
+        ['Contesto', 'Quanto contesto occupa ogni sessione. Mentre Claude compatta, la Goccia riordina.', 'sl', 'Status line · PreCompact', 'Dettaglio · Menu › Limiti'],
+        ['Riepilogo di fine turno', 'Una frase dall’ultima risposta di Claude, sotto la sessione che ha finito.', 'hook', 'Hook Stop', 'Home · Dettaglio'],
+        ['Test e build', 'Esito dell’ultimo test o build lanciato da Claude: passati o falliti.', 'hook', 'Hook PostToolUse', 'Home · Dettaglio'],
+        ['Subagenti', 'Quanti subagenti lavorano per ogni sessione, per esempio «+2 agenti».', 'hook', 'Hook SubagentStart e Stop', 'Home · Dettaglio'],
+        ['Oggi', 'Sei riquadri: task, permessi, attesa media, righe aggiunte e tolte, costo stimato ai prezzi API.', 'sl', 'Status line · cost', 'Menu › Oggi'],
+        ['Riepilogo a PC spento', 'Lo schermo si ferma su cosa è finito, chi ti aspettava e l’ultimo messaggio. L’e‑ink lo tiene senza corrente.', 'hw', 'Scheda', 'Al posto della Home'],
+        ['Concentrazione', 'Timer da 25 minuti: avvisi in silenzio, un aggiornamento al minuto, clessidra in barra.', 'hw', 'Scheda', 'Strumenti › Concentrazione'],
+        ['Agenda', 'Il prossimo appuntamento nella Home, il resto della giornata nel menu.', 'pc', 'Servizio PC · calendario ICS', 'Strumenti › Agenda'],
+        ['Servizi e PR', 'Quali siti rispondono e lo stato dei controlli sulle tue pull request.', 'pc', 'Servizio PC · gh', 'Strumenti › Servizi e PR'],
+        ['Wi‑Fi ospiti', 'QR della rete ospiti: si inquadra col telefono e si entra senza scrivere la password.', 'hw', 'Scheda', 'Strumenti › Wi‑Fi ospiti'],
+        ['Ambiente', 'CO₂, temperatura e umidità. Oltre 1000 ppm la Goccia chiede aria.', 'hw', 'Sensore I²C', 'Strumenti › Ambiente · barra di stato']
+      ];
+      this.features = F.map((r) => ({ name: r[0], text: r[1], bg: BG[r[2]], src: r[3], where: r[4] }));
+    }
+    return { poses: this.poses, features: this.features };
+  }
+}
+DC.mount("#app", "#tpl", Component, {});
+</script>
+<p class="foot">Tavola generata dal progetto di design · Funzioni.dc.html</p>
+</body>
+</html>

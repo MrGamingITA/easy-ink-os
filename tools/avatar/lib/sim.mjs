@@ -1,0 +1,88 @@
+// Pagina HTML statica (nessuna rete, nessuna dipendenza) che anima gli avatar come il display:
+// profilo «ridotta» (fotogrammi 0-1, ~1,5 agg./s misurati sulla Heltec) e «fluida» (fotogrammi 0-3, 4 agg./s).
+import { POSES, FALLBACK } from './format.mjs';
+import { BAR } from './render.mjs';
+
+export function simHtml(avs) {
+  const data = JSON.stringify(avs.map((a) => ({ id: a.id, name: a.name, w: a.w, h: a.h, frames: a.frames, poses: a.poses })));
+  return `<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>Avatar Calamaio · anteprima animata</title>
+<style>
+  body{font:14px/1.4 system-ui,sans-serif;background:#2b2d2f;color:#ddd;margin:24px}
+  h1{font-size:18px;margin:0 0 12px} .row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+  .card{background:#3a3c3e;padding:12px;border-radius:8px} canvas{image-rendering:pixelated;display:block}
+  label{margin-right:12px} select,button{font:inherit} .note{color:#aaa;font-size:12px;max-width:760px}
+  .poses button{margin:2px} .poses button.on{background:#d6d7cf;color:#000}
+</style></head><body>
+<h1>Avatar Calamaio · anteprima animata</h1>
+<p class="note">Schermo Heltec 250×122 ingrandito 3×. Home «Goccia»: scala 4 in (4,10). «Una sessione»: scala 3 in (163,4). «Contatori»: scala 1 in (3,90).
+Profilo ridotta = fotogrammi 0 e 1 a 1,5 agg./s (parziale misurato 644 ms, docs/DECISIONI.md); fluida = 4 fotogrammi a 4 agg./s (T5 4,7″, stima del simulatore).
+Le pose facoltative mancanti usano il ripiego (compact→working, tired→idle, stuffy→idle, run→working).
+«Aggiornamento»: la posa run corre sul fronte della barra (230×10), un fotogramma nuovo a ogni passo del 5%, non a tempo (docs/AVATAR.md §12).</p>
+<div class="card" style="margin-bottom:16px">
+  <label>Avatar <select id="av"></select></label>
+  <label>Profilo <select id="prof"><option value="2">ridotta (2 fotogrammi, 1,5/s)</option><option value="4">fluida (4 fotogrammi, 4/s)</option></select></label>
+  <label><input type="checkbox" id="inv"> inverti</label>
+  <label><input type="checkbox" id="pause"> fermo</label>
+  <div class="poses" id="poses" style="margin-top:8px"></div>
+</div>
+<div class="row">
+  <div class="card"><div>Home «Goccia»</div><canvas id="home" width="250" height="122" style="width:750px;height:366px"></canvas></div>
+  <div class="card"><div>Una sessione</div><canvas id="una" width="250" height="122" style="width:500px;height:244px"></canvas></div>
+  <div class="card"><div>Contatori</div><canvas id="num" width="250" height="122" style="width:500px;height:244px"></canvas></div>
+  <div class="card"><div>Aggiornamento (posa run) <label style="margin-left:12px">scala <select id="runs"><option>1</option><option selected>2</option></select></label></div><canvas id="ota" width="250" height="122" style="width:750px;height:366px"></canvas></div>
+  <div class="card"><div>Tutte le pose (scala 2)</div><canvas id="all" width="${(28 * 2 + 8) * 5}" height="${(25 * 2 + 18) * Math.ceil(POSES.length / 5)}" style="width:${(28 * 2 + 8) * 10}px"></canvas></div>
+</div>
+<script>
+const AV = ${data};
+const POSES = ${JSON.stringify(POSES)}, FALLBACK = ${JSON.stringify(FALLBACK)};
+const PAPER = 'rgb(214,215,207)', INK = 'rgb(30,32,34)';
+let cur = 0, pose = 'working', f = 0, step = 0;
+const BAR = ${JSON.stringify(BAR)};
+const $ = (id) => document.getElementById(id);
+AV.forEach((a, i) => $('av').add(new Option(a.name + ' (' + a.id + ')', i)));
+POSES.forEach((p) => { const b = document.createElement('button'); b.textContent = p; b.onclick = () => { pose = p; paint(); }; $('poses').appendChild(b); });
+const framesOf = (a, p) => a.poses[p] || a.poses[FALLBACK[p]];
+function put(c, a, p, fr, ox, oy, s, ink, paper) {
+  framesOf(a, p)[fr % a.frames].forEach((row, y) => { for (let x = 0; x < row.length; x++) {
+    const ch = row[x]; if (ch === '.') continue;
+    c.fillStyle = ch === '#' ? ink : paper; c.fillRect(ox + x * s, oy + y * s, s, s);
+  } });
+}
+function screen(id, draw) {
+  const c = $(id).getContext('2d'), inv = $('inv').checked, ink = inv ? PAPER : INK, paper = inv ? INK : PAPER;
+  c.fillStyle = paper; c.fillRect(0, 0, 250, 122); draw(c, ink, paper);
+}
+function bars(c, ink, x, y, w) { c.fillStyle = ink; c.fillRect(x, y, w * 0.7, 14); c.fillRect(x, y + 26, w * 0.55, 9); c.fillRect(x, y + 43, w * 0.9, 6); c.fillRect(x, y + 60, w * 0.5, 8); }
+function paint() {
+  const a = AV[cur], prof = +$('prof').value, fr = prof === 4 ? f % 4 : f % 2;
+  document.querySelectorAll('#poses button').forEach((b) => b.className = b.textContent === pose ? 'on' : '');
+  screen('home', (c, ink, paper) => { put(c, a, pose, fr, 4, 10, 4, ink, paper); bars(c, ink, 120, 18, 124); });
+  screen('una', (c, ink, paper) => { c.fillStyle = ink; c.fillRect(8, 5, 90, 12); c.fillRect(4, 25, 152, 27); c.fillRect(8, 88, 234, 10); put(c, a, pose, fr, 163, 4, 3, ink, paper); });
+  screen('num', (c, ink, paper) => { c.fillStyle = ink; c.fillRect(30, 6, 24, 46); c.fillRect(113, 6, 24, 46); c.fillRect(196, 6, 24, 46); c.fillRect(0, 83, 250, 1); put(c, a, pose, fr, 3, 90, 1, ink, paper); c.fillRect(36, 90, 80, 10); c.fillRect(36, 106, 150, 7); });
+  screen('ota', (c, ink, paper) => {
+    // passo k: 0..20 = 0..100% a passi del 5%, poi 3 passi fermi a 100% prima di ricominciare
+    const k = Math.min(step, 20), pct = k * 5, s = +$('runs').value, barY = 92;
+    c.fillStyle = ink; c.font = 'bold 13px system-ui,sans-serif'; c.fillText('AGGIORNAMENTO', 10, 17);
+    c.font = '10px system-ui,sans-serif'; c.fillText('1.2.0 → 1.3.0 · ricezione', 10, 31); c.fillText('Non spegnere', 10, 116); c.fillText(pct + '%', 214, 116);
+    const done = Math.round(BAR.w * pct / 100);
+    c.fillRect(BAR.x, barY, BAR.w, 1); c.fillRect(BAR.x, barY + BAR.h - 1, BAR.w, 1); c.fillRect(BAR.x, barY, 1, BAR.h); c.fillRect(BAR.x + BAR.w - 1, barY, 1, BAR.h);
+    c.fillRect(BAR.x, barY, done, BAR.h);
+    const front = BAR.x + done, ox = Math.max(0, Math.min(BAR.screenW - a.w * s, front - a.w * s));
+    put(c, a, 'run', prof === 4 ? k % 4 : k % 2, ox, barY - a.h * s, s, ink, paper);
+  });
+  const all = $('all').getContext('2d'); all.fillStyle = PAPER; all.fillRect(0, 0, 999, 999);
+  POSES.forEach((p, i) => { const x = (i % 5) * 64 + 4, y = Math.floor(i / 5) * 68 + 14; all.fillStyle = INK; all.font = '9px monospace'; all.fillText(p, x, y - 4); put(all, a, p, fr, x, y, 2, INK, PAPER); });
+}
+$('av').onchange = (e) => { cur = +e.target.value; paint(); };
+['prof', 'inv', 'runs'].forEach((id) => $(id).onchange = paint);
+let last = 0;
+function loop(t) {
+  const prof = +$('prof').value, period = prof === 4 ? 250 : 667;
+  if (!$('pause').checked && t - last >= period) { last = t; f = (f + 1) % 4; step = (step + 1) % 24; paint(); }
+  requestAnimationFrame(loop);
+}
+paint(); requestAnimationFrame(loop);
+</script></body></html>
+`;
+}

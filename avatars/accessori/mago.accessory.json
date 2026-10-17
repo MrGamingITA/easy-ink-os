@@ -1,0 +1,56 @@
+{
+  "format": "calamaio-accessory",
+  "version": 1,
+  "id": "mago",
+  "name": "Berretto da mago",
+  "author": "Calamaio OS",
+  "description": "Un cappello a punta da mago, con la punta piegata e una stella.",
+  "special": false,
+  "w": 13,
+  "h": 8,
+  "frames": 1,
+  "anchor": "head-top",
+  "origin": [6, 7],
+  "outline": false,
+  "hidePoses": ["run"],
+  "perAvatar": {
+    "goccia": {"dy": 3},
+    "calamaro": {"dy": 3, "pixels": [
+      [
+        "....##.......",
+        ".............",
+        "......+......",
+        ".....+++.....",
+        "......+......",
+        ".............",
+        ".........+...",
+        "xxxxxxxxxxxxx"
+      ]
+    ]},
+    "gatto": {"dy": -1},
+    "demone": {"dy": 1, "pixels": [
+      [
+        ".............",
+        ".............",
+        ".............",
+        ".............",
+        "......#......",
+        ".....#+#.....",
+        "....#+++#....",
+        "..###xxx###.."
+      ]
+    ]}
+  },
+  "pixels": [
+    [
+      "...##........",
+      "....###+.....",
+      ".....#+#.....",
+      "....#++##....",
+      "....####+....",
+      "...##++###...",
+      "...#++++###..",
+      "xxxxxx+xxxxxx"
+    ]
+  ]
+}

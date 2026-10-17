@@ -1,0 +1,34 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-10-10T19:20:00Z" },
+  "title": "Calamaio OS",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1360, "h": 2000, "title": "Calamaio OS · panoramica" },
+    "Navigazione.dc.html": { "x": 1440, "y": 0, "w": 1360, "h": 2000, "title": "Navigazione, comandi e menu" },
+    "Funzioni.dc.html": { "x": 2880, "y": 0, "w": 1360, "h": 2000, "title": "Novità 0.2" },
+    "CalamaioTest.dc.html": { "x": 0, "y": 2420, "w": 1360, "h": 840, "title": "TEST · Heltec Wireless Paper 2,13″", "is_interactive": true },
+    "Test-T5-213.dc.html": { "x": 1440, "y": 2420, "w": 1360, "h": 840, "title": "TEST · LilyGO T5 2,13″", "is_interactive": true },
+    "Test-CrowPanel-42.dc.html": { "x": 2880, "y": 2420, "w": 1360, "h": 840, "title": "TEST · CrowPanel 4,2″", "is_interactive": true },
+    "Test-CrowPanel-579.dc.html": { "x": 0, "y": 3380, "w": 1360, "h": 840, "title": "TEST · CrowPanel 5,79″", "is_interactive": true },
+    "Test-T5-47.dc.html": { "x": 1440, "y": 3380, "w": 1360, "h": 840, "title": "TEST · LilyGO T5 4,7″", "is_interactive": true },
+    "Test-reTerminal-75.dc.html": { "x": 2880, "y": 3380, "w": 1360, "h": 840, "title": "TEST · reTerminal E1001 7,5″", "is_interactive": true }
+  },
+  "order": [
+    "Main.dc.html",
+    "Navigazione.dc.html",
+    "Funzioni.dc.html",
+    "CalamaioTest.dc.html",
+    "Test-T5-213.dc.html",
+    "Test-CrowPanel-42.dc.html",
+    "Test-CrowPanel-579.dc.html",
+    "Test-T5-47.dc.html",
+    "Test-reTerminal-75.dc.html"
+  ],
+  "notes": {
+    "titolo-sistema": { "x": 0, "y": -300, "text": "Calamaio OS · sistema", "kind": "title1", "maxW": 4240 },
+    "titolo-test": { "x": 0, "y": 2160, "text": "TEST · un banco per ogni dispositivo", "kind": "title1", "maxW": 4240 }
+  },
+  "designSystems": []
+}

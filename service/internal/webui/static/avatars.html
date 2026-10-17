@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avatar · Calamaio OS</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/app.css">
+<script type="module" src="assets/js/avatars-page.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+<nav class="topbar" aria-label="Pagine">
+  <a class="brand" href="./">Calamaio OS</a>
+  <a href="./">Panoramica</a>
+  <a href="avatars.html" aria-current="page">Avatar</a>
+  <a href="game.html">Gioco</a>
+  <a href="device.html">Dispositivo</a>
+  <a href="firmware.html">Firmware</a>
+  <a href="editor.html">Editor schermate <span class="badge beta">Beta</span></a>
+  <span class="conn" id="conn" role="status"><span class="conn-text">collegamento…</span></span>
+</nav>
+<main class="home" id="main">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="kicker">Libreria degli avatar</p>
+      <h1>Avatar</h1>
+      <p class="lead">Ogni sessione può avere un personaggio diverso dalla Goccia, così sul display riconosci a colpo d’occhio chi chiede attenzione. Qui vedi tutti gli avatar animati, scegli il predefinito e ne carichi di nuovi.</p>
+    </div>
+    <figure class="goccia" aria-live="polite">
+      <canvas></canvas>
+      <figcaption><span class="goccia-label"></span><span class="goccia-text"></span></figcaption>
+    </figure>
+  </header>
+
+  <p class="alert error" id="err" role="alert"></p>
+  <p class="alert ok" id="msg" role="status" aria-live="polite"></p>
+
+  <section class="section" aria-labelledby="h-default">
+    <div class="section-head">
+      <p class="kicker">Predefinito</p>
+      <h2 id="h-default">Avatar predefinito</h2>
+      <p>Lo mostrano le sessioni senza un avatar scelto e le schermate senza sessione (avvio, riposo, PC spento). Non viene mai proposto come scelta «libera»: è il ripiego di tutti.</p>
+    </div>
+    <div id="default"></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-lib">
+    <div class="section-head">
+      <p class="kicker" id="lib-count">Libreria</p>
+      <h2 id="h-lib">Tutti gli avatar</h2>
+      <p>Tutte le pose, animate come sul display (4 fotogrammi al secondo). «In uso» vuol dire che una sessione aperta e non archiviata lo sta già mostrando; le assegnazioni si fanno dalla Panoramica o con <code>calamaio avatar assign</code>.</p>
+    </div>
+    <div id="library" class="avatar-lib"></div>
+    <div id="problems"></div>
+  </section>
+
+  <section class="section" aria-labelledby="h-up">
+    <div class="section-head">
+      <p class="kicker">Nuovo avatar</p>
+      <h2 id="h-up">Carica un file</h2>
+      <p>Un file <code>.avatar.json</code> (formato in <code>docs/AVATAR.md</code>; la skill <code>avatar</code> di Claude Code ne disegna di nuovi). Il servizio lo controlla con le stesse regole di <code>calamaio avatar add</code> e lo copia nella tua libreria.</p>
+    </div>
+    <form class="note upload" id="upload">
+      <div class="field">
+        <label for="file">File dell’avatar</label>
+        <input type="file" id="file" accept=".json,application/json" required>
+        <p class="hint" id="userdir"></p>
+      </div>
+      <label class="check"><input type="checkbox" id="replace"> <span>Sostituisci un avatar della mia libreria con lo stesso id</span></label>
+      <div class="card-actions"><button class="btn" type="submit" id="send">Carica</button></div>
+      <div id="result" aria-live="polite"></div>
+    </form>
+  </section>
+</main>
+</body>
+</html>

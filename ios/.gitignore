@@ -1,0 +1,9 @@
+# Generato da project.yml con `xcodegen generate`
+Calamaio.xcodeproj/
+# Squadra e bundle id personali (Apple ID gratuito di chi compila)
+Config/Local.xcconfig
+CalamaioKit/.build/
+CalamaioKit/.swiftpm/
+build/
+DerivedData/
+*.xcresult

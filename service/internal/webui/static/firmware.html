@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firmware · Calamaio OS</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/app.css">
+<script type="module" src="assets/js/firmware.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+<nav class="topbar" aria-label="Pagine">
+  <a class="brand" href="./">Calamaio OS</a>
+  <a href="./">Panoramica</a>
+  <a href="avatars.html">Avatar</a>
+  <a href="game.html">Gioco</a>
+  <a href="device.html">Dispositivo</a>
+  <a href="firmware.html" aria-current="page">Firmware</a>
+  <a href="editor.html">Editor schermate <span class="badge beta">Beta</span></a>
+</nav>
+<main class="home" id="main">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="kicker">Cavo USB · Web Serial · esptool-js 0.7.0</p>
+      <h1>Firmware</h1>
+      <p class="lead">Collega la scheda al PC con il cavo USB: qui leggi chip e flash, scrivi un nuovo firmware e gestisci i backup. Tutto succede nel browser, senza programmi da installare.</p>
+    </div>
+    <figure class="goccia" aria-live="polite">
+      <canvas></canvas>
+      <figcaption><span class="goccia-label"></span><span class="goccia-text"></span></figcaption>
+    </figure>
+  </header>
+
+  <div class="alert error" id="noserial" role="alert" hidden>
+    <strong>Questo browser non può usare la porta USB della scheda.</strong>
+    Serve Web Serial, che oggi c’è solo in <strong>Google Chrome</strong> e <strong>Microsoft Edge</strong> su computer. Safari e Firefox non lo supportano: apri questa pagina (<span class="mono" id="here"></span>) in Chrome o Edge.
+  </div>
+
+  <section class="note" aria-labelledby="h-connect">
+    <p class="step-n">Passo 1</p>
+    <h3 id="h-connect">Collega la scheda</h3>
+    <div class="split">
+      <div class="stack">
+        <div class="field">
+          <label for="baud">Velocità della seriale (baud)</label>
+          <select id="baud">
+            <option value="115200" selected>115200 (consigliata)</option>
+            <option value="230400">230400</option>
+            <option value="460800">460800</option>
+            <option value="921600">921600</option>
+          </select>
+          <p class="hint">Con la Heltec Wireless Paper (ponte USB CP2102) a 460800 e 921600 baud la lettura dà errori di pacchetto: usa 115200. Più veloce vale solo se la tua scheda lo regge.</p>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="btn" id="connect">Collega la scheda</button>
+          <button type="button" class="btn secondary" id="disconnect" hidden>Scollega e riavvia</button>
+        </div>
+        <p class="hint muted" id="connect-hint">Il browser ti chiede quale porta usare. Se la scheda non risponde, tieni premuto il tasto BOOT (PRG sulla Heltec) mentre la colleghi.</p>
+      </div>
+      <dl class="kv" id="chip" hidden></dl>
+    </div>
+  </section>
+
+  <section class="note" aria-labelledby="h-write">
+    <p class="step-n">Passo 2</p>
+    <h3 id="h-write">Scrivi un firmware</h3>
+    <fieldset class="radio-list">
+      <legend>Da dove arriva il firmware</legend>
+      <label><input type="radio" name="src" value="file" checked> <span><strong>File dal computer</strong>: un <code>.bin</code> unico (bootloader, partizioni e app) oppure solo l’app.</span></label>
+      <label><input type="radio" name="src" value="pkg"> <span><strong>Pacchetto del servizio</strong>: il firmware che il servizio Calamaio offre per questo PC.</span></label>
+    </fieldset>
+
+    <div id="src-file" class="field">
+      <label for="file">File del firmware (.bin)</label>
+      <input type="file" id="file" accept=".bin,application/octet-stream">
+      <fieldset class="radio-list" id="addr-set">
+        <legend>Indirizzo di scrittura</legend>
+        <label><input type="radio" name="addr" value="0"> <span><code>0x0</code> · immagine unica (bootloader, partizioni e app in un file)</span></label>
+        <label><input type="radio" name="addr" value="65536" checked> <span><code>0x10000</code> · solo l’app (bootloader e partizioni restano quelli che ci sono)</span></label>
+      </fieldset>
+      <p class="hint" id="file-info"></p>
+    </div>
+
+    <div id="src-pkg" class="field" hidden>
+      <p class="hint" id="pkg-info">Lettura del pacchetto dal servizio…</p>
+      <div class="table-wrap" id="pkg-parts"></div>
+    </div>
+
+    <label class="check"><input type="checkbox" id="erase"> <span><strong>Cancella tutta la flash prima di scrivere.</strong> Cancella anche la rete Wi‑Fi, le impostazioni e la chiave di abbinamento salvate sulla scheda.</span></label>
+
+    <p class="alert info"><strong>Prima di scrivere</strong> ti chiediamo se vuoi fare un backup del firmware attuale. La scrittura sostituisce quello che c’è sulla scheda e non si annulla.</p>
+
+    <div class="field">
+      <label for="confirm">Per confermare scrivi <span class="mono">SCRIVI</span></label>
+      <input type="text" id="confirm" class="confirm" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="confirm-hint">
+      <p class="hint" id="confirm-hint">La scrittura è distruttiva: il pulsante si attiva quando la scheda è collegata, il firmware è pronto e hai scritto SCRIVI.</p>
+    </div>
+    <div class="card-actions">
+      <button type="button" class="btn danger" id="write" disabled>Scrivi sulla scheda</button>
+    </div>
+    <div class="progress" id="write-progress" hidden></div>
+    <div id="write-result"></div>
+  </section>
+
+  <details class="note fold" id="backups-box">
+    <summary><span class="fold-title">Backup</span> <span class="fold-count" id="backups-count"></span></summary>
+    <div class="fold-body">
+      <p class="alert error privacy"><strong>I backup completi contengono la password del Wi‑Fi salvata sulla scheda: tienili privati.</strong> Contengono anche la chiave di abbinamento e le impostazioni. Il servizio li tiene sul PC, non vanno in rete.</p>
+      <div class="split">
+        <div class="stack">
+          <p>Fai un backup della scheda collegata. Il file letto si salva sul servizio e compare qui sotto.</p>
+          <p class="muted" id="backup-estimate">Collega la scheda (passo 1) per fare un backup.</p>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="btn" id="backup-full" disabled>Backup completo</button>
+          <button type="button" class="btn secondary" id="backup-app" disabled>Solo il programma</button>
+          <button type="button" class="btn secondary" id="backup-cancel" hidden>Annulla</button>
+        </div>
+      </div>
+      <div class="progress" id="backup-progress" hidden></div>
+      <div id="backup-result"></div>
+      <div class="progress" id="restore-progress" hidden></div>
+      <div id="restore-result"></div>
+      <p class="alert error" id="backups-err" role="alert"></p>
+      <div class="backup-list" id="backup-list"></div>
+    </div>
+  </details>
+
+  <section class="note" aria-labelledby="h-ota" id="ota-box">
+    <div class="card-head"><h3 id="h-ota">Aggiornamento senza cavo</h3><span class="badge soft">Wi‑Fi · firmato</span></div>
+    <p>Il servizio manda il firmware alla scheda via Wi‑Fi. Parte solo verso una scheda abbinata, l’immagine è firmata e la scheda la verifica prima di avviarla, mai mentre c’è una richiesta di permesso aperta; senza cavo serve almeno il 50% di batteria. Se la versione nuova non parte, la scheda torna da sola a quella di prima.</p>
+    <p class="alert info" id="ota-key" hidden></p>
+    <p class="hint" id="ota-pkg">Lettura del pacchetto dal servizio…</p>
+    <div class="ota-list" id="ota-list"></div>
+    <p class="alert error" id="ota-err" role="alert"></p>
+    <p class="set-help">Dal terminale: <code>calamaio ota push</code> (pacchetto del servizio) o <code>calamaio ota push --build firmware/.pio/build/heltec213</code>.</p>
+  </section>
+
+  <details class="note">
+    <summary>Registro di esptool</summary>
+    <pre class="log" id="log" aria-live="off"></pre>
+  </details>
+</main>
+
+<dialog class="modal" id="dlg-prebackup" aria-labelledby="pb-title">
+  <form method="dialog">
+    <h2 id="pb-title">Vuoi fare un backup del firmware attuale?</h2>
+    <p id="pb-context" class="muted"></p>
+    <div class="choices">
+      <button type="submit" class="choice" value="full" id="pb-full"><strong>Backup completo</strong><span id="pb-full-text">Tutta la flash.</span></button>
+      <button type="submit" class="choice" value="app" id="pb-app"><strong>Solo il programma</strong><span id="pb-app-text">La partizione dell’app attiva.</span></button>
+      <button type="submit" class="choice" value="none" id="pb-none"><strong>Nessun backup</strong><span>Scrivi subito. Se qualcosa va storto non potrai tornare al firmware di adesso.</span></button>
+    </div>
+    <p class="alert error privacy"><strong>I backup completi contengono la password del Wi‑Fi salvata sulla scheda: tienili privati.</strong></p>
+    <div class="card-actions end"><button type="submit" class="btn secondary" value="cancel">Annulla la scrittura</button></div>
+  </form>
+</dialog>
+
+<dialog class="modal" id="dlg-restore" aria-labelledby="rs-title">
+  <form method="dialog">
+    <h2 id="rs-title">Ripristina il backup</h2>
+    <dl class="kv" id="rs-info"></dl>
+    <p class="alert error" id="rs-block" hidden></p>
+    <div id="rs-other" class="danger-box" hidden>
+      <p class="danger-title">Questo backup viene da un’altra scheda</p>
+      <p id="rs-other-text"></p>
+      <div class="field">
+        <label for="rs-force">Per ripristinarlo lo stesso scrivi <span class="mono">FORZA</span></label>
+        <input type="text" id="rs-force" class="confirm" autocomplete="off" autocapitalize="characters" spellcheck="false">
+      </div>
+    </div>
+    <div class="field">
+      <label for="rs-confirm">Per confermare scrivi <span class="mono">SCRIVI</span></label>
+      <input type="text" id="rs-confirm" class="confirm" autocomplete="off" autocapitalize="characters" spellcheck="false">
+      <p class="hint">Prima di scrivere ti chiediamo se vuoi fare un backup del firmware attuale.</p>
+    </div>
+    <div class="card-actions end">
+      <button type="submit" class="btn secondary" value="cancel">Annulla</button>
+      <button type="submit" class="btn danger" value="ok" id="rs-ok" disabled>Ripristina</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="modal" id="dlg-ota" aria-labelledby="ota-dlg-title">
+  <form method="dialog">
+    <h2 id="ota-dlg-title">Aggiornare la scheda?</h2>
+    <p id="ota-dlg-text"></p>
+    <p class="set-note" id="ota-dlg-warn"></p>
+    <p class="alert info"><strong>Non spegnere la scheda</strong> finché non ha finito: sul display vedi la barra, le fasi e la mascotte che corre.</p>
+    <div class="card-actions end">
+      <button type="submit" class="btn secondary" value="cancel">Annulla</button>
+      <button type="submit" class="btn" value="ok">Aggiorna</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="modal" id="dlg-delete" aria-labelledby="dl-title">
+  <form method="dialog">
+    <h2 id="dl-title">Eliminare il backup?</h2>
+    <p id="dl-text"></p>
+    <div class="card-actions end">
+      <button type="submit" class="btn secondary" value="cancel">Annulla</button>
+      <button type="submit" class="btn danger" value="delete">Elimina</button>
+    </div>
+  </form>
+</dialog>
+</body>
+</html>

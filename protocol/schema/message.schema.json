@@ -1,0 +1,804 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://calamaio.local/schema/message.json",
+  "title": "Messaggio Calamaio, protocollo v1 (docs/PROTOCOLLO.md)",
+  "$comment": "Un frame di testo WebSocket = un oggetto. OTA (docs/OTA.md) aggiunge in modo compatibile status, ota-key, ota-offer, ota-status, ota-cancel, log-start, log-stop, log e crash. Le reti Wi-Fi gestite dal PC aggiungono in modo compatibile wifi-list (display → servizio), wifi-add e wifi-forget (servizio → display, risposta ack). La giornata di lavoro aggiunge in modo compatibile le impostazioni workStart e workEnd, il comando workday (servizio → display, risposta ack) e il campo facoltativo status.workday. Il gioco della mascotte aggiunge in modo compatibile l'impostazione game e i messaggi game, accessory, anchors (servizio → display) e accessory-need, anchors-need, accessory-wear (display → servizio). I temi delle schermate aggiungono in modo compatibile themes e theme-ack (display → servizio) e theme-offer e theme-use (servizio → display, solo autenticato; il tema si scarica con GET /themes/<token>). I limiti di lunghezza dei testi in PROTOCOLLO.md sono in byte UTF-8: maxLength di JSON Schema conta i caratteri, quindi qui è solo un limite necessario; il limite in byte lo controllano i test Go del servizio (internal/display/schema_test.go). settings, set, ack e full-refresh (impostazioni remote) sono aggiunte compatibili alla v1: un display che non manda settings non le riceve mai. dismiss (Archivia, M4) è un'altra aggiunta compatibile: display → servizio, il servizio risponde ack. Gli avatar (docs/AVATAR.md §10) aggiungono in modo compatibile session.avatar/avatarCrc, state e welcome defaultAvatar/defaultAvatarCrc (campi facoltativi: un firmware che non li conosce li ignora) e i messaggi avatar (servizio → display) e avatar-need (display → servizio); il firmware 0.14.0 aggiunge hello.caps e, per i display con caps avatar-dl, avatar-offer (servizio → display, l'avatar si scarica con GET /avatars/<token>) e avatar-ack (display → servizio). M5 (docs/M5-PERMESSI.md) aggiunge in modo compatibile hello.paired, welcome.paired, abbinamento (pair-begin, pair-key, pair-reveal, pair-confirm, pair-done, pair-abort), autenticazione (auth-challenge, auth, auth-ok, auth-fail), permessi (perm-request, perm-reply, perm-close) e unpair. Le stringhe binarie sono esadecimali minuscole; i mac sono HMAC-SHA256 troncati a 16 byte (32 cifre).",
+  "type": "object",
+  "required": ["t", "v"],
+  "properties": {
+    "t": { "enum": ["hello", "welcome", "state", "bye", "settings", "set", "ack", "full-refresh", "dismiss",
+                    "pair-begin", "pair-key", "pair-reveal", "pair-confirm", "pair-done", "pair-abort",
+                    "auth-challenge", "auth", "auth-ok", "auth-fail", "perm-request", "perm-reply", "perm-close", "unpair",
+                    "avatar", "avatar-need", "avatar-offer", "avatar-ack",
+                    "status", "ota-key", "ota-offer", "ota-status", "ota-cancel", "log-start", "log-stop", "log", "crash",
+                    "wifi-list", "wifi-add", "wifi-forget", "workday",
+                    "game", "accessory", "accessory-need", "anchors", "anchors-need", "accessory-wear",
+                    "themes", "theme-offer", "theme-ack", "theme-use"] },
+    "v": { "const": 1 }
+  },
+  "allOf": [
+    { "if": { "properties": { "t": { "const": "hello" } } }, "then": { "$ref": "#/$defs/hello" } },
+    { "if": { "properties": { "t": { "const": "welcome" } } }, "then": { "$ref": "#/$defs/welcome" } },
+    { "if": { "properties": { "t": { "const": "state" } } }, "then": { "$ref": "#/$defs/state" } },
+    { "if": { "properties": { "t": { "const": "bye" } } }, "then": { "$ref": "#/$defs/bye" } },
+    { "if": { "properties": { "t": { "const": "settings" } } }, "then": { "$ref": "#/$defs/settings" } },
+    { "if": { "properties": { "t": { "const": "set" } } }, "then": { "$ref": "#/$defs/set" } },
+    { "if": { "properties": { "t": { "const": "ack" } } }, "then": { "$ref": "#/$defs/ack" } },
+    { "if": { "properties": { "t": { "const": "full-refresh" } } }, "then": { "$ref": "#/$defs/fullRefresh" } },
+    { "if": { "properties": { "t": { "const": "dismiss" } } }, "then": { "$ref": "#/$defs/dismiss" } },
+    { "if": { "properties": { "t": { "const": "pair-begin" } } }, "then": { "$ref": "#/$defs/pairBegin" } },
+    { "if": { "properties": { "t": { "const": "pair-key" } } }, "then": { "$ref": "#/$defs/pairKey" } },
+    { "if": { "properties": { "t": { "const": "pair-reveal" } } }, "then": { "$ref": "#/$defs/pairReveal" } },
+    { "if": { "properties": { "t": { "const": "pair-confirm" } } }, "then": { "$ref": "#/$defs/pairMac" } },
+    { "if": { "properties": { "t": { "const": "pair-done" } } }, "then": { "$ref": "#/$defs/pairMac" } },
+    { "if": { "properties": { "t": { "const": "pair-abort" } } }, "then": { "$ref": "#/$defs/pairAbort" } },
+    { "if": { "properties": { "t": { "const": "auth-challenge" } } }, "then": { "$ref": "#/$defs/authChallenge" } },
+    { "if": { "properties": { "t": { "const": "auth" } } }, "then": { "$ref": "#/$defs/auth" } },
+    { "if": { "properties": { "t": { "const": "auth-ok" } } }, "then": { "$ref": "#/$defs/authOk" } },
+    { "if": { "properties": { "t": { "const": "auth-fail" } } }, "then": { "$ref": "#/$defs/authFail" } },
+    { "if": { "properties": { "t": { "const": "perm-request" } } }, "then": { "$ref": "#/$defs/permRequest" } },
+    { "if": { "properties": { "t": { "const": "perm-reply" } } }, "then": { "$ref": "#/$defs/permReply" } },
+    { "if": { "properties": { "t": { "const": "perm-close" } } }, "then": { "$ref": "#/$defs/permClose" } },
+    { "if": { "properties": { "t": { "const": "unpair" } } }, "then": { "$ref": "#/$defs/unpair" } },
+    { "if": { "properties": { "t": { "const": "avatar" } } }, "then": { "$ref": "#/$defs/avatar" } },
+    { "if": { "properties": { "t": { "const": "avatar-need" } } }, "then": { "$ref": "#/$defs/avatarNeed" } },
+    { "if": { "properties": { "t": { "const": "avatar-offer" } } }, "then": { "$ref": "#/$defs/avatarOffer" } },
+    { "if": { "properties": { "t": { "const": "avatar-ack" } } }, "then": { "$ref": "#/$defs/avatarAck" } },
+    { "if": { "properties": { "t": { "const": "status" } } }, "then": { "$ref": "#/$defs/status" } },
+    { "if": { "properties": { "t": { "const": "ota-key" } } }, "then": { "$ref": "#/$defs/otaKey" } },
+    { "if": { "properties": { "t": { "const": "ota-offer" } } }, "then": { "$ref": "#/$defs/otaOffer" } },
+    { "if": { "properties": { "t": { "const": "ota-status" } } }, "then": { "$ref": "#/$defs/otaStatus" } },
+    { "if": { "properties": { "t": { "const": "ota-cancel" } } }, "then": { "$ref": "#/$defs/otaCancel" } },
+    { "if": { "properties": { "t": { "const": "log-start" } } }, "then": { "$ref": "#/$defs/logStart" } },
+    { "if": { "properties": { "t": { "const": "log-stop" } } }, "then": { "$ref": "#/$defs/logStop" } },
+    { "if": { "properties": { "t": { "const": "log" } } }, "then": { "$ref": "#/$defs/log" } },
+    { "if": { "properties": { "t": { "const": "crash" } } }, "then": { "$ref": "#/$defs/crash" } },
+    { "if": { "properties": { "t": { "const": "wifi-list" } } }, "then": { "$ref": "#/$defs/wifiList" } },
+    { "if": { "properties": { "t": { "const": "wifi-add" } } }, "then": { "$ref": "#/$defs/wifiAdd" } },
+    { "if": { "properties": { "t": { "const": "wifi-forget" } } }, "then": { "$ref": "#/$defs/wifiForget" } },
+    { "if": { "properties": { "t": { "const": "workday" } } }, "then": { "$ref": "#/$defs/workday" } },
+    { "if": { "properties": { "t": { "const": "game" } } }, "then": { "$ref": "#/$defs/game" } },
+    { "if": { "properties": { "t": { "const": "accessory" } } }, "then": { "$ref": "#/$defs/accessory" } },
+    { "if": { "properties": { "t": { "const": "accessory-need" } } }, "then": { "$ref": "#/$defs/accessoryNeed" } },
+    { "if": { "properties": { "t": { "const": "anchors" } } }, "then": { "$ref": "#/$defs/anchors" } },
+    { "if": { "properties": { "t": { "const": "anchors-need" } } }, "then": { "$ref": "#/$defs/anchorsNeed" } },
+    { "if": { "properties": { "t": { "const": "accessory-wear" } } }, "then": { "$ref": "#/$defs/accessoryWear" } },
+    { "if": { "properties": { "t": { "const": "themes" } } }, "then": { "$ref": "#/$defs/themes" } },
+    { "if": { "properties": { "t": { "const": "theme-offer" } } }, "then": { "$ref": "#/$defs/themeOffer" } },
+    { "if": { "properties": { "t": { "const": "theme-ack" } } }, "then": { "$ref": "#/$defs/themeAck" } },
+    { "if": { "properties": { "t": { "const": "theme-use" } } }, "then": { "$ref": "#/$defs/themeUse" } }
+  ],
+  "$defs": {
+    "ms": { "type": "integer", "minimum": 0, "$comment": "millisecondi epoch UTC" },
+    "check": { "enum": ["ok", "ko", "run"] },
+    "avatarId": { "type": "string", "minLength": 1, "maxLength": 24, "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "$comment": "id di un avatar (docs/AVATAR.md §2)" },
+    "crc32": { "type": "integer", "minimum": 0, "maximum": 4294967295, "$comment": "CRC-32 IEEE del binario CAVT (docs/AVATAR.md §8): con l'id è la chiave della cache del display" },
+
+    "hello": {
+      "$comment": "display → servizio",
+      "type": "object",
+      "required": ["t", "v", "board", "device", "class", "fw", "w", "h"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "board": { "type": "string", "minLength": 1, "$comment": "calamaio-xxxx" },
+        "device": { "type": "string", "minLength": 1 },
+        "class": { "enum": ["S", "M", "W", "L"] },
+        "fw": { "type": "string" },
+        "w": { "type": "integer", "minimum": 1 },
+        "h": { "type": "integer", "minimum": 1 },
+        "paired": { "type": "boolean", "$comment": "M5: il display ha una chiave di abbinamento. Assente nei firmware senza M5" },
+        "caps": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 24, "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+                  "$comment": "firmware 0.14.0: capacità del display. avatar-dl = avatar a pezzi (avatar-offer → GET /avatars/<token> → avatar-ack). Il servizio ignora quelle che non conosce; assente nei firmware vecchi" }
+      }
+    },
+
+    "welcome": {
+      "$comment": "servizio → display",
+      "type": "object",
+      "required": ["t", "v", "time", "tz", "host", "service"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "time": { "$ref": "#/$defs/ms" },
+        "tz": { "type": "string", "minLength": 3, "$comment": "stringa POSIX TZ, es. CET-1CEST,M3.5.0,M10.5.0/3" },
+        "host": { "type": "string" },
+        "service": { "type": "string" },
+        "paired": { "type": "boolean", "$comment": "M5: il servizio ha una chiave per questa scheda. Diverso da hello.paired = «Abbinamento: da rifare»" },
+        "defaultAvatar": { "$ref": "#/$defs/avatarId", "$comment": "avatar predefinito per le schermate senza sessione (facoltativo, docs/PROTOCOLLO.md «Avatar»)" },
+        "defaultAvatarCrc": { "$ref": "#/$defs/crc32" }
+      },
+      "dependentRequired": { "defaultAvatar": ["defaultAvatarCrc"], "defaultAvatarCrc": ["defaultAvatar"] }
+    },
+
+    "state": {
+      "$comment": "servizio → display, sempre completo",
+      "type": "object",
+      "required": ["t", "v", "time", "sessions", "limits", "today", "log", "services", "prs", "agenda"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "time": { "$ref": "#/$defs/ms" },
+        "sessions": { "type": "array", "maxItems": 6, "items": { "$ref": "#/$defs/session" } },
+        "limits": { "oneOf": [ { "type": "null" }, { "$ref": "#/$defs/limits" } ] },
+        "today": { "$ref": "#/$defs/today" },
+        "log": { "type": "array", "maxItems": 20, "items": { "$ref": "#/$defs/logEntry" } },
+        "services": { "type": "array", "items": { "$ref": "#/$defs/service" } },
+        "prs": { "type": "array", "items": { "$ref": "#/$defs/pr" } },
+        "agenda": { "type": "array", "items": { "$ref": "#/$defs/agendaItem" } },
+        "defaultAvatar": { "$ref": "#/$defs/avatarId", "$comment": "come in welcome: così un cambio del predefinito arriva subito" },
+        "defaultAvatarCrc": { "$ref": "#/$defs/crc32" }
+      },
+      "dependentRequired": { "defaultAvatar": ["defaultAvatarCrc"], "defaultAvatarCrc": ["defaultAvatar"] }
+    },
+
+    "session": {
+      "type": "object",
+      "required": ["id", "name", "state", "detail", "since", "attnAt", "ctx", "subs", "test", "summary", "tasks"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "maxLength": 31, "$comment": "max 31 byte UTF-8" },
+        "state": { "enum": ["working", "permission", "input", "done", "error", "idle", "compact"] },
+        "detail": { "type": "string", "maxLength": 95, "$comment": "max 95 byte UTF-8" },
+        "since": { "$ref": "#/$defs/ms" },
+        "attnAt": { "oneOf": [ { "type": "null" }, { "$ref": "#/$defs/ms" } ] },
+        "ctx": { "oneOf": [ { "type": "null" }, { "type": "integer", "minimum": 0, "maximum": 100 } ] },
+        "subs": { "type": "integer", "minimum": 0 },
+        "test": { "enum": ["ok", "ko", "run", null] },
+        "summary": { "type": "string", "maxLength": 127, "$comment": "max 127 byte UTF-8" },
+        "tasks": { "type": "array", "maxItems": 12, "items": { "$ref": "#/$defs/task" } },
+        "error": { "type": "string", "minLength": 1, "$comment": "rate_limit, overloaded, authentication_failed, billing_error, …" },
+        "avatar": { "$ref": "#/$defs/avatarId", "$comment": "avatar della sessione: sessione → progetto → predefinito (facoltativo)" },
+        "avatarCrc": { "$ref": "#/$defs/crc32" }
+      },
+      "dependentRequired": { "avatar": ["avatarCrc"], "avatarCrc": ["avatar"] },
+      "if": { "properties": { "state": { "const": "error" } } },
+      "then": { "required": ["error"] },
+      "else": { "not": { "required": ["error"] } }
+    },
+
+    "task": {
+      "$comment": "[titolo, stato]: 0 da fare, 1 in corso, 2 fatto",
+      "type": "array",
+      "prefixItems": [ { "type": "string" }, { "enum": [0, 1, 2] } ],
+      "minItems": 2,
+      "maxItems": 2,
+      "items": false
+    },
+
+    "limits": {
+      "$comment": "ogni coppia può mancare, ma non a metà",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "h5": { "type": "integer", "minimum": 0 },
+        "h5Reset": { "$ref": "#/$defs/ms" },
+        "d7": { "type": "integer", "minimum": 0 },
+        "d7Reset": { "$ref": "#/$defs/ms" }
+      },
+      "dependentRequired": { "h5": ["h5Reset"], "h5Reset": ["h5"], "d7": ["d7Reset"], "d7Reset": ["d7"] }
+    },
+
+    "today": {
+      "type": "object",
+      "required": ["tasks", "permDisplay", "permTerminal", "waitAvgMs", "linesAdd", "linesDel", "cost"],
+      "additionalProperties": false,
+      "properties": {
+        "tasks": { "type": "integer", "minimum": 0 },
+        "permDisplay": { "type": "integer", "minimum": 0 },
+        "permTerminal": { "type": "integer", "minimum": 0 },
+        "waitAvgMs": { "type": "integer", "minimum": 0 },
+        "linesAdd": { "type": "integer", "minimum": 0 },
+        "linesDel": { "type": "integer", "minimum": 0 },
+        "cost": { "type": "number", "minimum": 0, "$comment": "stimato, USD" }
+      }
+    },
+
+    "logEntry": {
+      "type": "object",
+      "required": ["t", "name", "text"],
+      "additionalProperties": false,
+      "properties": { "t": { "$ref": "#/$defs/ms" }, "name": { "type": "string" }, "text": { "type": "string" } }
+    },
+
+    "service": {
+      "type": "object",
+      "required": ["name", "ok", "ms"],
+      "additionalProperties": false,
+      "properties": { "name": { "type": "string" }, "ok": { "type": "boolean" }, "ms": { "type": "integer", "minimum": 0 } }
+    },
+
+    "pr": {
+      "type": "object",
+      "required": ["repo", "n", "title", "checks"],
+      "additionalProperties": false,
+      "properties": {
+        "repo": { "type": "string" },
+        "n": { "type": "integer", "minimum": 1 },
+        "title": { "type": "string" },
+        "checks": { "$ref": "#/$defs/check" }
+      }
+    },
+
+    "agendaItem": {
+      "type": "object",
+      "required": ["t", "title"],
+      "additionalProperties": false,
+      "properties": { "t": { "$ref": "#/$defs/ms" }, "title": { "type": "string" } }
+    },
+
+    "cmdId": { "type": "string", "minLength": 1, "maxLength": 32, "$comment": "id del comando scelto dal servizio, ripetuto nell'ack" },
+
+    "settingValues": {
+      "$comment": "impostazioni del display: stessi valori del menu (firmware core/model.h, Settings)",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "homeStyle": { "enum": ["goccia", "righe", "contatori", "una"] },
+        "anim": { "enum": ["auto", "raffiche", "continue", "spente"] },
+        "speed": { "enum": ["profilo", "massima"] },
+        "invert": { "type": "boolean" },
+        "rot": { "type": "boolean" },
+        "night": { "type": "boolean" },
+        "permOn": { "type": "boolean" },
+        "sound": { "type": "boolean" },
+        "led": { "type": "boolean" },
+        "mute": { "enum": ["off", "1h", "night"] },
+        "save": { "type": "boolean", "$comment": "Risparmio energetico; si accende e si spegne anche da remoto" },
+        "game": { "type": "boolean", "$comment": "Gioco della mascotte (Menu › Display): solo i firmware che hanno il gioco. Il servizio è la fonte (game.on): un cambio rispetto al valore riferito prima sulla stessa connessione = scelta dal menu, il servizio accende o spegne il gioco" },
+        "workStart": { "$ref": "#/$defs/clock", "$comment": "Giornata di lavoro: inizio (predefinito 09:00). In settings e in set vale workStart < workEnd" },
+        "workEnd": { "$ref": "#/$defs/clock", "$comment": "Giornata di lavoro: fine (predefinito 18:00); il conto alla rovescia finisce sempre qui (regola A)" }
+      }
+    },
+
+    "clock": { "type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$", "$comment": "orario locale HH:MM, 00:00–23:59, sempre a due cifre" },
+
+    "settings": {
+      "$comment": "display → servizio: tutte le impostazioni, subito dopo hello e a ogni cambio (dal menu o dopo un set)",
+      "type": "object",
+      "required": ["t", "v", "settings", "remote"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "settings": {
+          "$ref": "#/$defs/settingValues",
+          "required": ["homeStyle", "anim", "speed", "invert", "rot", "night", "permOn", "sound", "led", "mute", "save"],
+          "dependentRequired": { "workStart": ["workEnd"], "workEnd": ["workStart"] },
+          "$comment": "workStart e workEnd ci sono tutti e due (firmware con la giornata di lavoro) o nessuno"
+        },
+        "remote": { "type": "boolean", "$comment": "true = il display accetta set e full-refresh; dal firmware M5 solo dopo un auth-ok valido" }
+      }
+    },
+
+    "set": {
+      "$comment": "servizio → display: solo le chiavi da cambiare. permOn da remoto può solo essere spento (brief §7)",
+      "type": "object",
+      "required": ["t", "v", "id", "settings"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/cmdId" },
+        "settings": {
+          "$ref": "#/$defs/settingValues",
+          "minProperties": 1,
+          "properties": { "permOn": { "const": false } }
+        }
+      }
+    },
+
+    "ack": {
+      "$comment": "esito di un comando: display → servizio per set, full-refresh, wifi-add, wifi-forget e workday (id «c…» del servizio); servizio → display per dismiss (id «d…» del display)",
+      "type": "object",
+      "required": ["t", "v", "id", "ok"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/cmdId" },
+        "ok": { "type": "boolean" },
+        "error": { "type": "string", "minLength": 1, "maxLength": 95, "$comment": "solo se ok = false: motivo breve, in italiano" }
+      },
+      "if": { "properties": { "ok": { "const": true } } },
+      "then": { "not": { "required": ["error"] } }
+    },
+
+    "dismiss": {
+      "$comment": "display → servizio: Archivia una sessione finita, in pausa o in errore. Risposta: ack con lo stesso id; se ok, subito dopo uno state senza la sessione",
+      "type": "object",
+      "required": ["t", "v", "id", "session"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "type": "string", "minLength": 2, "maxLength": 32, "pattern": "^d", "$comment": "scelto dal display, inizia con «d» (quelli del servizio con «c»)" },
+        "session": { "type": "string", "minLength": 1, "$comment": "id della Sessione nello state" }
+      }
+    },
+
+    "fullRefresh": {
+      "$comment": "servizio → display: refresh completo del pannello (come Menu › Display › Refresh completo)",
+      "type": "object",
+      "required": ["t", "v", "id"],
+      "additionalProperties": false,
+      "properties": { "t": true, "v": true, "id": { "$ref": "#/$defs/cmdId" } }
+    },
+
+    "hex16": { "type": "string", "pattern": "^[0-9a-f]{32}$", "$comment": "16 byte in esadecimale minuscolo (mac, nonce, ns, nd, id di permesso)" },
+    "hex32": { "type": "string", "pattern": "^[0-9a-f]{64}$", "$comment": "32 byte in esadecimale minuscolo (chiavi pubbliche, impegno)" },
+    "pairId": { "type": "string", "minLength": 1, "maxLength": 32, "$comment": "id dell'abbinamento, scelto dal servizio in pair-begin" },
+
+    "pairBegin": {
+      "$comment": "servizio → display: avvia l'abbinamento. commit = SHA256(pkS)",
+      "type": "object", "required": ["t", "v", "id", "commit"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "id": { "$ref": "#/$defs/pairId" }, "commit": { "$ref": "#/$defs/hex32" } }
+    },
+    "pairKey": {
+      "$comment": "display → servizio: chiave pubblica X25519 del display",
+      "type": "object", "required": ["t", "v", "id", "pkD"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "id": { "$ref": "#/$defs/pairId" }, "pkD": { "$ref": "#/$defs/hex32" } }
+    },
+    "pairReveal": {
+      "$comment": "servizio → display: chiave pubblica del servizio; il display verifica SHA256(pkS) = commit e mostra il codice a 6 cifre",
+      "type": "object", "required": ["t", "v", "id", "pkS"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "id": { "$ref": "#/$defs/pairId" }, "pkS": { "$ref": "#/$defs/hex32" } }
+    },
+    "pairMac": {
+      "$comment": "pair-confirm (servizio → display, codice giusto: HMAC(K, \"pair-s\" ‖ T)) e pair-done (display → servizio dopo la conferma fisica: HMAC(K, \"pair-d\" ‖ T))",
+      "type": "object", "required": ["t", "v", "id", "mac"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "id": { "$ref": "#/$defs/pairId" }, "mac": { "$ref": "#/$defs/hex16" } }
+    },
+    "pairAbort": {
+      "$comment": "nei due versi: abbinamento annullato. Dal servizio: codice, tempo, annullato, mac, chiave. Dal display: display, tempo, impegno, chiave, mac",
+      "type": "object", "required": ["t", "v", "id", "reason"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "id": { "$ref": "#/$defs/pairId" }, "reason": { "type": "string", "minLength": 1, "maxLength": 31 } }
+    },
+    "authChallenge": {
+      "$comment": "servizio → display, a ogni connessione dopo hello se il servizio ha una K per la scheda (e subito dopo pair-done)",
+      "type": "object", "required": ["t", "v", "ns"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "ns": { "$ref": "#/$defs/hex16" } }
+    },
+    "auth": {
+      "$comment": "display → servizio: mac = HMAC(K, \"auth-d\" ‖ board ‖ ns ‖ nd)",
+      "type": "object", "required": ["t", "v", "nd", "mac"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "nd": { "$ref": "#/$defs/hex16" }, "mac": { "$ref": "#/$defs/hex16" } }
+    },
+    "authOk": {
+      "$comment": "servizio → display: mac = HMAC(K, \"auth-s\" ‖ board ‖ nd ‖ ns). Da qui SK = HKDF(K, ns ‖ nd, \"calamaio-session\")",
+      "type": "object", "required": ["t", "v", "mac"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "mac": { "$ref": "#/$defs/hex16" } }
+    },
+    "authFail": {
+      "$comment": "servizio → display: auth con un mac sbagliato (chiavi diverse): abbinamento da rifare",
+      "type": "object", "required": ["t", "v"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "reason": { "type": "string", "minLength": 1, "maxLength": 63 } }
+    },
+    "permRequest": {
+      "$comment": "servizio → display, solo su connessione autenticata e con permOn: mac = HMAC(SK, req␟id␟session␟name␟tool␟arg␟at). name ≤ 31, tool ≤ 63, arg ≤ 96 byte UTF-8, troncati prima del mac (il limite in byte lo controllano i test Go)",
+      "type": "object", "required": ["t", "v", "id", "session", "name", "tool", "arg", "at", "mac"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/hex16" },
+        "session": { "type": "string", "minLength": 1, "maxLength": 39 },
+        "name": { "type": "string", "maxLength": 31 },
+        "tool": { "type": "string", "minLength": 1, "maxLength": 63, "not": { "enum": ["AskUserQuestion", "ExitPlanMode"] } },
+        "arg": { "type": "string", "maxLength": 96 },
+        "at": { "type": "integer", "minimum": 1, "$comment": "ms epoch dell'arrivo della richiesta" },
+        "mac": { "$ref": "#/$defs/hex16" }
+      }
+    },
+    "permReply": {
+      "$comment": "display → servizio: mac = HMAC(SK, rep␟id␟decision␟nonce). Il servizio la accetta solo da connessione autenticata, con mac valido, id in attesa e nonce mai visto",
+      "type": "object", "required": ["t", "v", "id", "decision", "nonce", "mac"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/hex16" },
+        "decision": { "enum": ["allow", "deny"] },
+        "nonce": { "$ref": "#/$defs/hex16" },
+        "mac": { "$ref": "#/$defs/hex16" }
+      }
+    },
+    "permClose": {
+      "$comment": "servizio → display: la richiesta è chiusa. mac = HMAC(SK, close␟id␟reason)",
+      "type": "object", "required": ["t", "v", "id", "reason", "mac"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/hex16" },
+        "reason": { "enum": ["display", "terminal", "session", "service"] },
+        "mac": { "$ref": "#/$defs/hex16" }
+      }
+    },
+    "unpair": {
+      "$comment": "display → servizio: Dimentica abbinamento dal menu. mac = HMAC(SK, unpair␟board); solo su connessione autenticata",
+      "type": "object", "required": ["t", "v", "mac"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "mac": { "$ref": "#/$defs/hex16" } }
+    },
+
+    "avatar": {
+      "$comment": "servizio → display, risposta ad avatar-need: il binario CAVT v1 (docs/AVATAR.md §8) in base64 standard con padding. Un avatar 10 pose × 4 fotogrammi (con run, bit 9 di poseMask) = 7072 byte = 9432 caratteri, 9 pose (il CAVT per il firmware ≤ 0.6.0) = 6372 byte = 8496 caratteri; il frame resta sotto i 15 KB del display",
+      "type": "object",
+      "required": ["t", "v", "id", "crc", "data"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/avatarId" },
+        "crc": { "$ref": "#/$defs/crc32" },
+        "data": { "type": "string", "minLength": 4, "maxLength": 14336, "pattern": "^[A-Za-z0-9+/]+={0,2}$" }
+      }
+    },
+
+    "avatarNeed": {
+      "$comment": "display → servizio: avatar che il display non ha in cache (id dello state o del welcome). Il servizio risponde con un messaggio avatar per ogni id che conosce; gli altri restano col predefinito",
+      "type": "object",
+      "required": ["t", "v", "ids"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "ids": { "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": { "$ref": "#/$defs/avatarId" } }
+      }
+    },
+
+    "avatarOffer": {
+      "$comment": "servizio → display, solo a un display con hello.caps avatar-dl, anche non autenticato (gli avatar non sono dati sensibili, come avatar): CAVT da scaricare con GET http://<pc>:<porta>/avatars/<token> (token monouso, 5 minuti, solo per l'IP del display). Una alla volta per connessione. Risposta: avatar-ack",
+      "type": "object",
+      "required": ["t", "v", "id", "crc", "size", "token"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/avatarId" },
+        "crc": { "$ref": "#/$defs/crc32" },
+        "size": { "type": "integer", "minimum": 2172, "maximum": 7072, "$comment": "byte del CAVT: 72 + pose × fotogrammi × 175 (6 pose e 2 fotogrammi … 10 pose e 4 fotogrammi)" },
+        "token": { "type": "string", "pattern": "^[0-9a-f]{32}$" }
+      }
+    },
+    "avatarAck": {
+      "$comment": "display → servizio: esito di un avatar-offer dopo download, controllo del CAVT e salvataggio nella cache",
+      "type": "object",
+      "required": ["t", "v", "id", "crc", "ok"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/avatarId" },
+        "crc": { "$ref": "#/$defs/crc32" },
+        "ok": { "type": "boolean" },
+        "error": { "type": "string", "maxLength": 127 }
+      }
+    },
+    "accessoryId": { "type": "string", "minLength": 1, "maxLength": 24, "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "$comment": "id di un accessorio (docs/AVATAR.md §14.1)" },
+
+    "game": {
+      "$comment": "servizio → display, gioco della mascotte: dopo hello, dopo auth-ok e a ogni cambio. Spento (on false): wear null e unlocked vuoto, niente feste, niente posa stanca; livello ed XP restano. celebrate c'è solo nel messaggio del momento del traguardo (o del livello, o dell'accessorio speciale)",
+      "type": "object",
+      "required": ["t", "v", "on", "level", "xp", "xpLevelStart", "xpNext", "energy", "tired", "wear", "unlocked"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "on": { "type": "boolean" },
+        "level": { "type": "integer", "minimum": 1 },
+        "xp": { "type": "integer", "minimum": 0, "$comment": "XP totali" },
+        "xpLevelStart": { "type": "integer", "minimum": 0, "$comment": "XP totali con cui si entra nel livello: la barra va da xpLevelStart a xpNext" },
+        "xpNext": { "type": "integer", "minimum": 1, "$comment": "XP totali per il livello successivo" },
+        "energy": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "tired": { "type": "boolean", "$comment": "mascotte stanca (posa tired), solo a gioco acceso" },
+        "wear": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "object", "required": ["id", "crc"], "additionalProperties": false,
+              "properties": { "id": { "$ref": "#/$defs/accessoryId" }, "crc": { "$ref": "#/$defs/crc32", "$comment": "CRC-32 del CACC: con l'id è la chiave della cache" } } }
+          ]
+        },
+        "celebrate": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "object", "required": ["id", "title"], "additionalProperties": false,
+              "properties": { "id": { "type": "string", "minLength": 1, "maxLength": 40 }, "title": { "type": "string", "minLength": 1, "maxLength": 24, "$comment": "≤ 24 byte UTF-8" } } }
+          ]
+        },
+        "special": { "const": true, "$comment": "c'è un accessorio speciale da creare (proposta aperta, non chiusa con «No»): toast «Nuovo accessorio speciale: chiedilo a Claude». Assente altrimenti; mai a gioco spento" },
+        "unlocked": {
+          "type": "array", "maxItems": 20, "$comment": "accessori sbloccati per il menu della scheda (i 20 più recenti, sempre con quello indossato)",
+          "items": { "type": "object", "required": ["id", "name"], "additionalProperties": false,
+                     "properties": { "id": { "$ref": "#/$defs/accessoryId" }, "name": { "type": "string", "minLength": 1, "maxLength": 24 } } }
+        }
+      }
+    },
+
+    "accessory": {
+      "$comment": "servizio → display, risposta ad accessory-need: il binario CACC v1 (docs/AVATAR.md §14.3, ≤ 1024 byte) in base64 standard con padding",
+      "type": "object",
+      "required": ["t", "v", "id", "crc", "data"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/accessoryId" },
+        "crc": { "$ref": "#/$defs/crc32" },
+        "data": { "type": "string", "minLength": 4, "maxLength": 1368, "pattern": "^[A-Za-z0-9+/]+={0,2}$" }
+      }
+    },
+
+    "accessoryNeed": {
+      "$comment": "display → servizio: accessori che il display non ha in cache (wear del game). Il servizio risponde con un accessory per ogni id che conosce",
+      "type": "object",
+      "required": ["t", "v", "ids"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "ids": { "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": { "$ref": "#/$defs/accessoryId" } }
+      }
+    },
+
+    "anchors": {
+      "$comment": "servizio → display, risposta ad anchors-need: il blocco CANC v1 delle ancore dell'avatar (docs/AVATAR.md §13.4, 420 byte con 10 pose × 4 fotogrammi = 560 caratteri) in base64. avatarCrc = CRC del CAVT a cui le ancore sono legate: il display le tiene accanto all'avatar con la stessa chiave (id, crc)",
+      "type": "object",
+      "required": ["t", "v", "avatar", "avatarCrc", "data"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "avatar": { "$ref": "#/$defs/avatarId" },
+        "avatarCrc": { "$ref": "#/$defs/crc32" },
+        "data": { "type": "string", "minLength": 4, "maxLength": 560, "pattern": "^[A-Za-z0-9+/]+={0,2}$" }
+      }
+    },
+
+    "anchorsNeed": {
+      "$comment": "display → servizio: ancore che il display non ha per gli avatar in cache (id e CRC del CAVT). Il servizio risponde solo per lo stesso CRC; un avatar senza ancore non ha risposta (niente accessori su di lui)",
+      "type": "object",
+      "required": ["t", "v", "avatars"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "avatars": {
+          "type": "array", "minItems": 1, "maxItems": 16,
+          "items": { "type": "object", "required": ["id", "crc"], "additionalProperties": false,
+                     "properties": { "id": { "$ref": "#/$defs/avatarId" }, "crc": { "$ref": "#/$defs/crc32" } } }
+        }
+      }
+    },
+
+    "accessoryWear": {
+      "$comment": "display → servizio: accessorio scelto dal menu «La mascotte › Accessorio» (null = nessuno). Il servizio lo applica se è sbloccato e manda game a tutti i display; altrimenti rimanda game con quello vero",
+      "type": "object",
+      "required": ["t", "v", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "oneOf": [ { "type": "null" }, { "$ref": "#/$defs/accessoryId" } ] }
+      }
+    },
+
+    "bye": {
+      "$comment": "servizio → display, spegnimento pulito (M6): riepilogo per la schermata «PC spento» (riepilogo() del simulatore). Messaggio intero ≤ 4 KB",
+      "type": "object",
+      "required": ["t", "v", "summary"],
+      "additionalProperties": false,
+      "properties": { "t": true, "v": true, "summary": { "$ref": "#/$defs/byeSummary" } }
+    },
+
+    "byeSummary": {
+      "$comment": "solo off è obbligatorio; il display tollera l'assenza di ogni altro campo",
+      "type": "object",
+      "required": ["off"],
+      "additionalProperties": false,
+      "properties": {
+        "off": { "$ref": "#/$defs/ms", "$comment": "ora dello spegnimento: «PC SPENTO ALLE hh:mm»" },
+        "day": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "$comment": "giorno locale delle statistiche" },
+        "sessionsToday": { "type": "integer", "minimum": 0, "$comment": "sessioni con almeno un evento oggi" },
+        "today": { "$ref": "#/$defs/today" },
+        "open": { "type": "integer", "minimum": 0, "$comment": "sessioni ancora aperte e non archiviate" },
+        "done": { "type": "integer", "minimum": 0, "$comment": "di queste, finite (state done)" },
+        "waiting": { "type": "integer", "minimum": 0, "$comment": "di queste, che aspettano: permission, input, error" },
+        "sessions": { "type": "array", "maxItems": 6, "items": { "$ref": "#/$defs/byeSession" } },
+        "last": {
+          "type": "object",
+          "required": ["name", "summary"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string", "maxLength": 31, "$comment": "max 31 byte UTF-8" },
+            "summary": { "type": "string", "maxLength": 127, "$comment": "max 127 byte UTF-8" }
+          }
+        }
+      }
+    },
+
+    "byeSession": {
+      "type": "object",
+      "required": ["name", "state"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "maxLength": 31, "$comment": "max 31 byte UTF-8" },
+        "state": { "enum": ["working", "permission", "input", "done", "error", "idle", "compact"] },
+        "attnAt": { "$ref": "#/$defs/ms", "$comment": "solo permission e input" }
+      }
+    },
+
+    "otaId": { "type": "string", "minLength": 1, "maxLength": 32, "pattern": "^[A-Za-z0-9_-]+$", "$comment": "id dell'aggiornamento o della sessione di registro, scelto dal servizio" },
+    "status": {
+      "$comment": "display → servizio (OTA, docs/OTA.md §1.5): alimentazione. Subito dopo hello e a ogni cambiamento (cavo subito; batteria quando cambia di almeno 1 punto, al massimo uno ogni 10 s). null = la scheda non lo sa. Un firmware che manda status implementa anche ota-*, log-* e crash",
+      "type": "object", "required": ["t", "v", "batt", "usb"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "batt": { "oneOf": [ { "type": "null" }, { "type": "integer", "minimum": 0, "maximum": 100 } ], "$comment": "% misurata" },
+        "usb": { "oneOf": [ { "type": "null" }, { "type": "boolean" } ], "$comment": "cavo USB collegato" },
+        "cal": { "type": "boolean", "$comment": "calibrazione della batteria in corso (l'aggiornamento non parte)" },
+        "workday": {
+          "$comment": "giornata di lavoro, facoltativo (solo i firmware che la gestiscono): assente = invariata. end = fine del conto alla rovescia, null con on falso",
+          "type": "object", "required": ["on", "end"], "additionalProperties": false,
+          "properties": {
+            "on": { "type": "boolean" },
+            "end": { "oneOf": [ { "type": "null" }, { "$ref": "#/$defs/ms" } ] }
+          },
+          "if": { "properties": { "on": { "const": false } } },
+          "then": { "properties": { "end": { "type": "null" } } }
+        }
+      }
+    },
+    "otaKey": {
+      "$comment": "servizio → display, dopo auth-ok: chiave pubblica Ed25519 di firma degli aggiornamenti. mac = HMAC(SK, ota-key␟pub). Una chiave diversa da quella salvata si accetta solo dopo un nuovo abbinamento",
+      "type": "object", "required": ["t", "v", "pub", "mac"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "pub": { "$ref": "#/$defs/hex32" }, "mac": { "$ref": "#/$defs/hex16" } }
+    },
+    "otaManifest": {
+      "$comment": "manifesto firmato: firma Ed25519 su board␟device␟version␟size␟sha256␟built (interi in decimale)",
+      "type": "object", "required": ["board", "device", "version", "size", "sha256", "built"], "additionalProperties": false,
+      "properties": {
+        "board": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,30}$" },
+        "device": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{0,30}$" },
+        "version": { "type": "string", "pattern": "^[0-9A-Za-z][0-9A-Za-z.+_-]{0,30}$" },
+        "size": { "type": "integer", "minimum": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "built": { "$ref": "#/$defs/ms" }
+      }
+    },
+    "otaOffer": {
+      "$comment": "servizio → display, solo autenticato: offerta di aggiornamento. mac = HMAC(SK, ota-offer␟id␟sha256); url = http://<PC>:8766/ota/<token> (token monouso, 5 minuti, solo per l'IP della scheda)",
+      "type": "object", "required": ["t", "v", "id", "manifest", "sig", "url", "mac"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/otaId" },
+        "manifest": { "$ref": "#/$defs/otaManifest" },
+        "sig": { "type": "string", "pattern": "^[0-9a-f]{128}$" },
+        "url": { "type": "string", "maxLength": 128, "pattern": "^http://[^/?#]+/ota/[0-9a-f]{32}$" },
+        "mac": { "$ref": "#/$defs/hex16" }
+      }
+    },
+    "otaStatus": {
+      "$comment": "display → servizio, solo autenticato: fase dell'aggiornamento, circa ogni 5% in ricevo. error (≤ 127 byte UTF-8) è il motivo leggibile di rifiutato ed errore",
+      "type": "object", "required": ["t", "v", "id", "phase"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/otaId" },
+        "phase": { "enum": ["rifiutato", "ricevo", "verifico", "scrivo", "riavvio", "fatto", "errore"] },
+        "done": { "type": "integer", "minimum": 0 },
+        "total": { "type": "integer", "minimum": 0 },
+        "error": { "type": "string", "maxLength": 127 }
+      }
+    },
+    "otaCancel": {
+      "$comment": "servizio → display: annulla l'aggiornamento id prima di scrivo. mac = HMAC(SK, ota-cancel␟id)",
+      "type": "object", "required": ["t", "v", "id", "mac"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "id": { "$ref": "#/$defs/otaId" }, "mac": { "$ref": "#/$defs/hex16" } }
+    },
+    "logStart": {
+      "$comment": "servizio → display, solo autenticato: manda il registro in RAM (log, ≤ 8 KB ciascuno, end nell'ultimo) e con follow le righe nuove per minutes minuti, fino a log-stop",
+      "type": "object", "required": ["t", "v", "id", "follow", "minutes"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "id": { "$ref": "#/$defs/otaId" }, "follow": { "type": "boolean" }, "minutes": { "type": "integer", "minimum": 1, "maximum": 60 } }
+    },
+    "logStop": {
+      "$comment": "servizio → display: smette di mandare il registro",
+      "type": "object", "required": ["t", "v", "id"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "id": { "$ref": "#/$defs/otaId" } }
+    },
+    "log": {
+      "$comment": "display → servizio, solo autenticato e solo per l'id di log-start: righe di registro (≤ 8 KB per messaggio). end, oppure lines vuoto: fine del contenuto dell'anello (poi, con follow, righe in diretta)",
+      "type": "object", "required": ["t", "v", "id", "lines"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/otaId" },
+        "lines": { "type": "array", "maxItems": 400, "items": { "type": "string", "maxLength": 512 } },
+        "end": { "type": "boolean" }
+      }
+    },
+    "codeAddr": { "type": "string", "pattern": "^0x[0-9a-fA-F]{1,8}(:0x[0-9a-fA-F]{1,8})?$", "$comment": "indirizzo (PC, oppure PC:SP del backtrace)" },
+    "crash": {
+      "$comment": "display → servizio, solo autenticato, appena autenticato dopo un riavvio per crash: riepilogo del coredump (esp_core_dump_get_summary) o, senza, esp_reset_reason() e l'ultima riga salvata in RTC",
+      "type": "object", "required": ["t", "v", "fw", "reason"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "fw": { "type": "string", "minLength": 1, "maxLength": 31 },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "pc": { "$ref": "#/$defs/codeAddr" },
+        "backtrace": { "type": "array", "maxItems": 64, "items": { "$ref": "#/$defs/codeAddr" } },
+        "last": { "oneOf": [ { "type": "string", "maxLength": 255 }, { "type": "array", "maxItems": 16, "items": { "type": "string", "maxLength": 255 } } ], "$comment": "ultime righe di registro salvate in RTC" },
+        "elf": { "type": "string", "pattern": "^[0-9a-f]{8,64}$", "$comment": "SHA-256 dell'ELF della build (esp_ota_get_app_elf_sha256), anche solo l'inizio" },
+        "task": { "type": "string", "maxLength": 31 },
+        "exc": { "type": "string", "maxLength": 63 }
+      }
+    },
+    "wifiSsid": { "type": "string", "minLength": 1, "maxLength": 32, "$comment": "SSID, 1–32 byte UTF-8 (il limite in byte lo controllano i test Go). In wifi-add e wifi-forget senza caratteri di controllo: 0x1F separa i campi di aad e mac" },
+    "wifiNetwork": {
+      "$comment": "rete salvata sulla scheda. Mai la password, né altri campi",
+      "type": "object", "required": ["ssid", "current", "rssi", "lastUsed"], "additionalProperties": false,
+      "properties": {
+        "ssid": { "$ref": "#/$defs/wifiSsid" },
+        "current": { "type": "boolean", "$comment": "la scheda è collegata a questa rete adesso (al massimo una)" },
+        "rssi": { "oneOf": [ { "type": "null" }, { "type": "integer", "minimum": -127, "maximum": 0 } ], "$comment": "dBm dall'ultima scansione; null = non in vista" },
+        "lastUsed": { "oneOf": [ { "type": "null" }, { "$ref": "#/$defs/ms" } ], "$comment": "ultimo collegamento riuscito; null = mai o non si sa" }
+      }
+    },
+    "wifiList": {
+      "$comment": "display → servizio (Reti Wi-Fi): le reti salvate, dopo auth-ok e a ogni cambiamento (aggiunta, rimozione, rete in uso, segnale). Il firmware ne tiene al massimo 5; il servizio ne accetta fino a 16 e la scarta tutta se una voce non è valida",
+      "type": "object", "required": ["t", "v", "networks"], "additionalProperties": false,
+      "properties": { "t": true, "v": true, "networks": { "type": "array", "maxItems": 16, "items": { "$ref": "#/$defs/wifiNetwork" } } }
+    },
+    "wifiAdd": {
+      "$comment": "servizio → display, solo autenticato: salva una rete. chiave = HKDF-SHA256(SK, salt = id, info = calamaio-wifi); ct = AES-256-GCM(chiave, iv, password UTF-8, aad = wifi-add␟id␟ssid) seguito dal tag di 16 byte. Password di 8–63 byte senza byte zero: ct di 24–79 byte. Risposta: ack (errori della scheda: lista piena, password non valida, decifratura fallita, ssid non valido)",
+      "type": "object", "required": ["t", "v", "id", "ssid", "iv", "ct"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/cmdId" },
+        "ssid": { "$ref": "#/$defs/wifiSsid" },
+        "iv": { "type": "string", "pattern": "^[0-9a-f]{24}$", "$comment": "12 byte casuali, nuovi a ogni messaggio" },
+        "ct": { "type": "string", "pattern": "^([0-9a-f]{2}){24,79}$", "$comment": "cifrato ‖ tag (16 byte)" }
+      }
+    },
+    "wifiForget": {
+      "$comment": "servizio → display, solo autenticato: dimentica una rete. mac = HMAC(SK, wifi-forget␟id␟ssid). Risposta: ack (errori: mac non valido, rete sconosciuta), poi la scheda si riavvia (pulizia profonda della NVS)",
+      "type": "object", "required": ["t", "v", "id", "ssid", "mac"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/cmdId" },
+        "ssid": { "$ref": "#/$defs/wifiSsid" },
+        "mac": { "$ref": "#/$defs/hex16" }
+      }
+    },
+
+    "workday": {
+      "$comment": "servizio → display, solo autenticato: avvia o ferma la giornata di lavoro (la scheda la tiene anche senza PC). Risposta: status con workday aggiornato, poi ack {id, ok, error?}",
+      "type": "object", "required": ["t", "v", "id", "action"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/cmdId" },
+        "action": { "enum": ["start", "stop"] }
+      }
+    },
+
+    "themeId": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 24 },
+    "themes": {
+      "$comment": "display → servizio, dopo auth-ok e a ogni cambio: temi salvati sulla scheda (al massimo 8) e attivo (null = di serie). Da una connessione non autenticata si ignora",
+      "type": "object", "required": ["t", "v", "have", "cur"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "have": { "type": "array", "maxItems": 8, "items": { "type": "object", "required": ["id", "crc"], "additionalProperties": false,
+          "properties": { "id": { "$ref": "#/$defs/themeId" }, "crc": { "type": "integer", "minimum": 0, "maximum": 4294967295 } } } },
+        "cur": { "oneOf": [ { "type": "null" }, { "$ref": "#/$defs/themeId" } ] }
+      }
+    },
+    "themeOffer": {
+      "$comment": "servizio → display, solo autenticato: tema da scaricare con GET http://<pc>:<porta>/themes/<token> (token monouso, 5 minuti, solo per l'IP della scheda). Risposta: theme-ack",
+      "type": "object", "required": ["t", "v", "id", "crc", "size", "token"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/themeId" },
+        "crc": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+        "size": { "type": "integer", "minimum": 72, "maximum": 65536 },
+        "token": { "type": "string", "pattern": "^[0-9a-f]{32}$" }
+      }
+    },
+    "themeAck": {
+      "$comment": "display → servizio: esito del download e dei controlli di un theme-offer",
+      "type": "object", "required": ["t", "v", "id", "ok"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "$ref": "#/$defs/themeId" },
+        "ok": { "type": "boolean" },
+        "error": { "type": "string", "maxLength": 127 }
+      }
+    },
+    "themeUse": {
+      "$comment": "servizio → display, solo autenticato: attiva un tema salvato (null = di serie). Risposta: themes",
+      "type": "object", "required": ["t", "v", "id"], "additionalProperties": false,
+      "properties": {
+        "t": true, "v": true,
+        "id": { "oneOf": [ { "type": "null" }, { "$ref": "#/$defs/themeId" } ] }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "calamaio-sim-capture",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cattura deterministica delle schermate del simulatore Calamaio OS (Heltec 250x122) come immagini 1 bit di riferimento",
+  "type": "module",
+  "scripts": {
+    "capture": "node capture.mjs",
+    "diff": "node diff.mjs",
+    "verify": "node verify-determinism.mjs",
+    "avatars": "node gen-avatars.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.0"
+  }
+}

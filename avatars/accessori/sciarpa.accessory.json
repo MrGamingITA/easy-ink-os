@@ -1,0 +1,43 @@
+{
+  "format": "calamaio-accessory",
+  "version": 1,
+  "id": "sciarpa",
+  "name": "Sciarpa",
+  "author": "Calamaio OS",
+  "description": "Una sciarpa a righe con il capo che sventola nel vento.",
+  "special": false,
+  "w": 13,
+  "h": 3,
+  "frames": 2,
+  "anchor": "neck",
+  "origin": [12, 0],
+  "outline": false,
+  "hidePoses": ["run"],
+  "perAvatar": {
+    "calamaro": {"dy": -1, "pixels": [
+      [
+        ".#+##xxxxx...",
+        "##+##xx......",
+        "............."
+      ],
+      [
+        "##+##xxxxx...",
+        ".#+##xx......",
+        "............."
+      ]
+    ]},
+    "demone": {"dx": 3}
+  },
+  "pixels": [
+    [
+      ".#+##+#xxx...",
+      "##+##+##.....",
+      "#.#.........."
+    ],
+    [
+      "##+##+#xxx...",
+      ".#+##+##.....",
+      ".#.#........."
+    ]
+  ]
+}

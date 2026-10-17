@@ -1,0 +1,42 @@
+{
+  "format": "calamaio-theme", "version": 1, "id": "prova", "name": "Mascotte grande", "screen": "250x122",
+  "screens": {
+    "home": { "variants": [
+      { "when": "none", "elements": [
+        { "type": "mascot", "x": 83, "y": 6, "scale": 3, "pose": "idle", "ref": "nobody" },
+        { "type": "text", "x": 0, "y": 86, "w": 250, "text": "Nessuna sessione", "font": { "family": "ui", "size": 13, "weight": 700 }, "align": "center" },
+        { "type": "clock", "x": 4, "y": 110, "w": 60, "font": { "family": "pix", "size": 8, "weight": 400 } },
+        { "type": "battery", "x": 230, "y": 110 }
+      ] },
+      { "when": "one", "elements": [
+        { "type": "mascot", "x": 2, "y": 11, "scale": 4 },
+        { "type": "text", "x": 120, "y": 8, "w": 126, "text": "{sessione.nome|maiuscolo}", "font": { "family": "ui", "size": 14, "weight": 700 } },
+        { "type": "text", "x": 120, "y": 28, "w": 126, "text": "{sessione.stato}", "font": { "family": "ui", "size": 10, "weight": 500 }, "lines": 3, "lineHeight": 12 },
+        { "type": "bar", "x": 120, "y": 70, "w": 126, "h": 8, "source": "tasks", "style": "bar" },
+        { "type": "text", "x": 120, "y": 82, "w": 126, "text": "{sessione.task} · {sessione.da}", "font": { "family": "ui", "size": 10, "weight": 600 } },
+        { "type": "clock", "x": 120, "y": 110, "w": 60, "font": { "family": "pix", "size": 8, "weight": 400 } },
+        { "type": "battery", "x": 230, "y": 110, "visibleIf": [ { "charging": false } ] },
+        { "type": "sym", "x": 238, "y": 110, "sym": "bolt", "visibleIf": [ { "charging": true } ] }
+      ] },
+      { "when": "many", "elements": [
+        { "type": "list", "x": 0, "y": 0, "w": 250, "h": 104, "rowH": 34, "gap": 1, "pageSec": 5, "row": [
+          { "type": "mascot", "x": 2, "y": 4, "scale": 1 },
+          { "type": "text", "x": 34, "y": 2, "w": 150, "text": "{riga.nome}", "font": { "family": "ui", "size": 13, "weight": 700 } },
+          { "type": "text", "x": 186, "y": 4, "w": 60, "text": "{riga.task}", "font": { "family": "ui", "size": 10, "weight": 700 }, "align": "right" },
+          { "type": "bar", "x": 34, "y": 20, "w": 212, "h": 7, "source": "tasks", "style": "bar" },
+          { "type": "line", "x": 0, "y": 33, "w": 250, "h": 1, "style": "dotted" }
+        ] },
+        { "type": "clock", "x": 4, "y": 110, "w": 60, "font": { "family": "pix", "size": 8, "weight": 400 } },
+        { "type": "text", "x": 70, "y": 110, "w": 150, "text": "{sessioni} sessioni", "font": { "family": "pix", "size": 8, "weight": 700 }, "align": "center", "visibleIf": [ { "perm": false } ] },
+        { "type": "text", "x": 70, "y": 110, "w": 150, "text": "{inattesa} in attesa", "font": { "family": "pix", "size": 8, "weight": 700 }, "align": "center", "upper": true, "visibleIf": [ { "perm": true }, { "blink": "even" } ] },
+        { "type": "battery", "x": 230, "y": 110 }
+      ] }
+    ] },
+    "sleep": { "variants": [ { "when": "always", "elements": [
+      { "type": "clock", "x": 8, "y": 8, "w": 140, "font": { "family": "ui", "size": 44, "weight": 700 } },
+      { "type": "text", "x": 8, "y": 58, "w": 140, "text": "{data}", "font": { "family": "ui", "size": 11, "weight": 600 } },
+      { "type": "text", "x": 8, "y": 74, "w": 140, "text": "{giornata.mancano}", "font": { "family": "ui", "size": 12, "weight": 700 }, "visibleIf": [ { "workday": true } ] },
+      { "type": "mascot", "x": 158, "y": 30, "scale": 3, "ref": "nobody", "pose": "idle" }
+    ] } ] }
+  }
+}

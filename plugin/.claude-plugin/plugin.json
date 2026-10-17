@@ -1,0 +1,17 @@
+{
+  "name": "calamaio",
+  "displayName": "Calamaio",
+  "version": "0.5.0",
+  "description": "Mostra lo stato delle sessioni di Claude Code su un display e-ink accanto al PC.",
+  "author": {
+    "name": "MrGamingITA",
+    "url": "https://github.com/MrGamingITA"
+  },
+  "license": "CC-BY-NC-SA-4.0",
+  "keywords": [
+    "e-ink",
+    "display",
+    "status",
+    "esp32"
+  ]
+}

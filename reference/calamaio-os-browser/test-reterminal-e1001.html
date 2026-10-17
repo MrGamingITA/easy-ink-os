@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TEST · Seeed reTerminal E1001 7,5″ · Calamaio OS</title>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+body{margin:0}
+a{color:#2646C4}a:hover{color:#1A3290}
+</style>
+</head>
+<body>
+<nav class="topbar" aria-label="Pagine">
+  <a class="brand" href="index.html">Calamaio OS</a>
+  <a href="panoramica.html">Panoramica</a>
+  <a href="navigazione.html">Navigazione</a>
+  <a href="novita-0-2.html">Novità 0.2</a>
+  <span class="sep" aria-hidden="true"></span><span class="lbl">Test</span>
+  <a href="test-heltec-wireless-paper.html">Heltec 2,13″</a>
+  <a href="test-lilygo-t5-213.html">T5 2,13″</a>
+  <a href="test-crowpanel-42.html">CrowPanel 4,2″</a>
+  <a href="test-crowpanel-579.html">CrowPanel 5,79″</a>
+  <a href="test-lilygo-t5-47.html">T5 4,7″</a>
+  <a href="test-reterminal-e1001.html" aria-current="page">reTerminal 7,5″</a>
+  <span class="sep" aria-hidden="true"></span><a href="docs/Calamaio-OS-guida.pdf">Guida PDF</a>
+</nav>
+<main class="stage"><div class="board-wrap"><div class="board" id="app"></div></div></main>
+<script src="assets/dc-lite.js"></script>
+<script src="assets/avatars.js"></script>
+<script src="assets/calamaio-test.js"></script>
+<script src="assets/site.js"></script>
+<script>
+DC.mount("#app", CalamaioTest.template, CalamaioTest.Component, { device: "reterm75", ghosting: true });
+</script>
+<p class="foot">Premi i tasti disegnati accanto allo schermo: tieni premuto per le pressioni lunghe. I pulsanti di Simula generano eventi finti.</p>
+</body>
+</html>

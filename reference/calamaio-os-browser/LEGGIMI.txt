@@ -1,0 +1,32 @@
+CALAMAIO OS · VERSIONE DA BROWSER
+=================================
+
+Apri index.html con un doppio clic: si apre nel browser e non serve internet.
+
+Cosa c'è
+- index.html                     indice con le anteprime
+- panoramica.html                mascotte, classi di schermo, animazioni
+- navigazione.html               menu e gesti dei tasti
+- novita-0-2.html                funzioni della versione 0.2
+- test-*.html                    un banco di prova per ogni dispositivo
+- docs/Calamaio-OS-guida.pdf       guida illustrata
+- assets/dc-lite.js              lettore dei template (sc-if, sc-for, {{segnaposto}}, eventi)
+- assets/calamaio-test.js        simulatore degli schermi e-ink usato dai banchi TEST
+- assets/avatars.js              avatar delle sessioni (Goccia, Gatto, Demone, Calamaro), loro ancore e
+                                 accessori del catalogo, generato da avatars/ con tools/sim-capture/gen-avatars.mjs
+- assets/site.css, site.js       cornice delle pagine e adattamento alla finestra
+- assets/fonts                   font Chakra Petch, IBM Plex Mono e Sans, Silkscreen (SIL OFL)
+
+Banchi TEST
+- Premi i tasti disegnati accanto allo schermo. Tieni premuto per la pressione lunga (0,7 s) e per il tenuto (3 s).
+- Sui dispositivi a un tasto contano le pressioni ravvicinate: 1, 2 o 3.
+- I pulsanti di Simula generano permessi, domande, errori, PC spento, limiti, accessori e altro.
+- M6 (energia): Menu > Batteria è un sottomenu (Livello, Calibra la batteria, Nuova batteria); Riposo dice se resta acceso col cavo; Simula «Batteria scarica» e «Batteria calibrata»; Info > Cavo USB mostra la lettura del cavo.
+- Più reti Wi-Fi (firmware 0.8.0): Menu > Wi-Fi > Reti salvate elenca fino a 5 reti (SSID, «in uso», segnale se si vede); su una rete Segnale, Ultimo uso e Dimentica (2 pressioni, poi altre 2 entro 6 s). «Dimentica rete» è diventata «Dimentica tutte le reti». Le reti finte sono CasaWiFi (in uso), Officina, Casa Mare e Laboratorio (mai usata).
+- Giornata di lavoro (firmware 0.9.0): Menu > Strumenti > Giornata di lavoro (Inizia ora, Ferma, Inizio 09:00, Fine 18:00 in sola lettura). La fine è fissa all'orario di fine (regola A). Riposo: «MANCANO 7 H 30», «fino alle 18:00», barra dalle 9:00; Home Goccia e Contatori: «7 h 30» accanto all'orologio. Alla fine «GIORNATA FINITA» (toast, Riposo e Home per un'ora) e festa. Simula «Giornata di lavoro (dal PC)», «Giornata: ultimi 25 min», «Giornata: salta alla fine».
+- Gioco «Alto o basso» (firmware 0.9.0): Menu > Gioco > Alto o basso. 1 pressione = più alta, 2 = più bassa, lunga = esci; carta uguale = pari. Record nella voce del menu. Simula «Gioco: seme fisso» rimette la sequenza dei test (2, 10, J, 10, 7, K…).
+- Aggiornamento remoto (docs/OTA.md): Simula «Aggiornamento (fasi)» mostra a giro la schermata AGGIORNAMENTO a 0, 37 e 80%, verifica, riavvio, errore e rifiutato; la mascotte predefinita corre sulla barra con la posa «run».
+- Gioco della mascotte (firmware 0.10.0): Menu > Display > Gioco della mascotte (spento di default; anche impostazione remota «game»). Acceso: Menu > La mascotte (livello con barra degli XP, energia, ultimi 3 traguardi; 2 pressioni = Accessorio: 1 scorre, 2 indossa o «Nessuno»), l'accessorio indossato su ogni mascotte che ha i punti di aggancio, posa stanca quando il gioco lo dice, festa di 3 s a ogni traguardo (mai con un permesso aperto, in silenzio, di notte o in risparmio: lì solo il toast «Traguardo: …»). Simula «Gioco della mascotte (dal PC)», «Mascotte: sale di livello», «Mascotte: traguardo», «Mascotte: indossa» (gli 8 accessori del catalogo a giro), «Mascotte stanca», «Mascotte: speciale da chiedere» (toast una volta per accensione e riga in La mascotte). Ancore e accessori arrivano da assets/avatars.js (CANC e CACC, docs/AVATAR.md §13–14).
+- Temi delle schermate (firmware 0.13.0): Menu > Display > Tema (ultima voce). Nel simulatore c'è solo il tema di serie «Calamaio»; gli altri temi si fanno con l'editor della webapp e si vedono solo sulla scheda.
+
+Le pagine sono generate dal progetto di design (cartella project nello zip del progetto).

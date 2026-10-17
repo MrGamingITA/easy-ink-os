@@ -1,0 +1,39 @@
+{
+  "format": "calamaio-accessory",
+  "version": 1,
+  "id": "fiocco",
+  "name": "Fiocco",
+  "author": "Calamaio OS",
+  "description": "Un fiocco di nastro sulla testa, con i cappi e le code.",
+  "special": false,
+  "w": 7,
+  "h": 5,
+  "frames": 1,
+  "anchor": "head-top",
+  "origin": [3, 2],
+  "outline": false,
+  "hidePoses": ["run"],
+  "perAvatar": {
+    "goccia": {"dx": -4, "dy": -2},
+    "calamaro": {"dx": -4, "dy": -2},
+    "gatto": {"dy": -3},
+    "demone": {"dx": -2, "pixels": [
+      [
+        "##...##",
+        "#+###+#",
+        "##...##",
+        ".......",
+        "......."
+      ]
+    ]}
+  },
+  "pixels": [
+    [
+      "##...##",
+      "#+#.#+#",
+      ".#####.",
+      "..#.#..",
+      ".#...#."
+    ]
+  ]
+}

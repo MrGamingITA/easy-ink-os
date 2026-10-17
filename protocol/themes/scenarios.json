@@ -1,0 +1,34 @@
+{
+  "comment": "Scenari della parità C++/JS dei temi (docs/TEMI.md §7): ogni tema di fixtures/ × schermata × scenario. Fusione: base, poi lo scenario di extends (se c'è), poi lo scenario; gli oggetti campo per campo, array e valori si sostituiscono. now, local e frame sono quelli finali della fusione, e since (= now − ago) e la scadenza di sel si calcolano su quel now, anche per le sessioni ereditate da extends. {versione} resta fuori: dipende dal firmware.",
+  "base": {
+    "now": 1791707400000, "local": 1791714600000, "frame": 0, "wallOk": true, "fw": "",
+    "sys": { "batt": 78, "usb": false, "wifi": true, "ssid": "CasaWiFi", "rssi": -58, "pc": true, "pcOff": false, "pcHost": "" },
+    "set": { "night": false, "game": false, "workStart": 540, "workEnd": 1080, "defAvatar": "goccia" },
+    "sessions": [], "stats": { "tasks": 4, "linesAdd": 120, "linesDel": 30, "cost": 1.2 }, "limits": { "h5": null, "d7": null }
+  },
+  "scenarios": [
+    { "name": "zero" },
+    { "name": "una", "sessions": [
+      { "name": "api-server", "state": "working", "detail": "Bash: npm run test", "ago": 720000, "ctx": 42, "done": 3, "total": 7, "avatar": "gatto" } ] },
+    { "name": "sei", "frame": 1, "limits": { "h5": 37, "d7": 12 }, "sessions": [
+      { "name": "api-server", "state": "working", "detail": "Bash: npm run test", "ago": 720000, "ctx": 42, "done": 3, "total": 7, "avatar": "gatto" },
+      { "name": "web-app", "state": "permission", "detail": "Edit: src/app.ts", "ago": 60000, "ctx": 81, "subs": 2, "avatar": "demone" },
+      { "name": "firmware-esp32-progetto-lungo", "state": "input", "detail": "Quale scheda uso per la prova di domani mattina?", "ago": 4500000, "avatar": "calamaro" },
+      { "name": "docs-site", "state": "done", "summary": "Guida di installazione aggiornata e 4 link rotti corretti.", "ago": 300000, "done": 6, "total": 6, "test": "ok" },
+      { "name": "ricerca", "state": "error", "detail": "Errore API 529", "ago": 30000, "test": "ko" },
+      { "name": "note", "state": "idle", "ago": 7200000 } ] },
+    { "name": "sei-pagina2", "extends": "sei", "now": 1791707405000, "local": 1791714605000, "frame": 2 },
+    { "name": "sei-dieci-minuti", "extends": "sei", "now": 1791708000000, "local": 1791715200000 },
+    { "name": "selezione", "extends": "sei", "sel": 2 },
+    { "name": "batteria-scarica", "sys": { "batt": 9, "wifi": false }, "bat": { "trend": 1.5 }, "sessions": [
+      { "name": "api-server", "state": "compact", "detail": "Riordino", "ago": 1000 } ] },
+    { "name": "notte", "frame": 1, "set": { "night": true }, "sys": { "usb": true },
+      "work": { "on": true, "endLocal": 1791722100000, "fromLocal": 1791703800000 }, "sessions": [
+      { "name": "uno", "state": "idle", "ago": 600000 }, { "name": "due", "state": "working", "detail": "Read: README.md", "ago": 61000, "done": 1, "total": 3 } ] },
+    { "name": "pc-spento", "sys": { "pc": false, "pcOff": true } },
+    { "name": "gioco", "co2": 620, "set": { "game": true },
+      "pet": { "known": true, "on": true, "level": 3, "xp": 132, "xpLevelStart": 66, "xpNext": 483, "energy": 80, "tired": false, "wear": "cappellino" },
+      "sessions": [ { "name": "api-server", "state": "done", "summary": "Fatto", "ago": 90000, "done": 2, "total": 2 } ] },
+    { "name": "senza-ora", "wallOk": false, "sessions": [ { "name": "solo", "state": "working", "detail": "Bash: make", "ago": 5000 } ] }
+  ]
+}

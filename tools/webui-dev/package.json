@@ -1,0 +1,17 @@
+{
+  "name": "calamaio-webui-dev",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Server finto e prove della webapp di Calamaio (service/internal/webui/static)",
+  "type": "module",
+  "scripts": {
+    "mock": "node mock-server.mjs",
+    "test": "node test-units.mjs && node test-theme.mjs && node test-editor.mjs",
+    "smoke": "node smoke-editor.mjs",
+    "shots": "node shots.mjs",
+    "favicon": "node gen-favicon.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.0"
+  }
+}

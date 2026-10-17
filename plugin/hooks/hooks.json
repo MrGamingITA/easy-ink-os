@@ -1,0 +1,290 @@
+{
+  "description": "Calamaio: inoltra gli eventi delle sessioni al servizio locale (127.0.0.1:8765), che li mostra sul display e-ink. All'avvio, se il progetto non ha un avatar, lo dice a Claude (skill avatar); a un prompt, se il gioco della mascotte ha un accessorio speciale da creare, chiede a Claude di proporlo (skill accessorio).",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook",
+              "--context"
+            ],
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook",
+              "--context"
+            ],
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PermissionDenied": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "TaskCreated": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Elicitation": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "ElicitationResult": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook"
+            ],
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "calamaio",
+            "args": [
+              "hook",
+              "--wait"
+            ],
+            "timeout": 86400
+          }
+        ]
+      }
+    ]
+  }
+}

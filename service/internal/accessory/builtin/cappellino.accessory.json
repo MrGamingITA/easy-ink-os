@@ -1,0 +1,37 @@
+{
+  "format": "calamaio-accessory",
+  "version": 1,
+  "id": "cappellino",
+  "name": "Cappellino",
+  "author": "Calamaio OS",
+  "description": "Un berretto da baseball con la visiera di lato.",
+  "special": false,
+  "w": 10,
+  "h": 5,
+  "frames": 1,
+  "anchor": "head-top",
+  "origin": [5, 4],
+  "outline": false,
+  "hidePoses": [],
+  "perAvatar": {
+    "gatto": {"dy": -2},
+    "demone": {"pixels": [
+      [
+        "..........",
+        "..........",
+        "....#####.",
+        "...##++###",
+        "xxxxxxxxx."
+      ]
+    ]}
+  },
+  "pixels": [
+    [
+      "....#####.",
+      "...##++###",
+      "...#######",
+      "..xxxxxxxx",
+      "xxxxxxxxx."
+    ]
+  ]
+}

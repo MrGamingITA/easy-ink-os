@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Navigazione, comandi e menu</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2646C4}a:hover{color:#1A3290}
+</style>
+</helmet>
+<div style="width: 1360px; height: 2000px; box-sizing: border-box; padding: 64px; background: #E7EAEE; color: #14181C; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column; gap: 52px;">
+
+  <header style="display: flex; flex-direction: column; gap: 14px;">
+    <p style="margin: 0; font: 500 13px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Calamaio OS · navigazione</p>
+    <h1 style="margin: 0; font: 600 64px/1 'Chakra Petch', sans-serif; letter-spacing: -0.01em;">Comandi e menu</h1>
+    <p style="margin: 0; max-width: 780px; font-size: 19px; line-height: 1.5; color: #3D4650;">Ogni dispositivo ha tasti diversi, ma i menu sono gli stessi ovunque. Le tabelle dicono cosa fa ogni tasto in ogni schermata; nella sezione TEST li puoi provare.</p>
+  </header>
+
+  <section style="display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Mappa</p>
+      <h2 style="margin: 0; font: 600 30px/1.15 'Chakra Petch', sans-serif;">Dalla Home ai menu</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+      <div style="background: #1E2022; color: #E7EAEE; border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+        <h3 style="margin: 0; font: 600 20px/1.2 'Chakra Petch', sans-serif;">Home</h3>
+        <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.45;">
+          <li><strong>Home</strong> · tutte le sessioni, la più urgente in evidenza</li>
+          <li><strong>Sessione</strong> · cosa sta facendo, task, ultimi eventi</li>
+          <li><strong>Permesso</strong> · Consenti o Nega, 20 secondi</li>
+        </ol>
+        <p style="margin: 0; font-size: 13px; line-height: 1.45; color: #B9C0C8;">Riposo e Avvio stanno sopra a tutto: un tasto qualsiasi sveglia il display.</p>
+      </div>
+      <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+        <h3 style="margin: 0; font: 600 20px/1.2 'Chakra Petch', sans-serif;">Menu › Wi‑Fi</h3>
+        <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; font-size: 14px; line-height: 1.45; color: #3D4650;">
+          <li>Rete, Segnale, Indirizzo</li>
+          <li>Cerca reti</li>
+          <li>Configura da telefono (QR)</li>
+          <li>Server PC</li>
+          <li>Hook diretti, senza servizio</li>
+          <li>Dimentica rete</li>
+        </ul>
+      </div>
+      <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+        <h3 style="margin: 0; font: 600 20px/1.2 'Chakra Petch', sans-serif;">Menu › Display e Avvisi</h3>
+        <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; font-size: 14px; line-height: 1.45; color: #3D4650;">
+          <li>Stile home (solo 2,13″)</li>
+          <li>Animazioni: Auto, A raffiche, Continue, Spente</li>
+          <li>Inverti colori, Ruota 180°, Refresh completo</li>
+          <li>Silenzia, Notturno 22–8</li>
+          <li>Permessi dal display</li>
+          <li>Cicalino e LED (reTerminal) o buzzer esterno</li>
+        </ul>
+      </div>
+      <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+        <h3 style="margin: 0; font: 600 20px/1.2 'Chakra Petch', sans-serif;">Menu › altro</h3>
+        <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; font-size: 14px; line-height: 1.45; color: #3D4650;">
+          <li>Limiti: 5 ore, 7 giorni, contesto</li>
+          <li>Strumenti: Concentrazione, Agenda, Servizi e PR, Wi‑Fi ospiti, Ambiente</li>
+          <li>Oggi (anche righe e costo) e Storico</li>
+          <li>Batteria · Stato (solo 2,13″)</li>
+          <li>Riposo · Info, Accessori, Riavvia</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Un tasto solo · Heltec, LilyGO T5 2,13″ e 4,7″</p>
+      <h2 style="margin: 0; font: 600 30px/1.15 'Chakra Petch', sans-serif;">Gesti per pressioni e durata</h2>
+      <p style="margin: 0; max-width: 820px; font-size: 15px; line-height: 1.5; color: #3D4650;">Le pressioni si contano se arrivano entro 0,38 secondi l’una dall’altra. Oltre 0,7 secondi è una pressione lunga, oltre 3 secondi un tenuto. Con un secondo tasto saldato su un pin libero bastano le pressioni singole: uno scorre, l’altro apre, la lunga resta Indietro.</p>
+    </div>
+    <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; overflow: hidden;">
+      <div style="display: grid; grid-template-columns: 160px repeat(4, minmax(0, 1fr)); gap: 12px; padding: 11px 18px; font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: 0.07em; text-transform: uppercase; color: #56606B; border-bottom: 1px solid #C6CCD3;"><span>Gesto</span><span>Home</span><span>Sessione</span><span>Permesso</span><span>Menu e liste</span></div>
+      <div style="display: grid; grid-template-columns: 160px repeat(4, minmax(0, 1fr)); gap: 12px; padding: 12px 18px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">1 pressione</strong><span>Sessione successiva</span><span>Sessione successiva</span><span>Cambia tra Consenti e Nega</span><span>Voce successiva</span></div>
+      <div style="display: grid; grid-template-columns: 160px repeat(4, minmax(0, 1fr)); gap: 12px; padding: 12px 18px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">2 pressioni</strong><span>Apri la sessione</span><span>Rispondi al permesso</span><span>Conferma la scelta</span><span>Apri o cambia la voce</span></div>
+      <div style="display: grid; grid-template-columns: 160px repeat(4, minmax(0, 1fr)); gap: 12px; padding: 12px 18px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">3 pressioni</strong><span>Menu</span><span>Menu</span><span>Niente: prima rispondi</span><span>Torna alla Home</span></div>
+      <div style="display: grid; grid-template-columns: 160px repeat(4, minmax(0, 1fr)); gap: 12px; padding: 12px 18px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">Lunga · 0,7 s</strong><span>Silenzia per 1 ora</span><span>Indietro</span><span>Annulla</span><span>Indietro</span></div>
+      <div style="display: grid; grid-template-columns: 160px repeat(4, minmax(0, 1fr)); gap: 12px; padding: 12px 18px; font-size: 14px; line-height: 1.45;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">Tieni 3 s</strong><span>Riposo</span><span>Riposo</span><span>Riposo</span><span>Riposo</span></div>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Rotella, MENU, EXIT · CrowPanel 4,2″ e 5,79″</p>
+        <h2 style="margin: 0; font: 600 26px/1.15 'Chakra Petch', sans-serif;">Rotella</h2>
+      </div>
+      <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; overflow: hidden;">
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">Rotella ▲ ▼</strong><span>Sessione o voce precedente e successiva; nel permesso cambia la scelta</span></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">Rotella premuta</strong><span>Apri, conferma o cambia la voce</span></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">Rotella tenuta</strong><span>Nella Home silenzia per 1 ora</span></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">MENU</strong><span>Apre il Menu; dal Menu torna alla Home</span></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">MENU tenuto</strong><span>Riposo</span></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">EXIT</strong><span>Indietro; nel permesso annulla</span></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">EXIT tenuto</strong><span>Torna alla Home</span></div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Tre tasti · reTerminal E1001</p>
+        <h2 style="margin: 0; font: 600 26px/1.15 'Chakra Petch', sans-serif;">Tre tasti in alto</h2>
+      </div>
+      <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; overflow: hidden;">
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 11px 16px; font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: 0.07em; text-transform: uppercase; color: #56606B; border-bottom: 1px solid #C6CCD3;"><span>Tasto</span><span>Premuto</span><span>Tenuto</span></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">◀ sinistro</strong><span>Precedente</span><span>Indietro</span></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45; border-bottom: 1px solid #C6CCD3;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">● centrale</strong><span>Apri o conferma</span><span>Menu</span></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 11px 16px; font-size: 14px; line-height: 1.45;"><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">▶ destro, verde</strong><span>Successivo</span><span>In Home silenzia, altrove torna alla Home</span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+        <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Tocco · LilyGO T5 4,7″ versione touch</p>
+        <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.45; color: #3D4650;">
+          <li>Tocca una sessione per aprirla, una voce del menu per sceglierla</li>
+          <li>Tocca Consenti o Nega per scegliere, tocca di nuovo per confermare</li>
+          <li>La freccia nella barra in alto torna indietro</li>
+          <li>Il tasto IO48 resta attivo con gli stessi gesti</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;">
+    <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+      <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Sicurezza</p>
+      <h2 style="margin: 0; font: 600 26px/1.15 'Chakra Petch', sans-serif;">Rispondere ai permessi senza sorprese</h2>
+      <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.5; color: #3D4650;">
+        <li>NEGA è sempre preselezionato.</li>
+        <li>Per consentire servono due gesti: scegliere Consenti, poi confermare.</li>
+        <li>Dopo 20 secondi la domanda torna nel terminale, come oggi.</li>
+        <li>Le domande di Claude si rispondono solo nel terminale; dal display si gestiscono i permessi.</li>
+        <li>Si disattiva da Menu › Avvisi › Permessi dal display.</li>
+      </ul>
+    </div>
+    <div style="background: #F5F6F8; border: 1px solid #C6CCD3; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+      <p style="margin: 0; font: 500 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: 0.09em; text-transform: uppercase; color: #56606B;">Wi‑Fi</p>
+      <h2 style="margin: 0; font: 600 26px/1.15 'Chakra Petch', sans-serif;">Niente password scritte con un tasto</h2>
+      <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.5; color: #3D4650;">
+        <li>Cerca reti mostra segnale e lucchetto; le reti aperte si collegano subito.</li>
+        <li>Per le protette il display crea la rete Calamaio‑3F2A e mostra un QR.</li>
+        <li>Dal telefono si apre la pagina di configurazione, si sceglie la rete e si scrive la password.</li>
+        <li>Al primo avvio, o dopo Dimentica rete, parte direttamente da questa schermata.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":2000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "assignments": {
+    "projects": {
+      "/Users/me/src/api-server": "gatto",
+      "/Users/me/src/vecchio": "demone"
+    },
+    "sessions": {
+      "sess-corrente": "calamaro"
+    }
+  },
+  "sessions": [
+    { "id": "sess-api", "name": "api-server", "cwd": "/Users/me/src/api-server", "archived": false },
+    { "id": "sess-web", "name": "web-app", "cwd": "/Users/me/src/web-app", "archived": false },
+    { "id": "sess-old", "name": "vecchio", "cwd": "/Users/me/src/vecchio", "archived": true },
+    { "id": "sess-corrente", "name": "docs-site", "cwd": "/Users/me/src/docs-site", "archived": false }
+  ]
+}

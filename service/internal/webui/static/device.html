@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dispositivo · Calamaio OS</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/app.css">
+<script type="module" src="assets/js/device.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+<nav class="topbar" aria-label="Pagine">
+  <a class="brand" href="./">Calamaio OS</a>
+  <a href="./">Panoramica</a>
+  <a href="avatars.html">Avatar</a>
+  <a href="game.html">Gioco</a>
+  <a href="device.html" aria-current="page">Dispositivo</a>
+  <a href="firmware.html">Firmware</a>
+  <a href="editor.html">Editor schermate <span class="badge beta">Beta</span></a>
+  <span class="conn" id="conn" role="status"><span class="conn-text">collegamento…</span></span>
+</nav>
+<main class="home" id="main">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="kicker" id="kicker">Impostazioni da remoto</p>
+      <h1>Dispositivo</h1>
+      <p class="lead">Le stesse voci dei menu Display e Avvisi del display, modificabili da qui. Ogni modifica vale solo quando il display la conferma.</p>
+    </div>
+    <figure class="goccia" aria-live="polite">
+      <canvas></canvas>
+      <figcaption><span class="goccia-label"></span><span class="goccia-text"></span></figcaption>
+    </figure>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="Display collegati" hidden></nav>
+
+  <div id="info"></div>
+  <div id="workday"></div>
+  <div id="pair"></div>
+  <div id="wifi"></div>
+  <div id="logbox"></div>
+  <p class="alert error" id="err" role="alert"></p>
+  <p class="alert ok" id="msg" role="status" aria-live="polite"></p>
+
+  <div class="settings" id="groups"></div>
+
+  <div id="phones"></div>
+</main>
+
+<dialog class="modal" id="dlg-wifi-add" aria-labelledby="wifi-add-title">
+  <form id="wifi-add-form" autocomplete="off">
+    <h2 id="wifi-add-title">Aggiungi rete</h2>
+    <p id="wifi-add-text">La scheda la ricorda insieme alle altre e si collega alla più forte.</p>
+    <div class="field">
+      <label for="wifi-ssid">Nome della rete (SSID)</label>
+      <input type="text" id="wifi-ssid" maxlength="32" autocomplete="off" autocapitalize="off" spellcheck="false" required aria-describedby="wifi-ssid-help">
+      <p class="hint" id="wifi-ssid-help">Scritto esattamente come lo mostra il telefono, maiuscole comprese.</p>
+    </div>
+    <div class="field">
+      <label for="wifi-pass">Password</label>
+      <input type="password" id="wifi-pass" maxlength="63" autocomplete="off" autocapitalize="off" spellcheck="false" required aria-describedby="wifi-pass-help">
+      <label class="check"><input type="checkbox" id="wifi-show" aria-controls="wifi-pass"> <span>Mostra la password</span></label>
+      <p class="hint" id="wifi-pass-help">Da 8 a 63 caratteri. Parte da qui verso il servizio sul PC (solo 127.0.0.1) e arriva alla scheda cifrata con la chiave della sessione; il PC non la salva e non la scrive nei registri.</p>
+    </div>
+    <p class="alert error" id="wifi-add-err" role="alert" hidden></p>
+    <p class="alert info" id="wifi-add-wait" role="status" hidden>Mando la rete alla scheda e aspetto la conferma…</p>
+    <div class="card-actions end">
+      <button type="button" class="btn secondary" id="wifi-add-cancel">Annulla</button>
+      <button type="submit" class="btn" id="wifi-add-send">Aggiungi</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="modal" id="dlg-wifi-forget" aria-labelledby="wifi-forget-title">
+  <form method="dialog">
+    <h2 id="wifi-forget-title">Dimenticare la rete?</h2>
+    <p id="wifi-forget-text"></p>
+    <p class="set-note" id="wifi-forget-current" hidden></p>
+    <div class="danger-box" id="wifi-forget-last" hidden>
+      <span class="danger-title">È l’ultima rete salvata</span>
+      <p>Dopo il riavvio la scheda torna in configurazione: non si ricollega al PC finché non le dai una rete dal suo portale (rete e password sul display).</p>
+    </div>
+    <div class="card-actions end">
+      <button type="submit" class="btn secondary" value="cancel">Annulla</button>
+      <button type="submit" class="btn danger" value="ok">Dimentica e riavvia</button>
+    </div>
+  </form>
+</dialog>
+<dialog class="modal" id="dlg-phone-revoke" aria-labelledby="phone-revoke-title">
+  <form method="dialog">
+    <h2 id="phone-revoke-title">Revocare il telefono?</h2>
+    <p>Il telefono non potrà più usare il servizio finché non lo abbini di nuovo. Se è collegato adesso, si scollega subito.</p>
+    <div class="card-actions end">
+      <button type="submit" class="btn secondary" value="cancel">Annulla</button>
+      <button type="submit" class="btn danger" value="ok">Revoca</button>
+    </div>
+  </form>
+</dialog>
+</body>
+</html>

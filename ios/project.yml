@@ -1,0 +1,87 @@
+# Progetto dell'app Calamaio per iPhone. Si genera con: cd ios && xcodegen generate
+name: Calamaio
+options:
+  deploymentTarget:
+    iOS: "27.0"
+  createIntermediateGroups: true
+  developmentLanguage: it
+configFiles:
+  Debug: Config/App.xcconfig
+  Release: Config/App.xcconfig
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "27.0"
+    CODE_SIGN_STYLE: Automatic
+packages:
+  CalamaioKit:
+    path: CalamaioKit
+targets:
+  Calamaio:
+    type: application
+    platform: iOS
+    sources:
+      - App
+    dependencies:
+      - package: CalamaioKit
+        product: CalamaioKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(CALAMAIO_BUNDLE_ID)
+        PRODUCT_NAME: Calamaio
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1"
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Calamaio
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        ITSAppUsesNonExemptEncryption: false
+        NSLocalNetworkUsageDescription: "Calamaio cerca il servizio sul tuo PC nella rete locale per mostrarti la webapp."
+        NSBonjourServices:
+          - _calamaio-app._tcp
+        NSCameraUsageDescription: "La fotocamera serve a inquadrare il codice QR di abbinamento mostrato dalla webapp sul PC."
+        NSBluetoothAlwaysUsageDescription: "Il Bluetooth serve a usare il telefono come controller della scheda Calamaio."
+  CalamaioTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - AppTests
+    dependencies:
+      - target: Calamaio
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: $(CALAMAIO_BUNDLE_ID).tests
+  CalamaioUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - AppUITests
+    dependencies:
+      - target: Calamaio
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: $(CALAMAIO_BUNDLE_ID).uitests
+        TEST_TARGET_NAME: Calamaio
+schemes:
+  Calamaio:
+    build:
+      targets:
+        Calamaio: all
+        CalamaioTests: [test]
+        CalamaioUITests: [test]
+    test:
+      targets:
+        - CalamaioTests
+        - CalamaioUITests

@@ -1,0 +1,47 @@
+{
+  "t": "state",
+  "v": 1,
+  "time": 1791707400000,
+  "sessions": [
+    {
+      "id": "s1", "name": "app-meteo", "state": "working", "detail": "Edit src/previsioni.ts",
+      "since": 1791706680000, "attnAt": null, "ctx": 46, "subs": 2, "test": null, "summary": "", "avatar": "gatto",
+      "tasks": [["Leggi le API esistenti", 2], ["Previsioni a 7 giorni", 2], ["Icone del tempo", 2], ["Allerta pioggia", 1], ["Test delle unità", 0], ["Rivedi i testi", 0]]
+    },
+    {
+      "id": "s2", "name": "sito-ricette", "state": "permission", "detail": "Bash: npm run test",
+      "since": 1791705840000, "attnAt": 1791707340000, "ctx": 71, "subs": 0, "test": "ko", "summary": "", "avatar": "demone",
+      "tasks": [["Pagina della ricetta", 2], ["Ricerca per ingredienti", 2], ["Filtri vegetariani", 2], ["Foto responsive", 2], ["Esegui i test", 1], ["Correggi i test rotti", 0], ["Pubblica l'anteprima", 0]]
+    },
+    {
+      "id": "s3", "name": "bot-spesa", "state": "working", "detail": "Read lib/lista.py",
+      "since": 1791707160000, "attnAt": null, "ctx": 18, "subs": 1, "test": "ok", "summary": "", "avatar": "calamaro",
+      "tasks": [["Comandi del bot", 2], ["Lista condivisa", 1], ["Promemoria", 0], ["Messaggi di aiuto", 0]]
+    },
+    {
+      "id": "s4", "name": "blog-viaggi", "state": "done", "detail": "5 task completati",
+      "since": 1791704940000, "attnAt": null, "ctx": 83, "subs": 0, "test": "ok",
+      "summary": "Articolo su Lisbona pubblicato e 3 link rotti corretti.",
+      "tasks": [["Bozza dell'articolo", 2], ["Foto e didascalie", 2], ["Mappa del percorso", 2], ["Link rotti", 2], ["Pubblicazione", 2]]
+    }
+  ],
+  "limits": { "h5": 62, "h5Reset": 1791715200000, "d7": 41, "d7Reset": 1791980040000 },
+  "today": { "tasks": 14, "permDisplay": 2, "permTerminal": 3, "waitAvgMs": 132000, "linesAdd": 1240, "linesDel": 380, "cost": 18.4 },
+  "log": [
+    { "t": 1791707340000, "name": "sito-ricette", "text": "chiede permesso: npm run test" },
+    { "t": 1791707280000, "name": "app-meteo", "text": "task 3/6 completato" },
+    { "t": 1791706500000, "name": "blog-viaggi", "text": "finito: articolo pubblicato" }
+  ],
+  "services": [
+    { "name": "Sito pubblico", "ok": true, "ms": 120 },
+    { "name": "API", "ok": true, "ms": 85 },
+    { "name": "Backup notturno", "ok": false, "ms": 0 }
+  ],
+  "prs": [
+    { "repo": "sito-ricette", "n": 42, "title": "Filtri vegetariani", "checks": "ko" },
+    { "repo": "app-meteo", "n": 17, "title": "Allerta pioggia", "checks": "run" }
+  ],
+  "agenda": [
+    { "t": 1791710400000, "title": "Riunione di progetto" }
+  ]
+}
